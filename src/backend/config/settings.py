@@ -145,3 +145,10 @@ SPECTACULAR_SETTINGS = {
     'DESCRIPTION': 'API for therapist appointment booking platform',
     'VERSION': '1.0.0',
 }
+
+
+
+
+
+# Custom User Model
+AUTH_USER_MODEL = 'accounts.User'

@@ -71,7 +71,7 @@ class TherapistRegisterSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(
             **user_data
         )
-
+        user_data.pop("confrim_password")
         return Therapist.objects.create(
             user=user,
             **validated_data

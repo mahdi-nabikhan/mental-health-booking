@@ -1,0 +1,50 @@
+from rest_framework import serializers
+from accounts import models
+from accounts.api.v1 import serializers as accounts_serializers
+from booking import models
+
+
+
+
+class AppointmentSlotSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.AppointmentSlot
+        fields = "__all__"
+        read_only_fields = ['therapist']
+        
+    def create(self, validated_data):
+        validated_data['therapist'] = models.Therapist.objects.get(user=self.context['request'].user)
+        return models.AppointmentSlot.objects.create(**validated_data)
+    
+    
+    def to_representation(self, instance):
+        res= super().to_representation(instance)
+        res['therapist'] = accounts_serializers.TherapistSerializers(instance.therapist).data
+        return res
+        
+        
+        
+        
+        
+class AppointmentSerializer(serializers.ModelSerializer):
+    class Meta :
+        model = models.Appointment
+        fields = "__all__"
+        read_only_fields = ['slot','patient']
+    
+    def create(self, validated_data):
+        validated_data['patient'] = models.Patient.objects.get(user=self.context['request'].user)
+        validated_data['slot'] =  models.AppointmentSlot.objects.get(pk=self.context['pk'])
+        return models.Appointment.objects.create(**validated_data)
+    
+    
+    
+    def to_representation(self, instance):
+        res= super().to_representation(instance)
+        res['slot'] = AppointmentSlotSerializer(instance.slot).data
+        res['patient'] = accounts_serializers.PatientSerializers(instance.patient).data
+        return res
+
+    
+    
+    

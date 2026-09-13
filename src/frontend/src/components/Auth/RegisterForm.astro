@@ -99,12 +99,6 @@
         />
     </div>
 
-    <div id="register-error" class="alert alert-danger d-none" role="alert">
-    </div>
-
-    <div id="register-success" class="alert alert-success d-none" role="alert">
-    </div>
-
     <button
         id="register-submit"
         type="submit"
@@ -112,6 +106,20 @@
     >
         Create Account
     </button>
+
+    <!-- Error -->
+    <div
+        id="register-error"
+        class="alert alert-danger mt-3 d-none"
+        role="alert"
+    ></div>
+
+    <!-- Success -->
+    <div
+        id="register-success"
+        class="alert alert-success mt-3 d-none"
+        role="alert"
+    ></div>
 </form>
 
 <script>
@@ -127,12 +135,21 @@
     const registerSubmit =
         document.querySelector<HTMLButtonElement>("#register-submit");
 
-    const API_BASE_URL = "http://localhost:8000/api/v1/accounts";
+    const API_BASE_URL =
+        "http://localhost:8000/api/v1/accounts";
+
     function showError(message: string) {
         if (!registerError) return;
 
         registerError.textContent = message;
         registerError.classList.remove("d-none");
+    }
+
+    function showSuccess(message: string) {
+        if (!registerSuccess) return;
+
+        registerSuccess.textContent = message;
+        registerSuccess.classList.remove("d-none");
     }
 
     function hideMessages() {
@@ -148,7 +165,7 @@
         }
     }
 
-    function getErrorMessage(data: Record<string, unknown>) {
+    function getErrorMessage(data: unknown): string {
         const messages: string[] = [];
 
         function collectErrors(value: unknown) {
@@ -188,16 +205,33 @@
 
         const formData = new FormData(registerForm);
 
-        const role = String(formData.get("role") ?? "");
-        const email = String(formData.get("email") ?? "");
-        const password = String(formData.get("password") ?? "");
+        const role = String(
+            formData.get("role") ?? "",
+        );
+
+        const email = String(
+            formData.get("email") ?? "",
+        );
+
+        const password = String(
+            formData.get("password") ?? "",
+        );
+
         const confirmPassword = String(
             formData.get("confirm_password") ?? "",
         );
 
-        const firstName = String(formData.get("first_name") ?? "");
-        const lastName = String(formData.get("last_name") ?? "");
-        const phoneNumber = String(formData.get("phone_number") ?? "");
+        const firstName = String(
+            formData.get("first_name") ?? "",
+        );
+
+        const lastName = String(
+            formData.get("last_name") ?? "",
+        );
+
+        const phoneNumber = String(
+            formData.get("phone_number") ?? "",
+        );
 
         try {
             const endpoint =
@@ -214,7 +248,8 @@
                     user: {
                         email,
                         password,
-                        // مهم: نام فیلد در Django اشتباهاً confrim_password است
+
+                        // Backend currently expects this typo.
                         confrim_password: confirmPassword,
                     },
                     first_name: firstName,
@@ -231,18 +266,15 @@
                 );
             }
 
-            if (registerSuccess) {
-                registerSuccess.textContent =
-                    data.message ||
-                    "Registration completed successfully.";
-
-                registerSuccess.classList.remove("d-none");
-            }
+            showSuccess(
+                data.message ||
+                    "Registration completed successfully.",
+            );
 
             registerForm.reset();
 
             setTimeout(() => {
-                window.location.href = "/login";
+                window.location.href = "/";
             }, 1200);
         } catch (error) {
             showError(

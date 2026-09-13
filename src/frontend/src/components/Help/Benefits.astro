@@ -1,0 +1,89 @@
+---
+import { benefits1, benefits2 } from "@data/benefits"
+
+const title: string = "Benefits of Psychotherapy"
+---
+
+<section 
+  class="w-100 d-flex flex-column justify-content-center align-items-center over-hidden"
+  aria-labelledby="benefits-section-title"
+>
+  <h2 class="my-5 mt-2 text-center" id="benefits-section-title" data-aos="zoom-out" data-aos-duration="1250">
+    {title}
+  </h2>
+  <article
+    class="w-100 container-fluid justify-content-center row px-sm-2 py-4 px-xl-4 pt-xl-5 over-x"
+    id="benefits-intro"
+  >
+    <div class="intro-article col-sm-10 col-md-9 col-xl-7 over-x">
+      <ul
+        class="benefits-list"
+        aria-label="First list of benefits"
+        data-aos="fade-right"
+        data-aos-duration="1250"
+      >
+        <!--- Rendering first list of benefits --->
+        {benefits1.map((benefit)=> (
+          <li class="benefit-item mb-4">
+            <strong>{benefit.title}</strong>: {benefit.description}
+          </li>
+        ))}
+      </ul>
+    </div>
+    <div class="col-sm-10 col-lg-7 col-xl-4">
+      <figure class="figure">
+        <img
+          src="/images/help-img-1.webp"
+          loading="lazy"
+          class="figure-img img-fluid rounded"
+          alt="A compass and a valley in the background."
+          title="A compass and a valley in the background"
+          data-aos="flip-right"
+          data-aos-duration="1250"
+        >
+      </figure>
+    </div>
+  </article>
+  <article class="w-100 container-fluid justify-content-center row px-sm-2 pb-4 pt-5 px-xl-4 pt-xl-5 over-x">
+    <div class="col-sm-10 col-lg-7 col-xl-4">
+      <figure class="figure">
+        <img
+          src="/images/help-img-2.webp"
+          loading="lazy"
+          class="figure-img img-fluid rounded"
+          alt="A screen with positive notes"
+          title="A screen with positive notes"
+          data-aos="flip-left"
+          data-aos-duration="1250"
+        >
+      </figure>
+    </div>
+    <div class="intro-article col-sm-10 col-md-9 col-xl-7">
+      <ul
+        class="benefits-list"
+        aria-label="Second list of benefits"
+        data-aos="fade-left"
+        data-aos-duration="1250"
+      >
+        <!--- Rendering second list of benefits --->
+        {benefits2.map((benefit)=> (
+          <li class="benefit-item mb-4">
+            <strong>{benefit.title}</strong>: {benefit.description}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </article>
+  <div class="container-fluid benefits-btn-section d-flex justify-content-center align-items-center pb-5 ">
+    <a
+      class="btn index-testimonial-btn text-center"
+      href="/testimonials"
+      title="Go to Testimonials page"
+      aria-label="Go to Testimonials page"
+      data-aos="fade-up"
+      data-aos-duration="500"
+    >
+      Clients' Testimonials
+    </a>
+  </div>
+</section>

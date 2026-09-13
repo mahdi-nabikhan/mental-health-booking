@@ -1,0 +1,31 @@
+
+@mixin bgCenter($bgImg) {
+  background-image: url($bgImg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@mixin bgTop($bgImg) {
+  background-image: url($bgImg);
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@mixin bgColor($bgColor) {
+  background: $bgColor;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@mixin border2($bdColor) {
+  border: 3px solid $bdColor;
+  border-left: 26px solid $bdColor;
+  &:hover {
+    background-color: $bdColor;
+    color: #f6f6f6;
+    text-shadow: 0 0 0.25rem #151515;
+  }
+}

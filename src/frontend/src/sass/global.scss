@@ -1,0 +1,84 @@
+@use './includes/colors' as color;
+@use './includes/typography' as font;
+@use './includes/variables' as var;
+@use './includes/_mixins.scss' as mx;
+
+*::selection {
+  background-color: color.$darkGreen;
+  color:  color.$white;
+}
+
+html body {
+  font-family: "Poppins", sans-serif;
+  overflow-x: hidden !important;
+}
+
+h1, h2 {
+  font-family: font.$titleFont;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+.hero-title {
+  width: 100%;
+  text-align: center;
+  font-size: 4.75rem;
+  color: color.$white;
+  text-shadow: 0 0 0.5rem color.$softBlack;
+}
+
+p {
+  font-size: font.$paraSize;
+  text-wrap: pretty;
+}
+
+.container-fluid #navbarNav {
+  justify-content: center;
+}
+
+.container-fluid .navbar-brand {
+  margin-right: 0;
+}
+
+.header .bg-body-tertiary {
+  background-color: unset !important;
+}
+
+#navigation #navigation-wrapper .navbar-toggler {
+  background-color: color.$green;
+
+  .navbar-toggler-icon {
+    color: color.$white !important;
+  }
+}
+
+.nav-item .nav-link {
+  color: color.$whiteSmoke;
+  text-shadow: 0 0 0.75rem color.$softBlack;
+  font-size: 1.25rem;
+  &:hover {
+    text-shadow: 0 0 0 transparent;
+  }
+}
+
+.nav-item {
+  padding-inline: 0.75rem;
+}
+
+@media all and (max-width: 767px) {
+  .hero-title {
+    font-size: 3.5rem;
+  }
+}
+
+@media all and (max-width: 1280px) {
+  p {
+    font-size: 1rem;
+  }
+}

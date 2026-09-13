@@ -1,0 +1,68 @@
+---
+import { getEntry, render } from 'astro:content'
+
+const contactLanding = await getEntry("contact", "contact_info")
+if (!contactLanding) {
+  throw new Error('Could not find contact\'s "contact_info" text')
+}
+
+const { Content } = await render(contactLanding)
+
+import { myInfo } from "src/data/myInfo"
+const { email, phone, onlineTreating, officeAddress } = myInfo
+
+const title: string = "Virtually or In-Person"
+---
+
+<h2
+  class="w-100 text-center mt-4"
+  id="contact-info-title"
+  data-aos="fade-down"
+  data-aos-duration="1500"
+>
+  {title}
+</h2>
+<section
+  class="container-fluid d-flex flex-column flex-lg-row my-4 over-hidden"
+  aria-labelledby="contact-info-title"
+>
+  <!--- First block --->
+  <div class="container col-12 col-lg-6 px-lg-4 my-3">
+    <ul
+      class="contact-info-list"
+      aria-label="Contact details"
+      data-aos="fade-right"
+      data-aos-duration="1250"
+    >
+      <li>
+        <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+        Email
+        <p>{email}</p>
+      </li>
+      <li>
+        <i class="fa-solid fa-phone" aria-hidden="true"></i>
+        Phone
+        <p>{phone}</p>
+      </li>
+      <li>
+        <i class="fa-solid fa-globe" aria-hidden="true"></i>
+        Online Treating
+        <p>{onlineTreating}</p>
+      </li>
+      <li>
+        <i class="fa-solid fa-couch" aria-hidden="true"></i>
+        In Person
+        <p>{officeAddress}</p>
+      </li>
+    </ul>
+  </div>
+  <!--- Second block --->
+  <article
+    class="container col-12 col-lg-6 px-lg-4 my-3"
+    aria-label="Additional contact information"
+    data-aos="fade-left"
+    data-aos-duration="1250"
+  >
+    <Content />
+  </article>
+</section>

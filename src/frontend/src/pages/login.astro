@@ -1,0 +1,66 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import LoginForm from "../components/Auth/LoginForm.astro";
+---
+
+<Layout title="Login">
+    <Navbar />
+
+    <main class="auth-page">
+        <section class="auth-section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-md-8 col-lg-5">
+                        <div class="auth-card">
+                            <div class="text-center mb-4">
+                                <h1>Welcome Back</h1>
+                                <p>Login to your account</p>
+                            </div>
+
+                            <LoginForm />
+
+                            <div class="text-center mt-4">
+                                <p>
+                                    Don't have an account?
+                                    <a href="/register">Register</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <Footer />
+</Layout>
+
+<style>
+    .auth-section {
+        min-height: calc(100vh - 160px);
+        display: flex;
+        align-items: center;
+        padding: 80px 0;
+    }
+
+    .auth-card {
+        background: #fff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    .auth-card h1 {
+        margin-bottom: 10px;
+    }
+
+    .auth-card p {
+        color: #777;
+    }
+
+    .auth-form .form-control {
+        padding: 12px 14px;
+    }
+</style>

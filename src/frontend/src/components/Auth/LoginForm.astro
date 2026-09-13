@@ -1,0 +1,107 @@
+---
+---
+
+<form id="login-form" class="auth-form">
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input
+            id="email"
+            name="email"
+            type="email"
+            class="form-control"
+            placeholder="Enter your email"
+            autocomplete="email"
+            required
+        />
+    </div>
+
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input
+            id="password"
+            name="password"
+            type="password"
+            class="form-control"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+            required
+        />
+    </div>
+
+    <div id="login-error" class="alert alert-danger d-none" role="alert"></div>
+
+    <button id="login-submit" type="submit" class="btn btn-primary w-100">
+        Login
+    </button>
+</form>
+
+<script>
+    const form = document.querySelector<HTMLFormElement>("#login-form");
+    const errorBox = document.querySelector<HTMLDivElement>("#login-error");
+    const submitButton =
+        document.querySelector<HTMLButtonElement>("#login-submit");
+
+    const API_URL = "http://localhost:8000/api/v1/login/";
+
+    form?.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        if (!errorBox || !submitButton || !form) {
+            return;
+        }
+
+        errorBox.classList.add("d-none");
+        errorBox.textContent = "";
+
+        submitButton.disabled = true;
+        submitButton.textContent = "Logging in...";
+
+        const formData = new FormData(form);
+
+        const email = String(formData.get("email") ?? "");
+        const password = String(formData.get("password") ?? "");
+
+        try {
+            const response = await fetch(API_URL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: JSON.stringify({
+                    email,
+                    password,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                const message =
+                    data?.detail ||
+                    data?.email?.[0] ||
+                    data?.password?.[0] ||
+                    "Invalid email or password.";
+
+                throw new Error(message);
+            }
+
+            if (data.redirect_url === "therapist") {
+                window.location.href = "/therapist";
+                return;
+            }
+
+            window.location.href = "/";
+        } catch (error) {
+            errorBox.textContent =
+                error instanceof Error
+                    ? error.message
+                    : "Something went wrong. Please try again.";
+
+            errorBox.classList.remove("d-none");
+        } finally {
+            submitButton.disabled = false;
+            submitButton.textContent = "Login";
+        }
+    });
+</script>

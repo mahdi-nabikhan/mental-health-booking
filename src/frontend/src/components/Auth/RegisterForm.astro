@@ -1,0 +1,259 @@
+---
+---
+
+<form id="register-form" class="auth-form">
+    <div class="mb-3">
+        <label for="role" class="form-label">Account Type</label>
+
+        <select id="role" name="role" class="form-select" required>
+            <option value="patient">Patient</option>
+            <option value="therapist">Therapist</option>
+        </select>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label for="first_name" class="form-label">First Name</label>
+
+            <input
+                id="first_name"
+                name="first_name"
+                type="text"
+                class="form-control"
+                placeholder="First name"
+                autocomplete="given-name"
+                required
+            />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label for="last_name" class="form-label">Last Name</label>
+
+            <input
+                id="last_name"
+                name="last_name"
+                type="text"
+                class="form-control"
+                placeholder="Last name"
+                autocomplete="family-name"
+                required
+            />
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="phone_number" class="form-label">Phone Number</label>
+
+        <input
+            id="phone_number"
+            name="phone_number"
+            type="tel"
+            class="form-control"
+            placeholder="Phone number"
+            autocomplete="tel"
+            required
+        />
+    </div>
+
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+
+        <input
+            id="email"
+            name="email"
+            type="email"
+            class="form-control"
+            placeholder="Email address"
+            autocomplete="email"
+            required
+        />
+    </div>
+
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+
+        <input
+            id="password"
+            name="password"
+            type="password"
+            class="form-control"
+            placeholder="Password"
+            autocomplete="new-password"
+            required
+        />
+    </div>
+
+    <div class="mb-3">
+        <label for="confirm_password" class="form-label">
+            Confirm Password
+        </label>
+
+        <input
+            id="confirm_password"
+            name="confirm_password"
+            type="password"
+            class="form-control"
+            placeholder="Confirm password"
+            autocomplete="new-password"
+            required
+        />
+    </div>
+
+    <div id="register-error" class="alert alert-danger d-none" role="alert">
+    </div>
+
+    <div id="register-success" class="alert alert-success d-none" role="alert">
+    </div>
+
+    <button
+        id="register-submit"
+        type="submit"
+        class="btn btn-primary w-100"
+    >
+        Create Account
+    </button>
+</form>
+
+<script>
+    const registerForm =
+        document.querySelector<HTMLFormElement>("#register-form");
+
+    const registerError =
+        document.querySelector<HTMLDivElement>("#register-error");
+
+    const registerSuccess =
+        document.querySelector<HTMLDivElement>("#register-success");
+
+    const registerSubmit =
+        document.querySelector<HTMLButtonElement>("#register-submit");
+
+    const API_BASE_URL = "http://localhost:8000/api/v1";
+
+    function showError(message: string) {
+        if (!registerError) return;
+
+        registerError.textContent = message;
+        registerError.classList.remove("d-none");
+    }
+
+    function hideMessages() {
+        registerError?.classList.add("d-none");
+        registerSuccess?.classList.add("d-none");
+
+        if (registerError) {
+            registerError.textContent = "";
+        }
+
+        if (registerSuccess) {
+            registerSuccess.textContent = "";
+        }
+    }
+
+    function getErrorMessage(data: Record<string, unknown>) {
+        const messages: string[] = [];
+
+        function collectErrors(value: unknown) {
+            if (typeof value === "string") {
+                messages.push(value);
+                return;
+            }
+
+            if (Array.isArray(value)) {
+                value.forEach(collectErrors);
+                return;
+            }
+
+            if (value && typeof value === "object") {
+                Object.values(value).forEach(collectErrors);
+            }
+        }
+
+        collectErrors(data);
+
+        return messages.length > 0
+            ? messages.join(" ")
+            : "Registration failed. Please check your information.";
+    }
+
+    registerForm?.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        if (!registerForm || !registerSubmit) {
+            return;
+        }
+
+        hideMessages();
+
+        registerSubmit.disabled = true;
+        registerSubmit.textContent = "Creating account...";
+
+        const formData = new FormData(registerForm);
+
+        const role = String(formData.get("role") ?? "");
+        const email = String(formData.get("email") ?? "");
+        const password = String(formData.get("password") ?? "");
+        const confirmPassword = String(
+            formData.get("confirm_password") ?? "",
+        );
+
+        const firstName = String(formData.get("first_name") ?? "");
+        const lastName = String(formData.get("last_name") ?? "");
+        const phoneNumber = String(formData.get("phone_number") ?? "");
+
+        try {
+            const endpoint =
+                role === "therapist"
+                    ? `${API_BASE_URL}/therapist/register/`
+                    : `${API_BASE_URL}/patient/register/`;
+
+            const response = await fetch(endpoint, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    user: {
+                        email,
+                        password,
+                        // مهم: نام فیلد در Django اشتباهاً confrim_password است
+                        confrim_password: confirmPassword,
+                    },
+                    first_name: firstName,
+                    last_name: lastName,
+                    phone_number: phoneNumber,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(
+                    getErrorMessage(data),
+                );
+            }
+
+            if (registerSuccess) {
+                registerSuccess.textContent =
+                    data.message ||
+                    "Registration completed successfully.";
+
+                registerSuccess.classList.remove("d-none");
+            }
+
+            registerForm.reset();
+
+            setTimeout(() => {
+                window.location.href = "/login";
+            }, 1200);
+        } catch (error) {
+            showError(
+                error instanceof Error
+                    ? error.message
+                    : "Something went wrong. Please try again.",
+            );
+        } finally {
+            registerSubmit.disabled = false;
+            registerSubmit.textContent = "Create Account";
+        }
+    });
+</script>

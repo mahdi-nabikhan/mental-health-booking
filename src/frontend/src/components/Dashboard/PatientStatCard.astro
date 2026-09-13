@@ -1,0 +1,116 @@
+
+---
+interface Props {
+    title: string;
+    value: string | number;
+    description: string;
+    icon: string;
+}
+
+const {
+    title,
+    value,
+    description,
+    icon,
+} = Astro.props;
+---
+
+<div class="stat-card">
+    <div class="stat-content">
+        <div class="stat-header">
+            <span class="stat-title">{title}</span>
+
+            <div class="stat-icon">
+                <i class={icon}></i>
+            </div>
+        </div>
+
+        <div class="stat-value">
+            {value}
+        </div>
+
+        <div class="stat-description">
+            {description}
+        </div>
+    </div>
+</div>
+
+<style>
+    .stat-card {
+        width: 100%;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 22px;
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    }
+
+    .stat-content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .stat-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+    }
+
+    .stat-title {
+        color: #6b7280;
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    .stat-icon {
+        width: 42px;
+        height: 42px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 10px;
+
+        background: #f3f4f6;
+        color: #374151;
+
+        font-size: 17px;
+    }
+
+    .stat-value {
+        margin-top: 18px;
+
+        color: #111827;
+
+        font-size: 30px;
+        font-weight: 700;
+        line-height: 1;
+    }
+
+    .stat-description {
+        margin-top: 10px;
+
+        color: #9ca3af;
+
+        font-size: 12px;
+    }
+
+    @media (max-width: 768px) {
+        .stat-card {
+            padding: 18px;
+        }
+
+        .stat-value {
+            font-size: 26px;
+        }
+    }
+</style>

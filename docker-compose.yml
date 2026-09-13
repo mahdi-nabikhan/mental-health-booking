@@ -81,6 +81,17 @@ services:
       - redis_data:/data
 
     command: redis-server --appendonly yes
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+
+    container_name: mental_health_frontend
+
+    restart: unless-stopped
+
+    expose:
+      - "80"
 
 
 volumes:

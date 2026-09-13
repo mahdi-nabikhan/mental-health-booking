@@ -28,28 +28,42 @@
         />
     </div>
 
-    <div id="login-error" class="alert alert-danger d-none" role="alert"></div>
-
-    <button id="login-submit" type="submit" class="btn btn-primary w-100">
+    <button
+        id="login-submit"
+        type="submit"
+        class="btn btn-primary w-100"
+    >
         Login
     </button>
+
+    <!-- Error message -->
+    <div
+        id="login-error"
+        class="alert alert-danger mt-3 d-none"
+        role="alert"
+    ></div>
 </form>
 
 <script>
     const form = document.querySelector<HTMLFormElement>("#login-form");
-    const errorBox = document.querySelector<HTMLDivElement>("#login-error");
+
+    const errorBox =
+        document.querySelector<HTMLDivElement>("#login-error");
+
     const submitButton =
         document.querySelector<HTMLButtonElement>("#login-submit");
 
-    const API_URL = "http://localhost:8000/api/v1/login/";
+    const API_URL =
+        "http://localhost:8000/api/v1/accounts/login/";
 
     form?.addEventListener("submit", async (event) => {
         event.preventDefault();
 
-        if (!errorBox || !submitButton || !form) {
+        if (!form || !errorBox || !submitButton) {
             return;
         }
 
+        // Hide previous error
         errorBox.classList.add("d-none");
         errorBox.textContent = "";
 
@@ -58,8 +72,13 @@
 
         const formData = new FormData(form);
 
-        const email = String(formData.get("email") ?? "");
-        const password = String(formData.get("password") ?? "");
+        const email = String(
+            formData.get("email") ?? "",
+        );
+
+        const password = String(
+            formData.get("password") ?? "",
+        );
 
         try {
             const response = await fetch(API_URL, {

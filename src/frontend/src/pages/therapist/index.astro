@@ -1,0 +1,251 @@
+---
+import TherapistLayout from "../../layouts/TherapistLayout.astro";
+import StatCard from "../../components/Therapist/StatCard.astro";
+import AppointmentTable from "../../components/Therapist/AppointmentTable.astro";
+---
+
+<TherapistLayout title="Therapist Dashboard">
+    <div class="dashboard">
+        <div class="welcome-section">
+            <div>
+                <h2>Welcome back, Therapist</h2>
+                <p>
+                    Here's what's happening with your practice today.
+                </p>
+            </div>
+
+            <a href="/therapist/slots" class="create-slot-button">
+                <i class="fa-solid fa-plus"></i>
+                Create Available Slot
+            </a>
+        </div>
+
+        <section class="stats-grid">
+            <StatCard
+                title="Total Patients"
+                value="24"
+                description="Active patients"
+                icon="fa-solid fa-users"
+            />
+
+            <StatCard
+                title="Today's Sessions"
+                value="3"
+                description="Appointments today"
+                icon="fa-solid fa-calendar-day"
+            />
+
+            <StatCard
+                title="Upcoming"
+                value="8"
+                description="Scheduled appointments"
+                icon="fa-solid fa-calendar-check"
+            />
+
+            <StatCard
+                title="Available Slots"
+                value="12"
+                description="Open appointment slots"
+                icon="fa-solid fa-clock"
+            />
+        </section>
+
+        <section class="dashboard-section">
+            <AppointmentTable />
+        </section>
+
+        <section class="quick-actions">
+            <h2>Quick Actions</h2>
+
+            <div class="actions-grid">
+                <a href="/therapist/slots" class="action-card">
+                    <div class="action-icon">
+                        <i class="fa-solid fa-calendar-plus"></i>
+                    </div>
+
+                    <div>
+                        <strong>Create Slot</strong>
+                        <span>Add a new available appointment time</span>
+                    </div>
+
+                    <i class="fa-solid fa-chevron-right arrow"></i>
+                </a>
+
+                <a href="/therapist/patients" class="action-card">
+                    <div class="action-icon">
+                        <i class="fa-solid fa-user-plus"></i>
+                    </div>
+
+                    <div>
+                        <strong>View Patients</strong>
+                        <span>Manage your patients</span>
+                    </div>
+
+                    <i class="fa-solid fa-chevron-right arrow"></i>
+                </a>
+
+                <a href="/therapist/appointments" class="action-card">
+                    <div class="action-icon">
+                        <i class="fa-solid fa-calendar-check"></i>
+                    </div>
+
+                    <div>
+                        <strong>Appointments</strong>
+                        <span>View your appointment schedule</span>
+                    </div>
+
+                    <i class="fa-solid fa-chevron-right arrow"></i>
+                </a>
+            </div>
+        </section>
+    </div>
+</TherapistLayout>
+
+<style>
+    .dashboard {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .welcome-section {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .welcome-section h2 {
+        margin: 0 0 7px;
+        color: #222222;
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+    .welcome-section p {
+        margin: 0;
+        color: #888888;
+        font-size: 13px;
+    }
+
+    .create-slot-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 11px 16px;
+        background: #222222;
+        color: #ffffff;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+        transition: 0.2s ease;
+    }
+
+    .create-slot-button:hover {
+        background: #444444;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+        margin-bottom: 25px;
+    }
+
+    .dashboard-section {
+        margin-bottom: 25px;
+    }
+
+    .quick-actions h2 {
+        margin: 0 0 15px;
+        color: #222222;
+        font-size: 17px;
+        font-weight: 600;
+    }
+
+    .actions-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+
+    .action-card {
+        background: #ffffff;
+        border: 1px solid #eeeeee;
+        border-radius: 12px;
+        padding: 18px;
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        text-decoration: none;
+        transition: 0.2s ease;
+    }
+
+    .action-card:hover {
+        border-color: #cccccc;
+        transform: translateY(-1px);
+    }
+
+    .action-icon {
+        width: 42px;
+        height: 42px;
+        flex-shrink: 0;
+        border-radius: 9px;
+        background: #f3f3f3;
+        color: #333333;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .action-card > div:nth-child(2) {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .action-card strong {
+        color: #333333;
+        font-size: 13px;
+    }
+
+    .action-card span {
+        color: #999999;
+        font-size: 11px;
+        line-height: 1.5;
+    }
+
+    .arrow {
+        margin-left: auto;
+        color: #aaaaaa;
+        font-size: 10px;
+    }
+
+    @media (max-width: 1100px) {
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .actions-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 700px) {
+        .welcome-section {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .create-slot-button {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

@@ -1,0 +1,218 @@
+---
+interface Appointment {
+    time: string;
+    patient: string;
+    type: string;
+    status: string;
+}
+
+const appointments: Appointment[] = [
+    {
+        time: "10:00 AM",
+        patient: "Ali Rezaei",
+        type: "Individual Session",
+        status: "Scheduled",
+    },
+    {
+        time: "11:30 AM",
+        patient: "Sara Ahmadi",
+        type: "Consultation",
+        status: "Scheduled",
+    },
+    {
+        time: "02:00 PM",
+        patient: "John Smith",
+        type: "Individual Session",
+        status: "Completed",
+    },
+    {
+        time: "04:30 PM",
+        patient: "Neda Karimi",
+        type: "Follow-up",
+        status: "Scheduled",
+    },
+];
+---
+
+<div class="appointments-card">
+    <div class="card-header">
+        <div>
+            <h2>Today's Appointments</h2>
+            <p>Your schedule for today</p>
+        </div>
+
+        <a href="/therapist/appointments">
+            View all
+        </a>
+    </div>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Patient</th>
+                    <th>Session</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {
+                    appointments.map((appointment) => (
+                        <tr>
+                            <td class="appointment-time">
+                                {appointment.time}
+                            </td>
+
+                            <td>
+                                <div class="patient-cell">
+                                    <div class="patient-avatar">
+                                        {appointment.patient.charAt(0)}
+                                    </div>
+
+                                    <span>{appointment.patient}</span>
+                                </div>
+                            </td>
+
+                            <td class="session-type">
+                                {appointment.type}
+                            </td>
+
+                            <td>
+                                <span
+                                    class:list={[
+                                        "status",
+                                        appointment.status === "Completed"
+                                            ? "completed"
+                                            : "scheduled",
+                                    ]}
+                                >
+                                    {appointment.status}
+                                </span>
+                            </td>
+                        </tr>
+                    ))
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .appointments-card {
+        background: #ffffff;
+        border: 1px solid #eeeeee;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .card-header {
+        padding: 22px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #eeeeee;
+    }
+
+    .card-header h2 {
+        margin: 0 0 5px;
+        color: #222222;
+        font-size: 17px;
+        font-weight: 600;
+    }
+
+    .card-header p {
+        margin: 0;
+        color: #999999;
+        font-size: 12px;
+    }
+
+    .card-header a {
+        color: #222222;
+        font-size: 12px;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .card-header a:hover {
+        text-decoration: underline;
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th {
+        padding: 13px 24px;
+        text-align: left;
+        color: #999999;
+        background: #fafafa;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+    }
+
+    td {
+        padding: 15px 24px;
+        border-top: 1px solid #eeeeee;
+        color: #555555;
+        font-size: 13px;
+    }
+
+    .appointment-time {
+        color: #222222;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .patient-cell {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #333333;
+        font-weight: 500;
+        white-space: nowrap;
+    }
+
+    .patient-avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: #f1f1f1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #555555;
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    .session-type {
+        color: #777777;
+    }
+
+    .status {
+        display: inline-flex;
+        padding: 5px 9px;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: 600;
+    }
+
+    .status.scheduled {
+        background: #f1f1f1;
+        color: #333333;
+    }
+
+    .status.completed {
+        background: #e9e9e9;
+        color: #666666;
+    }
+</style>

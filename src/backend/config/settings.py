@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     
     'rest_framework',
     'drf_spectacular',
+    "corsheaders",
     
     'booking',
     'accounts',
@@ -53,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.common.CommonMiddleware"
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -152,3 +154,11 @@ SPECTACULAR_SETTINGS = {
 
 # Custom User Model
 AUTH_USER_MODEL = 'accounts.User'
+
+
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]

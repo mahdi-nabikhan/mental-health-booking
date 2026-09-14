@@ -16,13 +16,13 @@ class ListCreateAppointmentSlotApiView(generics.GenericAPIView):
     
     def get(self,request):
         queryset =  self.get_queryset()
-        serializer = self.serializer_class(instance = queryset,contetx ={'request':request} , many=True)
+        serializer = self.serializer_class(instance = queryset,context ={'request':request} , many=True)
         return response.Response(serializer.data,status=status.HTTP_200_OK)
     
     
     
     def post(self,request):
-        serializer = self.serializer_class(data=request.data,contetx ={'reqest':request})
+        serializer = self.serializer_class(data=request.data,context ={'request':request})
         if serializer.is_valid():
             serializer.save()
             return response.Response({"message":'Appointment Slot successfully created'},status=status.HTTP_200_OK)

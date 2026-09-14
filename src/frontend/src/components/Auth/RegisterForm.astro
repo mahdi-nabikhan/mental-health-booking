@@ -1,40 +1,41 @@
+
 ---
 ---
 
 <form id="register-form" class="auth-form">
     <div class="mb-3">
-        <label for="role" class="form-label">Account Type</label>
+        <label for="role" class="form-label">نوع حساب</label>
 
         <select id="role" name="role" class="form-select" required>
-            <option value="patient">Patient</option>
-            <option value="therapist">Therapist</option>
+            <option value="patient">بیمار</option>
+            <option value="therapist">روان‌درمانگر</option>
         </select>
     </div>
 
     <div class="row">
         <div class="col-md-6 mb-3">
-            <label for="first_name" class="form-label">First Name</label>
+            <label for="first_name" class="form-label">نام</label>
 
             <input
                 id="first_name"
                 name="first_name"
                 type="text"
                 class="form-control"
-                placeholder="First name"
+                placeholder="نام خود را وارد کنید"
                 autocomplete="given-name"
                 required
             />
         </div>
 
         <div class="col-md-6 mb-3">
-            <label for="last_name" class="form-label">Last Name</label>
+            <label for="last_name" class="form-label">نام خانوادگی</label>
 
             <input
                 id="last_name"
                 name="last_name"
                 type="text"
                 class="form-control"
-                placeholder="Last name"
+                placeholder="نام خانوادگی خود را وارد کنید"
                 autocomplete="family-name"
                 required
             />
@@ -42,42 +43,42 @@
     </div>
 
     <div class="mb-3">
-        <label for="phone_number" class="form-label">Phone Number</label>
+        <label for="phone_number" class="form-label">شماره تلفن</label>
 
         <input
             id="phone_number"
             name="phone_number"
             type="tel"
             class="form-control"
-            placeholder="Phone number"
+            placeholder="شماره تلفن خود را وارد کنید"
             autocomplete="tel"
             required
         />
     </div>
 
     <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
+        <label for="email" class="form-label">ایمیل</label>
 
         <input
             id="email"
             name="email"
             type="email"
             class="form-control"
-            placeholder="Email address"
+            placeholder="آدرس ایمیل خود را وارد کنید"
             autocomplete="email"
             required
         />
     </div>
 
     <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
+        <label for="password" class="form-label">رمز عبور</label>
 
         <input
             id="password"
             name="password"
             type="password"
             class="form-control"
-            placeholder="Password"
+            placeholder="رمز عبور خود را وارد کنید"
             autocomplete="new-password"
             required
         />
@@ -85,7 +86,7 @@
 
     <div class="mb-3">
         <label for="confirm_password" class="form-label">
-            Confirm Password
+            تکرار رمز عبور
         </label>
 
         <input
@@ -93,7 +94,7 @@
             name="confirm_password"
             type="password"
             class="form-control"
-            placeholder="Confirm password"
+            placeholder="رمز عبور را دوباره وارد کنید"
             autocomplete="new-password"
             required
         />
@@ -104,17 +105,17 @@
         type="submit"
         class="btn btn-primary w-100"
     >
-        Create Account
+        ایجاد حساب کاربری
     </button>
 
-    <!-- Error -->
+    <!-- پیام خطا -->
     <div
         id="register-error"
         class="alert alert-danger mt-3 d-none"
         role="alert"
     ></div>
 
-    <!-- Success -->
+    <!-- پیام موفقیت -->
     <div
         id="register-success"
         class="alert alert-success mt-3 d-none"
@@ -188,7 +189,7 @@
 
         return messages.length > 0
             ? messages.join(" ")
-            : "Registration failed. Please check your information.";
+            : "ثبت‌نام انجام نشد. لطفاً اطلاعات واردشده را بررسی کنید.";
     }
 
     registerForm?.addEventListener("submit", async (event) => {
@@ -201,7 +202,7 @@
         hideMessages();
 
         registerSubmit.disabled = true;
-        registerSubmit.textContent = "Creating account...";
+        registerSubmit.textContent = "در حال ایجاد حساب...";
 
         const formData = new FormData(registerForm);
 
@@ -268,7 +269,7 @@
 
             showSuccess(
                 data.message ||
-                    "Registration completed successfully.",
+                    "ثبت‌نام با موفقیت انجام شد.",
             );
 
             registerForm.reset();
@@ -280,11 +281,11 @@
             showError(
                 error instanceof Error
                     ? error.message
-                    : "Something went wrong. Please try again.",
+                    : "خطایی رخ داد. لطفاً دوباره تلاش کنید.",
             );
         } finally {
             registerSubmit.disabled = false;
-            registerSubmit.textContent = "Create Account";
+            registerSubmit.textContent = "ایجاد حساب کاربری";
         }
     });
 </script>

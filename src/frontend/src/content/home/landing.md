@@ -1,12 +1,15 @@
 ---
-title: "Landing Intro"
+
+title: "معرفی صفحه اصلی"
+
 ---
-Life can be overwhelming, and at times, we all need support to find our way. I’m Clara Winslow, a Certified Psychotherapist and Life Coach, dedicated to helping you navigate life’s challenges with confidence and clarity. Whether you're struggling with anxiety, self-doubt, or major life changes, you don’t have to face them alone.
 
-Therapy isn’t just about healing—it’s about transformation. It’s about uncovering your strengths, breaking free from limiting beliefs, and stepping into a life that feels aligned with who you truly are. My goal is to create a safe, supportive space where you feel heard, understood, and empowered to grow.
+گاهی زندگی می‌تواند طاقت‌فرسا و پر از چالش باشد و همه ما در بعضی از مراحل زندگی برای پیدا کردن مسیر درست به حمایت و همراهی نیاز داریم. من **کلارا وینسلو**، روان‌درمانگر دارای گواهینامه و مربی رشد فردی هستم و هدفم کمک به شما برای مواجهه با چالش‌های زندگی با آرامش، آگاهی و اعتمادبه‌نفس بیشتر است. چه با اضطراب، تردید نسبت به خود یا تغییرات مهم زندگی روبه‌رو باشید، لازم نیست این مسیر را به‌تنهایی طی کنید.
 
-Through thoughtful conversations and personalized guidance, we will explore the obstacles holding you back and develop practical strategies to move forward. Change doesn’t happen overnight, but with the right support, it becomes possible.
+روان‌درمانی فقط درباره بهبود و درمان نیست؛ بلکه درباره ایجاد تحول در زندگی است. این مسیر به شما کمک می‌کند توانمندی‌های خود را کشف کنید، از باورهای محدودکننده رها شوید و به سوی زندگی‌ای حرکت کنید که با ارزش‌ها و هویت واقعی شما هماهنگ باشد. هدف من ایجاد فضایی امن و حمایتگر است؛ فضایی که در آن احساس کنید شنیده می‌شوید، درک می‌شوید و برای رشد و پیشرفت توانمند شده‌اید.
 
-Taking the first step toward therapy or coaching can feel intimidating, but it’s also an act of courage. It means choosing yourself, your well-being, and your future. You are not alone in this journey—I am here to walk alongside you.
+با گفت‌وگوهای هدفمند و راهنمایی متناسب با نیازهای شما، موانعی را که مانع پیشرفتتان شده‌اند بررسی می‌کنیم و راهکارهای عملی برای حرکت رو به جلو پیدا خواهیم کرد. تغییر یک‌شبه اتفاق نمی‌افتد، اما با حمایت و همراهی مناسب، امکان‌پذیر است.
 
-You deserve a life filled with clarity, peace, and purpose. Let’s begin this journey together.
+برداشتن اولین قدم برای شروع روان‌درمانی یا کوچینگ ممکن است در ابتدا کمی ترسناک باشد، اما در عین حال نشانه شجاعت شماست. این یعنی انتخاب خودتان، سلامت و آرامش‌تان و آینده‌ای که می‌خواهید بسازید. شما در این مسیر تنها نیستید؛ من اینجا هستم تا در کنار شما قدم بردارم.
+
+شما شایسته زندگی‌ای سرشار از آرامش، آگاهی و هدف هستید. بیایید این مسیر را با یکدیگر آغاز کنیم.

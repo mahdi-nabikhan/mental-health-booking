@@ -1,8 +1,11 @@
+
 ---
 import { getEntry, render } from 'astro:content'
 import type { CollectionEntry } from 'astro:content'
 
-const aboutLanding: CollectionEntry<"about"> | undefined = await getEntry("about", "about_me")
+const aboutLanding: CollectionEntry<"about"> | undefined =
+  await getEntry("about", "about_me")
+
 if (!aboutLanding) {
   throw new Error('Could not find about\'s "about_me" text')
 }
@@ -27,24 +30,33 @@ const { myProf, fullProf, fullName } = myInfo
         src="/images/profile-2.webp"
         loading="lazy"
         class="figure-img img-fluid rounded"
-        alt={`${fullName} writing notes`}
+        alt={`${fullName} در حال یادداشت‌برداری`}
         title={fullName}
         aria-labelledby="about-intro-caption"
       >
-      <figcaption class="figure-caption text-center fs-5" id="about-intro-caption">
-        Certified {myProf}<br> Life Coach
+
+      <figcaption
+        class="figure-caption text-center fs-5"
+        id="about-intro-caption"
+      >
+        دارای گواهینامه {myProf}<br>
+        مربی زندگی
       </figcaption>
     </figure>
   </div>
+
   <div
     class="intro-article col-sm-10 col-md-9 col-lg-8 col-xl-6"
     data-aos="fade-left"
     data-aos-duration="1250"
   >
     <h2 class="my-5 mt-2" id="about-intro-title">
-      My name is {fullName}, and I am a Certified {fullProf}.
+      من {fullName} هستم و به‌عنوان {fullProf} دارای گواهینامه معتبر فعالیت می‌کنم.
     </h2>
+
     <Content />
   </div>
 </section>
+
 <hr id="about-intro-line" class="mb-4 mb-xl-5">
+

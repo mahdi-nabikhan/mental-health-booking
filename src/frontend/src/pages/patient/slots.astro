@@ -1,205 +1,207 @@
-
----
-import PatientLayout from "../../layouts/PatientLayout.astro";
 ---
 
-<PatientLayout title="Settings">
+## import PatientLayout from "../../layouts/PatientLayout.astro";
+
+<PatientLayout title="تنظیمات">
     <div class="settings-page">
         <!-- Page Header -->
         <section class="page-header">
             <div>
-                <h2>Settings</h2>
+                <h2>تنظیمات</h2>
                 <p>
-                    Manage your account settings and security.
+                    تنظیمات حساب کاربری و امنیت خود را مدیریت کنید.
                 </p>
             </div>
         </section>
 
-        <!-- Security -->
-        <section class="settings-card">
-            <div class="card-header">
-                <div class="header-icon">
-                    <i class="fa-solid fa-lock"></i>
-                </div>
-
-                <div>
-                    <h3>Password & Security</h3>
-                    <p>
-                        Change your password to keep your account secure.
-                    </p>
-                </div>
+```
+    <!-- Security -->
+    <section class="settings-card">
+        <div class="card-header">
+            <div class="header-icon">
+                <i class="fa-solid fa-lock"></i>
             </div>
 
-            <form id="password-form">
-                <div class="form-grid">
-                    <div class="form-group full-width">
-                        <label for="current-password">
-                            Current Password
-                        </label>
-
-                        <input
-                            id="current-password"
-                            name="old_password"
-                            type="password"
-                            autocomplete="current-password"
-                            placeholder="Enter your current password"
-                            required
-                        />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="new-password">
-                            New Password
-                        </label>
-
-                        <input
-                            id="new-password"
-                            name="new_password"
-                            type="password"
-                            autocomplete="new-password"
-                            placeholder="Enter your new password"
-                            required
-                        />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="confirm-password">
-                            Confirm New Password
-                        </label>
-
-                        <input
-                            id="confirm-password"
-                            name="confirm_password"
-                            type="password"
-                            autocomplete="new-password"
-                            placeholder="Confirm your new password"
-                            required
-                        />
-                    </div>
-                </div>
-
-                <div class="password-hint">
-                    <i class="fa-solid fa-circle-info"></i>
-
-                    <span>
-                        Use a strong password that you don't use on other
-                        websites.
-                    </span>
-                </div>
-
-                <div
-                    id="password-message"
-                    class="message d-none"
-                    role="alert"
-                ></div>
-
-                <div class="form-actions">
-                    <button
-                        id="change-password-btn"
-                        type="submit"
-                        class="primary-btn"
-                    >
-                        <i class="fa-solid fa-key"></i>
-                        Change Password
-                    </button>
-                </div>
-            </form>
-        </section>
-
-        <!-- Account -->
-        <section class="settings-card">
-            <div class="card-header">
-                <div class="header-icon">
-                    <i class="fa-solid fa-user-gear"></i>
-                </div>
-
-                <div>
-                    <h3>Account</h3>
-                    <p>
-                        Manage your account preferences.
-                    </p>
-                </div>
-            </div>
-
-            <div class="settings-list">
-                <div class="setting-item">
-                    <div class="setting-info">
-                        <div class="setting-icon">
-                            <i class="fa-solid fa-user"></i>
-                        </div>
-
-                        <div>
-                            <h4>Profile Information</h4>
-                            <p>
-                                Update your name and phone number.
-                            </p>
-                        </div>
-                    </div>
-
-                    <a
-                        href="/patient/profile"
-                        class="secondary-btn"
-                    >
-                        Manage
-                    </a>
-                </div>
-
-                <div class="setting-item">
-                    <div class="setting-info">
-                        <div class="setting-icon">
-                            <i class="fa-solid fa-calendar-check"></i>
-                        </div>
-
-                        <div>
-                            <h4>Appointments</h4>
-                            <p>
-                                View your upcoming and previous sessions.
-                            </p>
-                        </div>
-                    </div>
-
-                    <a
-                        href="/patient/appointments"
-                        class="secondary-btn"
-                    >
-                        View
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Logout -->
-        <section class="settings-card danger-card">
-            <div class="card-header">
-                <div class="header-icon danger-icon">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                </div>
-
-                <div>
-                    <h3>Sign Out</h3>
-                    <p>
-                        Sign out from your patient account.
-                    </p>
-                </div>
-            </div>
-
-            <div class="danger-content">
+            <div>
+                <h3>رمز عبور و امنیت</h3>
                 <p>
-                    You will need to sign in again to access your patient
-                    dashboard.
+                    برای حفظ امنیت حساب خود، رمز عبورتان را تغییر دهید.
                 </p>
+            </div>
+        </div>
 
+        <form id="password-form">
+            <div class="form-grid">
+                <div class="form-group full-width">
+                    <label for="current-password">
+                        رمز عبور فعلی
+                    </label>
+
+                    <input
+                        id="current-password"
+                        name="old_password"
+                        type="password"
+                        autocomplete="current-password"
+                        placeholder="رمز عبور فعلی خود را وارد کنید"
+                        required
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label for="new-password">
+                        رمز عبور جدید
+                    </label>
+
+                    <input
+                        id="new-password"
+                        name="new_password"
+                        type="password"
+                        autocomplete="new-password"
+                        placeholder="رمز عبور جدید خود را وارد کنید"
+                        required
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm-password">
+                        تأیید رمز عبور جدید
+                    </label>
+
+                    <input
+                        id="confirm-password"
+                        name="confirm_password"
+                        type="password"
+                        autocomplete="new-password"
+                        placeholder="رمز عبور جدید خود را دوباره وارد کنید"
+                        required
+                    />
+                </div>
+            </div>
+
+            <div class="password-hint">
+                <i class="fa-solid fa-circle-info"></i>
+
+                <span>
+                    از یک رمز عبور قوی استفاده کنید که در وب‌سایت‌های
+                    دیگر از آن استفاده نمی‌کنید.
+                </span>
+            </div>
+
+            <div
+                id="password-message"
+                class="message d-none"
+                role="alert"
+            ></div>
+
+            <div class="form-actions">
                 <button
-                    id="logout-button"
-                    type="button"
-                    class="logout-btn"
+                    id="change-password-btn"
+                    type="submit"
+                    class="primary-btn"
                 >
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Sign Out
+                    <i class="fa-solid fa-key"></i>
+                    تغییر رمز عبور
                 </button>
             </div>
-        </section>
-    </div>
+        </form>
+    </section>
+
+    <!-- Account -->
+    <section class="settings-card">
+        <div class="card-header">
+            <div class="header-icon">
+                <i class="fa-solid fa-user-gear"></i>
+            </div>
+
+            <div>
+                <h3>حساب کاربری</h3>
+                <p>
+                    تنظیمات و ترجیحات حساب کاربری خود را مدیریت کنید.
+                </p>
+            </div>
+        </div>
+
+        <div class="settings-list">
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-icon">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+
+                    <div>
+                        <h4>اطلاعات پروفایل</h4>
+                        <p>
+                            نام و شماره تلفن خود را به‌روزرسانی کنید.
+                        </p>
+                    </div>
+                </div>
+
+                <a
+                    href="/patient/profile"
+                    class="secondary-btn"
+                >
+                    مدیریت
+                </a>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-icon">
+                        <i class="fa-solid fa-calendar-check"></i>
+                    </div>
+
+                    <div>
+                        <h4>نوبت‌ها</h4>
+                        <p>
+                            جلسات پیش‌رو و قبلی خود را مشاهده کنید.
+                        </p>
+                    </div>
+                </div>
+
+                <a
+                    href="/patient/appointments"
+                    class="secondary-btn"
+                >
+                    مشاهده
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Logout -->
+    <section class="settings-card danger-card">
+        <div class="card-header">
+            <div class="header-icon danger-icon">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </div>
+
+            <div>
+                <h3>خروج از حساب</h3>
+                <p>
+                    از حساب کاربری بیمار خود خارج شوید.
+                </p>
+            </div>
+        </div>
+
+        <div class="danger-content">
+            <p>
+                برای دسترسی دوباره به داشبورد بیمار، باید مجدداً وارد حساب
+                خود شوید.
+            </p>
+
+            <button
+                id="logout-button"
+                type="button"
+                class="logout-btn"
+            >
+                <i class="fa-solid fa-right-from-bracket"></i>
+                خروج از حساب
+            </button>
+        </div>
+    </section>
+</div>
+```
+
 </PatientLayout>
 
 <script>
@@ -244,7 +246,7 @@ import PatientLayout from "../../layouts/PatientLayout.astro";
 
         if (newPassword !== confirmPassword) {
             passwordMessage.textContent =
-                "New password and confirmation password do not match.";
+                "رمز عبور جدید و رمز عبور تأییدشده با یکدیگر مطابقت ندارند.";
 
             passwordMessage.className = "message error";
 
@@ -253,7 +255,7 @@ import PatientLayout from "../../layouts/PatientLayout.astro";
 
         changePasswordButton.disabled = true;
         changePasswordButton.innerHTML =
-            '<i class="fa-solid fa-spinner fa-spin"></i> Changing...';
+            '<i class="fa-solid fa-spinner fa-spin"></i> در حال تغییر...';
 
         try {
             const response = await fetch(
@@ -278,14 +280,14 @@ import PatientLayout from "../../layouts/PatientLayout.astro";
                     data?.detail ||
                     data?.old_password?.[0] ||
                     data?.new_password?.[0] ||
-                    "Unable to change password.";
+                    "امکان تغییر رمز عبور وجود ندارد.";
 
                 throw new Error(message);
             }
 
             passwordMessage.textContent =
                 data?.message ||
-                "Password changed successfully.";
+                "رمز عبور با موفقیت تغییر کرد.";
 
             passwordMessage.className = "message success";
 
@@ -294,13 +296,13 @@ import PatientLayout from "../../layouts/PatientLayout.astro";
             passwordMessage.textContent =
                 error instanceof Error
                     ? error.message
-                    : "Something went wrong.";
+                    : "مشکلی پیش آمد.";
 
             passwordMessage.className = "message error";
         } finally {
             changePasswordButton.disabled = false;
             changePasswordButton.innerHTML =
-                '<i class="fa-solid fa-key"></i> Change Password';
+                '<i class="fa-solid fa-key"></i> تغییر رمز عبور';
         }
     });
 
@@ -309,7 +311,7 @@ import PatientLayout from "../../layouts/PatientLayout.astro";
 
     logoutButton?.addEventListener("click", () => {
         const confirmed = window.confirm(
-            "Are you sure you want to sign out?",
+            "آیا مطمئن هستید که می‌خواهید از حساب خود خارج شوید؟",
         );
 
         if (!confirmed) {

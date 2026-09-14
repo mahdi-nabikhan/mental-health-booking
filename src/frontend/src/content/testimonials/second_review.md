@@ -1,17 +1,17 @@
 ---
-title: "Second Review"
+
+title: "دومین نظر"
 ---
+سال‌ها احساس می‌کردم در افکار خودم گرفتار شده‌ام و نمی‌توانم از الگوهایی که مانع پیشرفتم می‌شدند رها شوم. تصمیم برای مراجعه به روان‌درمانی برایم آسان نبود، اما حالا که به گذشته نگاه می‌کنم، با اطمینان می‌توانم بگویم که یکی از بهترین تصمیم‌هایی بود که در زندگی‌ام گرفته‌ام.
 
-For years, I felt trapped in my own thoughts, unable to break free from the patterns that held me back. Seeking therapy was a difficult decision, but looking back, I can confidently say it was one of the best choices I’ve ever made.
+از همان اولین گفت‌وگو احساس آرامش و سبک شدن داشتم. با گرمی و درک متقابل از من استقبال شد و همین موضوع باعث شد خیلی راحت‌تر از چیزی که تصور می‌کردم درباره خودم صحبت کنم.
 
-From our first conversation, I felt a sense of relief. I was welcomed with warmth and understanding, which made opening up so much easier than I had expected.
+هر جلسه یک قدم رو به جلو بود. یاد گرفتم افکار منفی خود را شناسایی و به چالش بکشم و از این طریق، موقعیت‌های مختلف را از دیدگاهی سالم‌تر ببینم.
 
-Each session was a step forward. I learned how to recognize and challenge my negative thoughts, allowing me to see situations from a healthier perspective.
+یکی از ارزشمندترین چیزهایی که به دست آوردم، مهربانی و شفقت بیشتر نسبت به خودم بود. دیگر خودم را به‌شدت سرزنش نمی‌کنم و در عوض، با مهربانی پیشرفت‌هایم را می‌بینم و برای آن‌ها ارزش قائل می‌شوم.
 
-One of the most valuable things I gained was a sense of self-compassion. I no longer criticize myself harshly but instead acknowledge my progress with kindness.
+همچنین راهکارهای کاربردی مختلفی برای مدیریت استرس و اضطراب یاد گرفتم که تأثیر واقعی و قابل‌توجهی بر زندگی روزمره‌ام داشته‌اند.
 
-I also developed practical tools to manage stress and anxiety, which have made a real difference in my daily life.
+این تجربه به من وضوح فکری، اعتمادبه‌نفس و شجاعت لازم برای مواجهه مستقیم با چالش‌های زندگی را بخشیده است.
 
-This experience has given me clarity, confidence, and the courage to face life’s challenges head-on.
-
-I’m deeply grateful for the support and guidance I received. I never thought I could feel this empowered, but now, I truly believe in my ability to move forward.
+از حمایت و راهنمایی‌هایی که دریافت کردم عمیقاً سپاسگزارم. هرگز فکر نمی‌کردم بتوانم چنین احساس توانمندی‌ای داشته باشم، اما حالا واقعاً به توانایی خود برای ادامه مسیر و ساختن آینده‌ای بهتر باور دارم.

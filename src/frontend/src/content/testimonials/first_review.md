@@ -1,17 +1,17 @@
 ---
-title: "First Review"
+
+ title: "اولین نظر"
 ---
+سال‌ها با اضطراب دست‌وپنجه نرم می‌کردم و نمی‌دانستم چگونه احساساتم را مدیریت کنم یا دوباره کنترل افکارم را به دست بگیرم. پس از شروع روان‌درمانی در اینجا، بالاخره حمایت و راهنمایی لازم را برای مواجهه با چالش‌هایم پیدا کردم.
 
-I had been struggling with anxiety for years, unsure of how to manage my emotions or regain control over my thoughts. After starting therapy here, I finally found the support and guidance I needed to navigate my challenges.
+از همان جلسه اول احساس کردم که حرف‌هایم شنیده و درک می‌شوند. رویکرد همدلانه و حرفه‌ای باعث شد بتوانم بدون ترس از قضاوت، به‌راحتی درباره نگرانی‌ها و دغدغه‌هایم صحبت کنم.
 
-From the very first session, I felt heard and understood. The compassionate and professional approach made it easy for me to open up about my concerns without fear of judgment.
+هر جلسه بینش‌های تازه و تکنیک‌های کاربردی جدیدی در اختیارم قرار داد تا بتوانم استرس و اضطرابم را مؤثرتر مدیریت کنم. راهکارهایی که یاد گرفتم واقعاً شیوه مواجهه من با مشکلات و دشواری‌های زندگی را تغییر داده‌اند.
 
-Each session provided me with new insights and practical techniques to handle stress and anxiety more effectively. The strategies I learned have truly transformed the way I approach life’s difficulties.
+چیزی که بیش از همه برایم ارزشمند است، فضای امن و صمیمی جلسات است. همیشه احساس می‌کردم تشویق می‌شوم احساساتم را با آرامش و در زمان مناسب خودم بررسی کنم و هیچ‌گاه تحت فشار یا عجله قرار نمی‌گرفتم.
 
-What I appreciate the most is the safe and welcoming environment. I always felt encouraged to explore my emotions at my own pace, never pressured or rushed.
+پیشرفتی که به دست آورده‌ام فوق‌العاده بوده است. اعتمادبه‌نفسم بیشتر شده، یاد گرفته‌ام مرزهای سالمی در روابط خود تعیین کنم و نگرش مثبت‌تری نسبت به زندگی پیدا کرده‌ام.
 
-The progress I’ve made has been incredible. I’ve gained confidence, learned how to set healthy boundaries, and developed a more positive mindset.
+هرگز تصور نمی‌کردم بتوانم چنین احساسی داشته باشم؛ احساس کنترل بیشتر بر زندگی، آرامش و امیدواری نسبت به آینده.
 
-I never imagined I could feel this way—more in control, peaceful, and optimistic about the future.
-
-Seeking help was the best decision I’ve ever made, and I’m grateful for the support that has helped me move forward.
+کمک گرفتن یکی از بهترین تصمیم‌هایی بود که در زندگی‌ام گرفته‌ام و بابت حمایتی که به من کمک کرد به مسیرم ادامه دهم، بسیار سپاسگزارم.

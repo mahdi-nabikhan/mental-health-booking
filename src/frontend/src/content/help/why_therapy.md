@@ -1,13 +1,13 @@
 ---
-title: "Why Therapy"
+
+ title: "چرا روان‌درمانی؟"
 ---
+روان‌درمانی فضایی امن و بدون قضاوت فراهم می‌کند تا بتوانید افکار، احساسات و چالش‌های خود را بررسی کنید. این فرصتی است برای اینکه خودتان را بهتر بشناسید و راه‌هایی برای مواجهه با پیچیدگی‌های زندگی پیدا کنید.
 
-Therapy provides a safe, non-judgmental space where you can explore your thoughts, feelings, and challenges. It's an opportunity to understand yourself better and find ways to navigate life's complexities.
+مراجعه به روان‌درمانی به شما کمک می‌کند خودآگاهی عمیق‌تری پیدا کنید. همچنین این امکان را فراهم می‌کند که الگوها و رفتارهایی را که ممکن است مانع پیشرفت شما باشند، بهتر بشناسید و درک کنید.
 
-Attending therapy helps you build a stronger sense of self-awareness. It allows you to gain insight into the patterns and behaviors that may be holding you back.
+گاهی بدون اینکه متوجه باشیم، بارهای عاطفی گذشته را با خود حمل می‌کنیم و این تجربیات بر زندگی روزمره ما تأثیر می‌گذارند. روان‌درمانی به شما کمک می‌کند تجربیات گذشته را پردازش کنید، با آن‌ها به شیوه‌ای سالم‌تر مواجه شوید و با اطمینان بیشتری به مسیر زندگی خود ادامه دهید.
 
-Sometimes, we carry emotional baggage that influences our daily lives without realizing it. Therapy helps you process and heal past experiences so you can move forward with confidence.
+روان‌درمانی فقط برای افرادی نیست که در شرایط بحرانی قرار دارند. هر فردی که به دنبال رشد شخصی، افزایش عزت‌نفس یا ایجاد روابط رضایت‌بخش‌تر است، می‌تواند از آن بهره‌مند شود. روان‌درمانی می‌تواند به شما کمک کند راهکارهای سالم‌تری برای مقابله با مشکلات پیدا کنید و استرس را بهتر مدیریت کنید.
 
-Therapy isn't just for those in crisis. It’s for anyone seeking personal growth, greater self-esteem, or more fulfilling relationships. It can help you develop healthier coping strategies and better manage stress.
-
-Ultimately, therapy is about taking control of your mental health. It’s an investment in your well-being, helping you lead a more balanced and meaningful life.
+در نهایت، روان‌درمانی به معنای به دست گرفتن کنترل سلامت روان و توجه آگاهانه به آن است. این کار سرمایه‌گذاری روی سلامت و کیفیت زندگی شماست و می‌تواند به شما کمک کند زندگی متعادل‌تر، آرام‌تر و معنادارتری داشته باشید.

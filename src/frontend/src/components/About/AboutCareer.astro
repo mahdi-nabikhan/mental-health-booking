@@ -1,9 +1,12 @@
+
 ---
 import { myInfo } from '@data/myInfo'
 import { getEntry, render } from 'astro:content'
 import type { CollectionEntry } from 'astro:content'
 
-const aboutLanding: CollectionEntry<"about"> | undefined = await getEntry("about", "career")
+const aboutLanding: CollectionEntry<"about"> | undefined =
+  await getEntry("about", "career")
+
 if (!aboutLanding) {
   throw new Error('Could not find about\'s "career" text')
 }
@@ -11,7 +14,7 @@ if (!aboutLanding) {
 const { Content } = await render(aboutLanding)
 const { fullName } = myInfo
 
-const title: string = "My Professional Career"
+const title: string = "سوابق حرفه‌ای من"
 ---
 
 <section
@@ -29,17 +32,21 @@ const title: string = "My Professional Career"
         src="/images/about-img-2.webp"
         loading="lazy"
         class="figure-img img-fluid rounded"
-        alt={`${fullName} listening to two patients`}
+        alt={`${fullName} در حال گوش دادن به صحبت‌های دو بیمار`}
         title={fullName}
       >
     </figure>
   </div>
+
   <div
     class="intro-article col-sm-10 col-md-9 col-lg-8 col-xl-8"
     data-aos="fade-left"
     data-aos-duration="1250"
   >
-    <h2 id="career-title" class="my-5 mt-2">{title}</h2>
+    <h2 id="career-title" class="my-5 mt-2">
+      {title}
+    </h2>
+
     <Content />
   </div>
 </section>

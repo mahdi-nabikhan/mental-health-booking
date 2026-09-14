@@ -1,15 +1,16 @@
 ---
-title: "My Approach"
+
+title: "رویکرد من"
 ---
 
-Every individual is unique, and so is the path to healing. My approach is rooted in understanding, adaptability, and evidence-based techniques that help clients navigate their personal challenges with confidence and clarity.
+هر فردی منحصربه‌فرد است و مسیر بهبود و رشد نیز برای هر شخص متفاوت است. رویکرد من بر پایه درک متقابل، انعطاف‌پذیری و استفاده از تکنیک‌های مبتنی بر شواهد علمی شکل گرفته است؛ روش‌هایی که به مراجعان کمک می‌کنند با اطمینان و آگاهی بیشتری با چالش‌های شخصی خود مواجه شوند.
 
-I believe therapy should be a collaborative process where you feel heard, respected, and empowered. By fostering a safe and supportive space, I encourage open conversations that lead to self-awareness, emotional growth, and lasting change.
+من معتقدم روان‌درمانی باید فرایندی مشارکتی باشد؛ فرایندی که در آن احساس کنید شنیده می‌شوید، مورد احترام قرار می‌گیرید و برای ایجاد تغییر در زندگی خود توانمند می‌شوید. با ایجاد فضایی امن و حمایتگر، شما را به گفت‌وگوهای صمیمانه و سازنده تشویق می‌کنم؛ گفت‌وگوهایی که به خودآگاهی، رشد عاطفی و ایجاد تغییرات پایدار منجر می‌شوند.
 
-Using a blend of cognitive-behavioral strategies, mindfulness techniques, and solution-focused methods, I tailor each session to your specific needs. My goal is not only to help you overcome obstacles but also to equip you with the tools to navigate life’s challenges independently.
+با ترکیب راهکارهای شناختی‌رفتاری، تکنیک‌های ذهن‌آگاهی و روش‌های متمرکز بر راه‌حل، هر جلسه را متناسب با نیازهای خاص شما تنظیم می‌کنم. هدف من تنها کمک به شما برای غلبه بر موانع نیست؛ بلکه می‌خواهم ابزارهایی در اختیارتان قرار دهم تا بتوانید چالش‌های زندگی را با استقلال و توانمندی بیشتری مدیریت کنید.
 
-Healing is a journey, not a destination. Together, we will uncover patterns, reshape limiting beliefs, and strengthen your inner resilience.
+بهبود و رشد یک مسیر است، نه یک مقصد. در کنار یکدیگر، الگوهای فکری و رفتاری را شناسایی می‌کنیم، باورهای محدودکننده را بازنگری می‌کنیم و توانمندی و تاب‌آوری درونی شما را تقویت می‌کنیم.
 
-I emphasize practical steps that lead to meaningful transformation. Progress happens when insight meets action, and I am here to guide you through both.
+من بر گام‌های عملی و قابل اجرا تأکید دارم؛ گام‌هایی که به تغییرات واقعی و معنادار منجر می‌شوند. پیشرفت زمانی اتفاق می‌افتد که شناخت و آگاهی با عمل همراه شود و من اینجا هستم تا در هر دو مسیر شما را همراهی و راهنمایی کنم.
 
-No matter where you are in your journey, change is possible. The first step starts here.
+مهم نیست اکنون در کجای مسیر زندگی خود قرار دارید؛ تغییر امکان‌پذیر است. اولین قدم از همین‌جا آغاز می‌شود.

@@ -1,174 +1,252 @@
 ---
+const currentPath = Astro.url.pathname;
 ---
 
-<header class="therapist-topbar">
-    <div class="topbar-left">
-        <button
-            id="mobile-menu-button"
-            class="mobile-menu-button"
-            aria-label="Open menu"
+<aside class="therapist-sidebar">
+    <div class="sidebar-brand">
+        <a href="/therapist">
+            <span class="brand-icon">
+                <i class="fa-solid fa-brain"></i>
+            </span>
+            <span class="brand-text">تراپی</span>
+        </a>
+    </div>
+
+    <nav class="sidebar-nav">
+        <p class="nav-section-title">اصلی</p>
+
+        <a
+            href="/therapist"
+            class:list={[
+                "nav-item",
+                { active: currentPath === "/therapist" }
+            ]}
         >
-            <i class="fa-solid fa-bars"></i>
+            <i class="fa-solid fa-chart-line"></i>
+            <span>داشبورد</span>
+        </a>
+
+        <a
+            href="/therapist/patients"
+            class:list={[
+                "nav-item",
+                { active: currentPath.startsWith("/therapist/patients") }
+            ]}
+        >
+            <i class="fa-solid fa-users"></i>
+            <span>بیماران</span>
+        </a>
+
+        <a
+            href="/therapist/appointments"
+            class:list={[
+                "nav-item",
+                { active: currentPath.startsWith("/therapist/appointments") }
+            ]}
+        >
+            <i class="fa-solid fa-calendar-check"></i>
+            <span>نوبت‌ها</span>
+        </a>
+
+        <a
+            href="/therapist/slots"
+            class:list={[
+                "nav-item",
+                { active: currentPath.startsWith("/therapist/slots") }
+            ]}
+        >
+            <i class="fa-solid fa-calendar-plus"></i>
+            <span>زمان‌های موجود</span>
+        </a>
+
+        <p class="nav-section-title">حساب کاربری</p>
+
+        <a
+            href="/therapist/profile"
+            class:list={[
+                "nav-item",
+                { active: currentPath.startsWith("/therapist/profile") }
+            ]}
+        >
+            <i class="fa-solid fa-user-doctor"></i>
+            <span>پروفایل</span>
+        </a>
+
+        <a
+            href="/therapist/settings"
+            class:list={[
+                "nav-item",
+                { active: currentPath.startsWith("/therapist/settings") }
+            ]}
+        >
+            <i class="fa-solid fa-gear"></i>
+            <span>تنظیمات</span>
+        </a>
+    </nav>
+
+    <div class="sidebar-footer">
+        <button id="logout-button" class="logout-button">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>خروج</span>
         </button>
-
-        <div>
-            <p class="page-label">Therapist Panel</p>
-            <h1>Dashboard</h1>
-        </div>
     </div>
-
-    <div class="topbar-right">
-        <button class="notification-button" aria-label="Notifications">
-            <i class="fa-regular fa-bell"></i>
-            <span class="notification-dot"></span>
-        </button>
-
-        <div class="therapist-profile">
-            <div class="profile-avatar">
-                <i class="fa-solid fa-user-doctor"></i>
-            </div>
-
-            <div class="profile-info">
-                <strong>Therapist</strong>
-                <span>Professional Account</span>
-            </div>
-
-            <i class="fa-solid fa-chevron-down profile-arrow"></i>
-        </div>
-    </div>
-</header>
+</aside>
 
 <script>
-    const mobileMenuButton =
-        document.querySelector<HTMLButtonElement>("#mobile-menu-button");
+    const logoutButton =
+        document.querySelector<HTMLButtonElement>("#logout-button");
 
-    const sidebar =
-        document.querySelector<HTMLElement>(".therapist-sidebar");
-
-    mobileMenuButton?.addEventListener("click", () => {
-        sidebar?.classList.toggle("mobile-open");
+    logoutButton?.addEventListener("click", async () => {
+        /*
+         * Logout endpoint will be added later.
+         * For now redirect to login.
+         */
+        window.location.href = "/login";
     });
 </script>
 
 <style>
-    .therapist-topbar {
-        height: 80px;
-        padding: 0 30px;
+    .therapist-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 250px;
+        height: 100vh;
         background: #ffffff;
+        border-right: 1px solid #eeeeee;
+        display: flex;
+        flex-direction: column;
+        z-index: 1000;
+    }
+
+    .sidebar-brand {
+        height: 80px;
+        display: flex;
+        align-items: center;
+        padding: 0 25px;
         border-bottom: 1px solid #eeeeee;
+    }
+
+    .sidebar-brand a {
         display: flex;
         align-items: center;
-        justify-content: space-between;
-    }
-
-    .topbar-left,
-    .topbar-right {
-        display: flex;
-        align-items: center;
-    }
-
-    .topbar-left {
-        gap: 15px;
-    }
-
-    .page-label {
-        margin: 0 0 2px;
-        color: #999999;
-        font-size: 11px;
-    }
-
-    .topbar-left h1 {
-        margin: 0;
+        gap: 12px;
+        text-decoration: none;
         color: #222222;
-        font-size: 22px;
+        font-size: 21px;
         font-weight: 600;
     }
 
-    .mobile-menu-button {
-        display: none;
-        border: 0;
-        background: transparent;
-        font-size: 20px;
-        cursor: pointer;
-    }
-
-    .topbar-right {
-        gap: 22px;
-    }
-
-    .notification-button {
-        position: relative;
-        width: 40px;
-        height: 40px;
-        border: 1px solid #eeeeee;
-        border-radius: 50%;
-        background: #ffffff;
-        color: #555555;
-        cursor: pointer;
-    }
-
-    .notification-dot {
-        position: absolute;
-        top: 7px;
-        right: 7px;
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: #222222;
-    }
-
-    .therapist-profile {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        cursor: pointer;
-    }
-
-    .profile-avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: #f2f2f2;
+    .brand-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #555555;
+        background: #222222;
+        color: #ffffff;
+        font-size: 17px;
     }
 
-    .profile-info {
-        display: flex;
-        flex-direction: column;
+    .sidebar-nav {
+        flex: 1;
+        padding: 25px 15px;
+        overflow-y: auto;
     }
 
-    .profile-info strong {
-        color: #222222;
-        font-size: 13px;
-        font-weight: 600;
-    }
-
-    .profile-info span {
-        color: #999999;
-        font-size: 11px;
-    }
-
-    .profile-arrow {
-        margin-left: 5px;
+    .nav-section-title {
+        margin: 15px 12px 10px;
         color: #999999;
         font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+
+    .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        padding: 12px 14px;
+        margin-bottom: 5px;
+        border-radius: 8px;
+        color: #666666;
+        text-decoration: none;
+        font-size: 14px;
+        transition: 0.2s ease;
+    }
+
+    .nav-item i {
+        width: 18px;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .nav-item:hover {
+        background: #f5f5f5;
+        color: #222222;
+    }
+
+    .nav-item.active {
+        background: #222222;
+        color: #ffffff;
+    }
+
+    .sidebar-footer {
+        padding: 15px;
+        border-top: 1px solid #eeeeee;
+    }
+
+    .logout-button {
+        width: 100%;
+        border: 0;
+        background: transparent;
+        color: #777777;
+        padding: 12px 14px;
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        text-align: left;
+    }
+
+    .logout-button:hover {
+        background: #f5f5f5;
+        color: #222222;
     }
 
     @media (max-width: 768px) {
-        .therapist-topbar {
-            padding: 0 20px;
+        .therapist-sidebar {
+            width: 70px;
         }
 
-        .mobile-menu-button {
-            display: block;
+        .sidebar-brand {
+            justify-content: center;
+            padding: 0;
         }
 
-        .profile-info,
-        .profile-arrow {
+        .brand-text,
+        .nav-item span,
+        .nav-section-title,
+        .logout-button span {
             display: none;
+        }
+
+        .sidebar-brand a {
+            gap: 0;
+        }
+
+        .nav-item,
+        .logout-button {
+            justify-content: center;
+            padding: 13px;
+        }
+
+        .nav-item i,
+        .logout-button i {
+            width: auto;
         }
     }
 </style>

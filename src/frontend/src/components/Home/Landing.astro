@@ -24,44 +24,49 @@ const { fullName, myProf } = myInfo
         src="/images/profile.webp"
         loading="lazy"
         class="figure-img img-fluid rounded"
-        alt={`${fullName} smiling gracefully`}
+        alt={`${fullName} با لبخندی دلنشین`}
         title={fullName}
         aria-describedby="profile-caption"
       >
       <figcaption class="figure-caption text-center fs-5" id="profile-caption">
-        Certified {myProf}<br> & Life Coach
+        {myProf} دارای گواهینامه<br> و مربی رشد فردی
       </figcaption>
     </figure>
   </div>
+
   <div
     class="intro-article col-sm-10 col-md-9 col-lg-8 col-xl-6"
     data-aos="fade-left"
     data-aos-duration="1500"
   >
-    <p class="my-0">Be more than welcome</p>
+    <p class="my-0">به شما خوش‌آمد می‌گویم</p>
+
     <h2 class="my-5 mt-2" id="landing-title">
-      My name is {fullName}, and I am a Certified {myProf}.
+      من {fullName} هستم، روان‌درمانگر دارای گواهینامه {myProf}.
     </h2>
+
     <article>
       <Content />
     </article>
+
     <!--- * BUTTONS * --->
     <div class="landing-btns d-flex flex-column flex-sm-row justify-content-evenly pt-4">
       <a
         class="landing-btn btn contact-btn mb-3 mb-sm-0"
         href="/contact"
-        title="Go to Contact page"
-        aria-label="Schedule a consultation"
+        title="رفتن به صفحه تماس"
+        aria-label="رزرو جلسه مشاوره"
       >
-        Consultation
+        مشاوره
       </a>
+
       <a
         class="landing-btn btn about-btn"
         href="/about"
-        title="Go to About page"
-        aria-label=`Learn more about ${fullName}`
+        title="رفتن به صفحه درباره من"
+        aria-label=`اطلاعات بیشتر درباره ${fullName}`
       >
-        More about me
+        بیشتر درباره من
       </a>
     </div>
   </div>

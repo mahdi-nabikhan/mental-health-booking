@@ -1,15 +1,17 @@
 ---
-title: "My Career"
+
+ title: "مسیر حرفه‌ای من"
+
 ---
 
-I have always been passionate about helping others live fulfilling lives. Over the years, I’ve gained a wealth of experience working as a Certified Psychotherapist and Life Coach, guiding individuals through life’s most difficult challenges.
+همیشه به کمک کردن به دیگران برای داشتن زندگی رضایت‌بخش و معنادار علاقه‌مند بوده‌ام. در طول سال‌های فعالیت حرفه‌ای، تجربه ارزشمندی در زمینه روان‌درمانی و مربیگری رشد فردی به دست آورده‌ام و افراد را در مواجهه با دشوارترین چالش‌های زندگی همراهی کرده‌ام.
 
-I hold a degree in psychology and have specialized training in cognitive-behavioral therapy (CBT), mindfulness, and solution-focused coaching. I continue to stay current with the latest therapeutic techniques and research to provide the best possible care to my clients.
+من دارای مدرک روان‌شناسی هستم و آموزش‌های تخصصی در زمینه درمان شناختی‌رفتاری (CBT)، ذهن‌آگاهی و کوچینگ متمرکز بر راه‌حل گذرانده‌ام. همچنین همواره دانش و مهارت‌های خود را با جدیدترین روش‌های درمانی و یافته‌های پژوهشی به‌روز نگه می‌دارم تا بهترین خدمات ممکن را به مراجعانم ارائه دهم.
 
-Throughout my career, I’ve worked with individuals facing a variety of struggles—anxiety, depression, self-esteem issues, relationship difficulties, and life transitions. My goal has always been to empower my clients to break through barriers and create lasting, positive change.
+در طول مسیر حرفه‌ای خود، با افرادی مواجه شده‌ام که با چالش‌های مختلفی مانند اضطراب، افسردگی، مشکلات عزت‌نفس، دشواری‌های روابط عاطفی و تغییرات مهم زندگی دست‌وپنجه نرم می‌کردند. هدف من همیشه این بوده است که به مراجعانم کمک کنم موانع را پشت سر بگذارند و تغییراتی مثبت و پایدار در زندگی خود ایجاد کنند.
 
-I bring a warm, empathetic approach to every session, focused on building a trusting, non-judgmental space where clients feel safe to explore their deepest concerns.
+در هر جلسه، رویکردی گرم و همدلانه دارم و تلاش می‌کنم فضایی امن، قابل اعتماد و بدون قضاوت ایجاد کنم؛ فضایی که در آن مراجعان بتوانند با آرامش درباره عمیق‌ترین دغدغه‌های خود صحبت کنند.
 
-Beyond my formal training, I am constantly learning and growing as a professional, striving to offer innovative, effective approaches.
+فراتر از آموزش‌های رسمی، همواره در حال یادگیری و رشد حرفه‌ای هستم و تلاش می‌کنم روش‌هایی نوآورانه و مؤثر را برای کمک به مراجعانم به کار بگیرم.
 
-My commitment to continuous self-improvement ensures that I offer the highest level of care and guidance.
+تعهد من به یادگیری و بهبود مستمر باعث می‌شود همواره تلاش کنم بالاترین سطح مراقبت، همراهی و راهنمایی را به مراجعانم ارائه کنم.

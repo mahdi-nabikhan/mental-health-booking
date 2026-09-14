@@ -11,7 +11,7 @@ const { Content } = await render(contactLanding)
 import { myInfo } from "src/data/myInfo"
 const { email, phone, onlineTreating, officeAddress } = myInfo
 
-const title: string = "Virtually or In-Person"
+const title: string = "مشاوره آنلاین یا حضوری"
 ---
 
 <h2
@@ -30,36 +30,37 @@ const title: string = "Virtually or In-Person"
   <div class="container col-12 col-lg-6 px-lg-4 my-3">
     <ul
       class="contact-info-list"
-      aria-label="Contact details"
+      aria-label="اطلاعات تماس"
       data-aos="fade-right"
       data-aos-duration="1250"
     >
       <li>
         <i class="fa-solid fa-envelope" aria-hidden="true"></i>
-        Email
+        ایمیل
         <p>{email}</p>
       </li>
       <li>
         <i class="fa-solid fa-phone" aria-hidden="true"></i>
-        Phone
+        تلفن
         <p>{phone}</p>
       </li>
       <li>
         <i class="fa-solid fa-globe" aria-hidden="true"></i>
-        Online Treating
+        مشاوره آنلاین
         <p>{onlineTreating}</p>
       </li>
       <li>
         <i class="fa-solid fa-couch" aria-hidden="true"></i>
-        In Person
+        مشاوره حضوری
         <p>{officeAddress}</p>
       </li>
     </ul>
   </div>
+
   <!--- Second block --->
   <article
     class="container col-12 col-lg-6 px-lg-4 my-3"
-    aria-label="Additional contact information"
+    aria-label="اطلاعات تماس تکمیلی"
     data-aos="fade-left"
     data-aos-duration="1250"
   >

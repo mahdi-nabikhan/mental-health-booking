@@ -9,50 +9,54 @@ const isActive = (path: string) => currentPath === path ? "nav-link active" : "n
   <nav class="navbar navbar-expand-lg" id="navigation">
     <div class="container-fluid justify-content-center">
       <div id="navbarNav w-100">
-        <ul class="navbar-nav footbar" aria-label="Navigation menu">
+        <ul class="navbar-nav footbar" aria-label="منوی ناوبری">
           <li class="nav-item">
             <a
               class={`text-center ${isActive("/")}`}
               href="/"
-              title="Go to Home page"
-              aria-label="Go to Home page"
+              title="رفتن به صفحه اصلی"
+              aria-label="رفتن به صفحه اصلی"
             >
-              Home
+              خانه
             </a>
           </li>
+
           <li class="nav-item">
             <a
               class={`text-center ${isActive("/about")}`}
               href="/about"
-              title="Go to About page"
-              aria-label="Go to About page"
+              title="رفتن به صفحه درباره من"
+              aria-label="رفتن به صفحه درباره من"
             >
-              About
+              درباره من
             </a>
           </li>
+
           <li class="nav-item">
             <a
               class={`text-center ${isActive("/help")}`}
               href="/help"
-              title="Go to Seek Help page"
-              aria-label="Go to Seek Help page"
+              title="رفتن به صفحه دریافت کمک"
+              aria-label="رفتن به صفحه دریافت کمک"
             >
-              Seek Help
+              دریافت کمک
             </a>
           </li>
+
           <li class="nav-item">
             <a
               class={`text-center ${isActive("/contact")}`}
               href="/contact"
-              title="Go to Contact page"
-              aria-label="Go to Contact page"
+              title="رفتن به صفحه تماس"
+              aria-label="رفتن به صفحه تماس"
             >
-              Contact
+              تماس با من
             </a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
+
   <DevSignature />
 </footer>

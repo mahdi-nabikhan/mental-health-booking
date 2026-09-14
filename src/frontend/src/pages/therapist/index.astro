@@ -4,48 +4,48 @@ import StatCard from "../../components/Dashboard/StatCard.astro";
 import AppointmentTable from "../../components/Dashboard/AppointmentTable.astro";
 ---
 
-<TherapistLayout title="Therapist Dashboard">
+<TherapistLayout title="داشبورد روان‌درمانگر">
     <div class="dashboard">
         <div class="welcome-section">
             <div>
-                <h2>Welcome back, Therapist</h2>
+                <h2>خوش آمدید، روان‌درمانگر</h2>
                 <p>
-                    Here's what's happening with your practice today.
+                    در اینجا می‌توانید وضعیت فعالیت‌های امروز خود را مشاهده کنید.
                 </p>
             </div>
 
             <a href="/therapist/slots" class="create-slot-button">
                 <i class="fa-solid fa-plus"></i>
-                Create Available Slot
+                ایجاد زمان آزاد
             </a>
         </div>
 
         <section class="stats-grid">
             <StatCard
-                title="Total Patients"
+                title="مجموع بیماران"
                 value="24"
-                description="Active patients"
+                description="بیماران فعال"
                 icon="fa-solid fa-users"
             />
 
             <StatCard
-                title="Today's Sessions"
+                title="جلسات امروز"
                 value="3"
-                description="Appointments today"
+                description="نوبت‌های امروز"
                 icon="fa-solid fa-calendar-day"
             />
 
             <StatCard
-                title="Upcoming"
+                title="نوبت‌های پیش‌رو"
                 value="8"
-                description="Scheduled appointments"
+                description="نوبت‌های برنامه‌ریزی‌شده"
                 icon="fa-solid fa-calendar-check"
             />
 
             <StatCard
-                title="Available Slots"
+                title="زمان‌های آزاد"
                 value="12"
-                description="Open appointment slots"
+                description="زمان‌های قابل رزرو"
                 icon="fa-solid fa-clock"
             />
         </section>
@@ -55,7 +55,7 @@ import AppointmentTable from "../../components/Dashboard/AppointmentTable.astro"
         </section>
 
         <section class="quick-actions">
-            <h2>Quick Actions</h2>
+            <h2>دسترسی سریع</h2>
 
             <div class="actions-grid">
                 <a href="/therapist/slots" class="action-card">
@@ -64,8 +64,8 @@ import AppointmentTable from "../../components/Dashboard/AppointmentTable.astro"
                     </div>
 
                     <div>
-                        <strong>Create Slot</strong>
-                        <span>Add a new available appointment time</span>
+                        <strong>ایجاد زمان آزاد</strong>
+                        <span>افزودن زمان جدید برای رزرو نوبت</span>
                     </div>
 
                     <i class="fa-solid fa-chevron-right arrow"></i>
@@ -77,8 +77,8 @@ import AppointmentTable from "../../components/Dashboard/AppointmentTable.astro"
                     </div>
 
                     <div>
-                        <strong>View Patients</strong>
-                        <span>Manage your patients</span>
+                        <strong>مشاهده بیماران</strong>
+                        <span>بیماران خود را مدیریت کنید</span>
                     </div>
 
                     <i class="fa-solid fa-chevron-right arrow"></i>
@@ -90,8 +90,8 @@ import AppointmentTable from "../../components/Dashboard/AppointmentTable.astro"
                     </div>
 
                     <div>
-                        <strong>Appointments</strong>
-                        <span>View your appointment schedule</span>
+                        <strong>نوبت‌ها</strong>
+                        <span>برنامه نوبت‌های خود را مشاهده کنید</span>
                     </div>
 
                     <i class="fa-solid fa-chevron-right arrow"></i>
@@ -103,129 +103,144 @@ import AppointmentTable from "../../components/Dashboard/AppointmentTable.astro"
 
 <style>
     .dashboard {
-        max-width: 1400px;
-        margin: 0 auto;
+        width: 100%;
     }
 
     .welcome-section {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 20px;
-        margin-bottom: 30px;
+        gap: 24px;
+        margin-bottom: 32px;
+        padding: 28px 32px;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
     }
 
     .welcome-section h2 {
-        margin: 0 0 7px;
-        color: #222222;
-        font-size: 24px;
-        font-weight: 600;
+        margin: 0 0 8px;
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: #222;
     }
 
     .welcome-section p {
         margin: 0;
-        color: #888888;
-        font-size: 13px;
+        color: #777;
+        font-size: 0.95rem;
     }
 
     .create-slot-button {
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        padding: 11px 16px;
-        background: #222222;
-        color: #ffffff;
-        border-radius: 8px;
+        padding: 12px 20px;
+        border-radius: 10px;
+        background: #222;
+        color: #fff;
         text-decoration: none;
-        font-size: 12px;
+        font-size: 0.9rem;
         font-weight: 600;
         white-space: nowrap;
         transition: 0.2s ease;
     }
 
     .create-slot-button:hover {
-        background: #444444;
+        opacity: 0.88;
+        color: #fff;
     }
 
     .stats-grid {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 18px;
-        margin-bottom: 25px;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 20px;
+        margin-bottom: 32px;
     }
 
     .dashboard-section {
-        margin-bottom: 25px;
+        margin-bottom: 32px;
+        padding: 24px;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        overflow-x: auto;
+    }
+
+    .quick-actions {
+        margin-bottom: 32px;
     }
 
     .quick-actions h2 {
-        margin: 0 0 15px;
-        color: #222222;
-        font-size: 17px;
-        font-weight: 600;
+        margin: 0 0 18px;
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #222;
     }
 
     .actions-grid {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 15px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
     }
 
     .action-card {
-        background: #ffffff;
-        border: 1px solid #eeeeee;
-        border-radius: 12px;
-        padding: 18px;
         display: flex;
         align-items: center;
-        gap: 13px;
+        gap: 14px;
+        padding: 20px;
+        background: #fff;
+        border-radius: 14px;
+        color: #222;
         text-decoration: none;
-        transition: 0.2s ease;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .action-card:hover {
-        border-color: #cccccc;
-        transform: translateY(-1px);
+        color: #222;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
     }
 
     .action-icon {
-        width: 42px;
-        height: 42px;
-        flex-shrink: 0;
-        border-radius: 9px;
-        background: #f3f3f3;
-        color: #333333;
+        width: 46px;
+        height: 46px;
+        min-width: 46px;
         display: flex;
         align-items: center;
         justify-content: center;
+        border-radius: 12px;
+        background: #f3f3f3;
+        font-size: 18px;
     }
 
     .action-card > div:nth-child(2) {
         display: flex;
         flex-direction: column;
-        gap: 4px;
+        gap: 5px;
+        flex: 1;
     }
 
     .action-card strong {
-        color: #333333;
-        font-size: 13px;
+        font-size: 0.95rem;
+        font-weight: 700;
     }
 
     .action-card span {
-        color: #999999;
-        font-size: 11px;
+        color: #777;
+        font-size: 0.8rem;
         line-height: 1.5;
     }
 
-    .arrow {
-        margin-left: auto;
-        color: #aaaaaa;
-        font-size: 10px;
+    .action-card .arrow {
+        color: #999;
+        font-size: 13px;
     }
 
-    @media (max-width: 1100px) {
+    @media (max-width: 992px) {
         .stats-grid {
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
         .actions-grid {
@@ -233,10 +248,11 @@ import AppointmentTable from "../../components/Dashboard/AppointmentTable.astro"
         }
     }
 
-    @media (max-width: 700px) {
+    @media (max-width: 768px) {
         .welcome-section {
-            align-items: flex-start;
             flex-direction: column;
+            align-items: flex-start;
+            padding: 24px;
         }
 
         .create-slot-button {
@@ -244,8 +260,22 @@ import AppointmentTable from "../../components/Dashboard/AppointmentTable.astro"
             justify-content: center;
         }
 
+        .dashboard-section {
+            padding: 18px;
+        }
+    }
+
+    @media (max-width: 576px) {
         .stats-grid {
             grid-template-columns: 1fr;
+        }
+
+        .welcome-section h2 {
+            font-size: 1.35rem;
+        }
+
+        .action-card {
+            padding: 16px;
         }
     }
 </style>

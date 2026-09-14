@@ -3,27 +3,27 @@ const currentPath = Astro.url.pathname;
 
 const menuItems = [
     {
-        label: "Dashboard",
+        label: "داشبورد",
         href: "/patient",
         icon: "fa-solid fa-house",
     },
     {
-        label: "Appointments",
+        label: "نوبت‌ها",
         href: "/patient/appointments",
         icon: "fa-solid fa-calendar-check",
     },
     {
-        label: "Available Slots",
+        label: "زمان‌های موجود",
         href: "/patient/slots",
         icon: "fa-solid fa-calendar-days",
     },
     {
-        label: "Profile",
+        label: "پروفایل",
         href: "/patient/profile",
         icon: "fa-solid fa-user",
     },
     {
-        label: "Settings",
+        label: "تنظیمات",
         href: "/patient/settings",
         icon: "fa-solid fa-gear",
     },
@@ -46,12 +46,12 @@ const isActive = (href: string) => {
 
         <div class="brand">
             <span class="brand-name">MindCare</span>
-            <span class="brand-role">Patient Panel</span>
+            <span class="brand-role">پنل بیمار</span>
         </div>
     </div>
 
     <nav class="sidebar-nav">
-        <p class="nav-title">MENU</p>
+        <p class="nav-title">منو</p>
 
         {menuItems.map((item) => (
             <a
@@ -67,7 +67,7 @@ const isActive = (href: string) => {
     <div class="sidebar-footer">
         <button id="patient-logout" class="logout-btn" type="button">
             <i class="fa-solid fa-right-from-bracket"></i>
-            <span>Logout</span>
+            <span>خروج</span>
         </button>
     </div>
 </aside>

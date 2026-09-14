@@ -1,11 +1,12 @@
 ---
-title: "Contact Info"
+
+title: "اطلاعات تماس"
 ---
 
-Looking to get in touch? We’re here to answer your questions and help you find the information you need. Whether you’re interested in our services, have specific inquiries, or just want to learn more, we’d love to hear from you.
+اگر قصد دارید با ما در ارتباط باشید، خوشحال می‌شویم به سؤالات شما پاسخ دهیم و اطلاعات موردنیازتان را در اختیارتان قرار دهیم. چه درباره خدمات ما سؤال داشته باشید، چه نیاز به اطلاعات بیشتری داشته باشید یا صرفاً بخواهید بیشتر با خدمات ما آشنا شوید، از شنیدن صدای شما خوشحال خواهیم شد.
 
-Feel free to reach out via email or phone, and we’ll get back to you as soon as possible. We strive to respond promptly and ensure clear communication.
+می‌توانید از طریق ایمیل یا تلفن با ما در ارتباط باشید و ما در سریع‌ترین زمان ممکن پاسخ شما را خواهیم داد. تلاش می‌کنیم در کوتاه‌ترین زمان پاسخگو باشیم و ارتباطی شفاف و مؤثر با شما داشته باشیم.
 
-If you prefer, you can also visit us in person. Our team is always happy to assist and provide guidance based on your needs.
+در صورت تمایل، می‌توانید به‌صورت حضوری نیز به ما مراجعه کنید. همیشه آماده‌ایم تا متناسب با نیازهای شما، راهنمایی و پشتیبانی لازم را ارائه دهیم.
 
-For additional details, check out our FAQ section or send us a message using the contact form below. We look forward to connecting with you!
+برای اطلاعات بیشتر می‌توانید به بخش سؤالات متداول مراجعه کنید یا از طریق فرم تماس زیر پیام خود را برای ما ارسال کنید. مشتاقانه منتظر ارتباط با شما هستیم.

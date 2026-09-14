@@ -1,219 +1,121 @@
-
 ---
+
 import PatientLayout from "../../layouts/PatientLayout.astro";
 
 const appointments = [
-    {
-        date: "Sep 15, 2026",
-        time: "10:00 AM",
-        therapist: "Dr. Sarah Johnson",
-        type: "Individual Session",
-        status: "scheduled",
-    },
-    {
-        date: "Sep 18, 2026",
-        time: "02:30 PM",
-        therapist: "Dr. Michael Brown",
-        type: "Consultation",
-        status: "scheduled",
-    },
-    {
-        date: "Sep 22, 2026",
-        time: "11:00 AM",
-        therapist: "Dr. Sarah Johnson",
-        type: "Follow-up",
-        status: "scheduled",
-    },
-    {
-        date: "Sep 05, 2026",
-        time: "04:00 PM",
-        therapist: "Dr. Sarah Johnson",
-        type: "Individual Session",
-        status: "completed",
-    },
-    {
-        date: "Aug 28, 2026",
-        time: "01:00 PM",
-        therapist: "Dr. Michael Brown",
-        type: "Consultation",
-        status: "completed",
-    },
-    {
-        date: "Aug 20, 2026",
-        time: "11:30 AM",
-        therapist: "Dr. Sarah Johnson",
-        type: "Follow-up",
-        status: "cancelled",
-    },
+{
+date: "۱۵ سپتامبر ۲۰۲۶",
+time: "۱۰:۰۰",
+therapist: "دکتر سارا جانسون",
+type: "جلسه فردی",
+status: "scheduled",
+},
+{
+date: "۱۸ سپتامبر ۲۰۲۶",
+time: "۱۴:۳۰",
+therapist: "دکتر مایکل براون",
+type: "جلسه مشاوره",
+status: "scheduled",
+},
+{
+date: "۲۲ سپتامبر ۲۰۲۶",
+time: "۱۱:۰۰",
+therapist: "دکتر سارا جانسون",
+type: "جلسه پیگیری",
+status: "scheduled",
+},
+{
+date: "۵ سپتامبر ۲۰۲۶",
+time: "۱۶:۰۰",
+therapist: "دکتر سارا جانسون",
+type: "جلسه فردی",
+status: "completed",
+},
+{
+date: "۲۸ آگوست ۲۰۲۶",
+time: "۱۳:۰۰",
+therapist: "دکتر مایکل براون",
+type: "جلسه مشاوره",
+status: "completed",
+},
+{
+date: "۲۰ آگوست ۲۰۲۶",
+time: "۱۱:۳۰",
+therapist: "دکتر سارا جانسون",
+type: "جلسه پیگیری",
+status: "cancelled",
+},
 ];
 
 const upcomingAppointments = appointments.filter(
-    (appointment) => appointment.status === "scheduled",
+(appointment) => appointment.status === "scheduled",
 );
 
 const pastAppointments = appointments.filter(
-    (appointment) =>
-        appointment.status === "completed" ||
-        appointment.status === "cancelled",
+(appointment) =>
+appointment.status === "completed" ||
+appointment.status === "cancelled",
 );
----
+--
 
-<PatientLayout title="My Appointments">
+<PatientLayout title="نوبت‌های من">
     <div class="appointments-page">
         <!-- Page Header -->
         <section class="page-header">
             <div>
-                <h2>My Appointments</h2>
+                <h2>نوبت‌های من</h2>
                 <p>
-                    View and manage your upcoming and previous appointments.
+                    نوبت‌های پیش‌رو و قبلی خود را مشاهده و مدیریت کنید.
                 </p>
             </div>
 
-            <a href="/patient/slots" class="primary-btn">
-                <i class="fa-solid fa-calendar-plus"></i>
-                Book Appointment
-            </a>
-        </section>
+```
+        <a href="/patient/slots" class="primary-btn">
+            <i class="fa-solid fa-calendar-plus"></i>
+            رزرو نوبت
+        </a>
+    </section>
 
-        <!-- Upcoming -->
-        <section class="appointments-section">
-            <div class="section-header">
-                <div>
-                    <h3>Upcoming Appointments</h3>
-                    <p>Your scheduled sessions</p>
-                </div>
-
-                <span class="count-badge">
-                    {upcomingAppointments.length}
-                </span>
+    <!-- Upcoming -->
+    <section class="appointments-section">
+        <div class="section-header">
+            <div>
+                <h3>نوبت‌های پیش‌رو</h3>
+                <p>جلسات برنامه‌ریزی‌شده شما</p>
             </div>
 
-            <div class="appointments-card">
-                {
-                    upcomingAppointments.length > 0 ? (
-                        <div class="table-wrapper">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Time</th>
-                                        <th>Therapist</th>
-                                        <th>Type</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
+            <span class="count-badge">
+                {upcomingAppointments.length}
+            </span>
+        </div>
 
-                                <tbody>
-                                    {upcomingAppointments.map(
-                                        (appointment) => (
-                                            <tr>
-                                                <td>
-                                                    {appointment.date}
-                                                </td>
+        <div class="appointments-card">
+            {
+                upcomingAppointments.length > 0 ? (
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>تاریخ</th>
+                                    <th>ساعت</th>
+                                    <th>روان‌درمانگر</th>
+                                    <th>نوع جلسه</th>
+                                    <th>وضعیت</th>
+                                    <th>عملیات</th>
+                                </tr>
+                            </thead>
 
-                                                <td>
-                                                    {appointment.time}
-                                                </td>
-
-                                                <td>
-                                                    <div class="therapist">
-                                                        <div class="therapist-avatar">
-                                                            <i class="fa-solid fa-user-doctor"></i>
-                                                        </div>
-
-                                                        <span>
-                                                            {
-                                                                appointment.therapist
-                                                            }
-                                                        </span>
-                                                    </div>
-                                                </td>
-
-                                                <td>
-                                                    {appointment.type}
-                                                </td>
-
-                                                <td>
-                                                    <span class="status scheduled">
-                                                        <span class="status-dot"></span>
-                                                        Scheduled
-                                                    </span>
-                                                </td>
-
-                                                <td>
-                                                    <button
-                                                        type="button"
-                                                        class="action-btn cancel-btn"
-                                                        data-action="cancel"
-                                                    >
-                                                        Cancel
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ),
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
-                    ) : (
-                        <div class="empty-state">
-                            <div class="empty-icon">
-                                <i class="fa-solid fa-calendar-xmark"></i>
-                            </div>
-
-                            <h4>No upcoming appointments</h4>
-
-                            <p>
-                                You don't have any scheduled appointments.
-                            </p>
-
-                            <a
-                                href="/patient/slots"
-                                class="secondary-btn"
-                            >
-                                Find Available Slots
-                            </a>
-                        </div>
-                    )
-                }
-            </div>
-        </section>
-
-        <!-- Appointment History -->
-        <section class="appointments-section">
-            <div class="section-header">
-                <div>
-                    <h3>Appointment History</h3>
-                    <p>Your completed and cancelled sessions</p>
-                </div>
-
-                <span class="count-badge">
-                    {pastAppointments.length}
-                </span>
-            </div>
-
-            <div class="appointments-card">
-                {
-                    pastAppointments.length > 0 ? (
-                        <div class="table-wrapper">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Time</th>
-                                        <th>Therapist</th>
-                                        <th>Type</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    {pastAppointments.map((appointment) => (
+                            <tbody>
+                                {upcomingAppointments.map(
+                                    (appointment) => (
                                         <tr>
-                                            <td>{appointment.date}</td>
+                                            <td>
+                                                {appointment.date}
+                                            </td>
 
-                                            <td>{appointment.time}</td>
+                                            <td>
+                                                {appointment.time}
+                                            </td>
 
                                             <td>
                                                 <div class="therapist">
@@ -229,47 +131,147 @@ const pastAppointments = appointments.filter(
                                                 </div>
                                             </td>
 
-                                            <td>{appointment.type}</td>
+                                            <td>
+                                                {appointment.type}
+                                            </td>
 
                                             <td>
-                                                {
-                                                    appointment.status ===
-                                                    "completed" ? (
-                                                        <span class="status completed">
-                                                            <span class="status-dot"></span>
-                                                            Completed
-                                                        </span>
-                                                    ) : (
-                                                        <span class="status cancelled">
-                                                            <span class="status-dot"></span>
-                                                            Cancelled
-                                                        </span>
-                                                    )
-                                                }
+                                                <span class="status scheduled">
+                                                    <span class="status-dot"></span>
+                                                    برنامه‌ریزی‌شده
+                                                </span>
+                                            </td>
+
+                                            <td>
+                                                <button
+                                                    type="button"
+                                                    class="action-btn cancel-btn"
+                                                    data-action="cancel"
+                                                >
+                                                    لغو نوبت
+                                                </button>
                                             </td>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    ),
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                ) : (
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fa-solid fa-calendar-xmark"></i>
                         </div>
-                    ) : (
-                        <div class="empty-state">
-                            <div class="empty-icon">
-                                <i class="fa-solid fa-clock-rotate-left"></i>
-                            </div>
 
-                            <h4>No appointment history</h4>
+                        <h4>نوبت پیش‌رویی وجود ندارد</h4>
 
-                            <p>
-                                Your completed and cancelled appointments
-                                will appear here.
-                            </p>
-                        </div>
-                    )
-                }
+                        <p>
+                            در حال حاضر هیچ نوبت برنامه‌ریزی‌شده‌ای ندارید.
+                        </p>
+
+                        <a
+                            href="/patient/slots"
+                            class="secondary-btn"
+                        >
+                            مشاهده زمان‌های آزاد
+                        </a>
+                    </div>
+                )
+            }
+        </div>
+    </section>
+
+    <!-- Appointment History -->
+    <section class="appointments-section">
+        <div class="section-header">
+            <div>
+                <h3>تاریخچه نوبت‌ها</h3>
+                <p>جلسات تکمیل‌شده و لغوشده شما</p>
             </div>
-        </section>
-    </div>
+
+            <span class="count-badge">
+                {pastAppointments.length}
+            </span>
+        </div>
+
+        <div class="appointments-card">
+            {
+                pastAppointments.length > 0 ? (
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>تاریخ</th>
+                                    <th>ساعت</th>
+                                    <th>روان‌درمانگر</th>
+                                    <th>نوع جلسه</th>
+                                    <th>وضعیت</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {pastAppointments.map((appointment) => (
+                                    <tr>
+                                        <td>{appointment.date}</td>
+
+                                        <td>{appointment.time}</td>
+
+                                        <td>
+                                            <div class="therapist">
+                                                <div class="therapist-avatar">
+                                                    <i class="fa-solid fa-user-doctor"></i>
+                                                </div>
+
+                                                <span>
+                                                    {
+                                                        appointment.therapist
+                                                    }
+                                                </span>
+                                            </div>
+                                        </td>
+
+                                        <td>{appointment.type}</td>
+
+                                        <td>
+                                            {
+                                                appointment.status ===
+                                                "completed" ? (
+                                                    <span class="status completed">
+                                                        <span class="status-dot"></span>
+                                                        تکمیل‌شده
+                                                    </span>
+                                                ) : (
+                                                    <span class="status cancelled">
+                                                        <span class="status-dot"></span>
+                                                        لغوشده
+                                                    </span>
+                                                )
+                                            }
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                ) : (
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+                        </div>
+
+                        <h4>تاریخچه‌ای از نوبت‌ها وجود ندارد</h4>
+
+                        <p>
+                            نوبت‌های تکمیل‌شده و لغوشده شما در اینجا نمایش داده خواهند شد.
+                        </p>
+                    </div>
+                )
+            }
+        </div>
+    </section>
+</div>
+```
+
 </PatientLayout>
 
 <script>
@@ -281,7 +283,7 @@ const pastAppointments = appointments.filter(
     cancelButtons.forEach((button) => {
         button.addEventListener("click", () => {
             const confirmed = window.confirm(
-                "Are you sure you want to cancel this appointment?",
+                "آیا مطمئن هستید که می‌خواهید این نوبت را لغو کنید؟",
             );
 
             if (!confirmed) {
@@ -292,7 +294,7 @@ const pastAppointments = appointments.filter(
              * API cancellation will be connected here later.
              */
             window.alert(
-                "Appointment cancellation will be connected to the API.",
+                "قابلیت لغو نوبت در آینده به API متصل خواهد شد.",
             );
         });
     });

@@ -1,28 +1,29 @@
+
 ---
 ---
 
 <form id="login-form" class="auth-form">
     <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
+        <label for="email" class="form-label">ایمیل</label>
         <input
             id="email"
             name="email"
             type="email"
             class="form-control"
-            placeholder="Enter your email"
+            placeholder="ایمیل خود را وارد کنید"
             autocomplete="email"
             required
         />
     </div>
 
     <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
+        <label for="password" class="form-label">رمز عبور</label>
         <input
             id="password"
             name="password"
             type="password"
             class="form-control"
-            placeholder="Enter your password"
+            placeholder="رمز عبور خود را وارد کنید"
             autocomplete="current-password"
             required
         />
@@ -33,10 +34,10 @@
         type="submit"
         class="btn btn-primary w-100"
     >
-        Login
+        ورود
     </button>
 
-    <!-- Error message -->
+    <!-- پیام خطا -->
     <div
         id="login-error"
         class="alert alert-danger mt-3 d-none"
@@ -63,12 +64,12 @@
             return;
         }
 
-        // Hide previous error
+        // مخفی کردن خطای قبلی
         errorBox.classList.add("d-none");
         errorBox.textContent = "";
 
         submitButton.disabled = true;
-        submitButton.textContent = "Logging in...";
+        submitButton.textContent = "در حال ورود...";
 
         const formData = new FormData(form);
 
@@ -100,7 +101,7 @@
                     data?.detail ||
                     data?.email?.[0] ||
                     data?.password?.[0] ||
-                    "Invalid email or password.";
+                    "ایمیل یا رمز عبور نادرست است.";
 
                 throw new Error(message);
             }
@@ -115,12 +116,12 @@
             errorBox.textContent =
                 error instanceof Error
                     ? error.message
-                    : "Something went wrong. Please try again.";
+                    : "خطایی رخ داد. لطفاً دوباره تلاش کنید.";
 
             errorBox.classList.remove("d-none");
         } finally {
             submitButton.disabled = false;
-            submitButton.textContent = "Login";
+            submitButton.textContent = "ورود";
         }
     });
 </script>

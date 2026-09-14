@@ -10,26 +10,26 @@ const appointments: Appointment[] = [
     {
         time: "10:00 AM",
         patient: "Ali Rezaei",
-        type: "Individual Session",
-        status: "Scheduled",
+        type: "جلسه فردی",
+        status: "رزرو شده",
     },
     {
         time: "11:30 AM",
         patient: "Sara Ahmadi",
-        type: "Consultation",
-        status: "Scheduled",
+        type: "مشاوره",
+        status: "رزرو شده",
     },
     {
         time: "02:00 PM",
         patient: "John Smith",
-        type: "Individual Session",
-        status: "Completed",
+        type: "جلسه فردی",
+        status: "تکمیل شده",
     },
     {
         time: "04:30 PM",
         patient: "Neda Karimi",
-        type: "Follow-up",
-        status: "Scheduled",
+        type: "جلسه پیگیری",
+        status: "رزرو شده",
     },
 ];
 ---
@@ -37,12 +37,12 @@ const appointments: Appointment[] = [
 <div class="appointments-card">
     <div class="card-header">
         <div>
-            <h2>Today's Appointments</h2>
-            <p>Your schedule for today</p>
+            <h2>نوبت‌های امروز</h2>
+            <p>برنامه شما برای امروز</p>
         </div>
 
         <a href="/therapist/appointments">
-            View all
+            مشاهده همه
         </a>
     </div>
 
@@ -50,10 +50,10 @@ const appointments: Appointment[] = [
         <table>
             <thead>
                 <tr>
-                    <th>Time</th>
-                    <th>Patient</th>
-                    <th>Session</th>
-                    <th>Status</th>
+                    <th>ساعت</th>
+                    <th>بیمار</th>
+                    <th>جلسه</th>
+                    <th>وضعیت</th>
                 </tr>
             </thead>
 
@@ -83,7 +83,7 @@ const appointments: Appointment[] = [
                                 <span
                                     class:list={[
                                         "status",
-                                        appointment.status === "Completed"
+                                        appointment.status === "تکمیل شده"
                                             ? "completed"
                                             : "scheduled",
                                     ]}

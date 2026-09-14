@@ -1,17 +1,16 @@
 ---
-title: "Third Review"
+ title: "سومین نظر"
 ---
+مدت زیادی با اضطراب و تردید نسبت به خودم دست‌وپنجه نرم می‌کردم و نمی‌دانستم چگونه از این چرخه رها شوم. کمک گرفتن برایم ترسناک و دشوار به نظر می‌رسید، اما حالا بسیار خوشحالم که این قدم را برداشتم.
 
-For a long time, I struggled with anxiety and self-doubt, unsure of how to break free from the cycle. Seeking help felt daunting, but I’m so grateful I took that step.
+از همان جلسه اول احساس کردم واقعاً حرف‌هایم شنیده و درک می‌شوند. هیچ قضاوتی در کار نبود؛ فقط صبوری، مهربانی و حمایتی همیشگی وجود داشت.
 
-From the very first session, I felt truly heard and understood. There was no judgment—only patience, kindness, and unwavering support.
+در طول گفت‌وگوها، ریشه مشکلاتم را بهتر شناختم و یاد گرفتم چگونه با آگاهی و اعتمادبه‌نفس بیشتری با آن‌ها روبه‌رو شوم.
 
-Through our conversations, I discovered the root of my struggles and learned how to approach them with clarity and confidence.
+یکی از عمیق‌ترین تغییراتی که تجربه کردم، یادگیری نحوه تعیین مرزهای سالم و قرار دادن سلامت و آرامش خودم در اولویت بود. پیش از این هرگز فکر نمی‌کردم بتوانم چنین کاری انجام دهم.
 
-One of the most profound changes was learning how to set boundaries and prioritize my well-being. It’s something I never thought I could do before.
+هر جلسه بینش‌های تازه، ابزارهای کاربردی و احساس توانمندی بیشتری به من می‌داد؛ چیزهایی که هنوز هم هر روز با خودم همراه دارم.
 
-Each session gave me new insights, practical tools, and a sense of empowerment that I carry with me every day.
+حالا توانایی بیشتری برای مواجهه با چالش‌ها بدون ترس پیدا کرده‌ام و می‌توانم با امید و نگرشی تازه به زندگی نگاه کنم.
 
-I’ve gained the ability to face challenges without fear and embrace life with renewed optimism.
-
-This journey has been life-changing, and I can’t express enough gratitude for the support that helped me find my strength again.
+این مسیر زندگی من را تغییر داده است و نمی‌توانم با کلمات به اندازه کافی از حمایتی که به من کمک کرد دوباره قدرت خودم را پیدا کنم، قدردانی کنم.

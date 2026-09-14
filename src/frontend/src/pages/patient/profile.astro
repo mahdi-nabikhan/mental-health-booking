@@ -1,190 +1,192 @@
-
 ---
+
 import PatientLayout from "../../layouts/PatientLayout.astro";
 
 const patient = {
-    firstName: "Mahdi",
-    lastName: "Nabikhan",
-    email: "patient@example.com",
-    phoneNumber: "09123456789",
+firstName: "Mahdi",
+lastName: "Nabikhan",
+email: "[patient@example.com](mailto:patient@example.com)",
+phoneNumber: "09123456789",
 };
----
+--
 
-<PatientLayout title="My Profile">
+<PatientLayout title="پروفایل من">
     <div class="profile-page">
         <!-- Page Header -->
         <section class="page-header">
             <div>
-                <h2>My Profile</h2>
+                <h2>پروفایل من</h2>
                 <p>
-                    View and manage your personal information.
+                    اطلاعات شخصی خود را مشاهده و مدیریت کنید.
                 </p>
             </div>
         </section>
 
-        <div class="profile-grid">
-            <!-- Profile Summary -->
-            <section class="profile-card profile-summary">
-                <div class="avatar-large">
-                    <i class="fa-solid fa-user"></i>
+```
+    <div class="profile-grid">
+        <!-- Profile Summary -->
+        <section class="profile-card profile-summary">
+            <div class="avatar-large">
+                <i class="fa-solid fa-user"></i>
+            </div>
+
+            <h3>
+                {patient.firstName} {patient.lastName}
+            </h3>
+
+            <p>بیمار</p>
+
+            <div class="summary-divider"></div>
+
+            <div class="summary-item">
+                <i class="fa-solid fa-envelope"></i>
+
+                <div>
+                    <span>ایمیل</span>
+                    <strong>{patient.email}</strong>
                 </div>
+            </div>
 
-                <h3>
-                    {patient.firstName} {patient.lastName}
-                </h3>
+            <div class="summary-item">
+                <i class="fa-solid fa-phone"></i>
 
-                <p>Patient</p>
-
-                <div class="summary-divider"></div>
-
-                <div class="summary-item">
-                    <i class="fa-solid fa-envelope"></i>
-
-                    <div>
-                        <span>Email</span>
-                        <strong>{patient.email}</strong>
-                    </div>
+                <div>
+                    <span>شماره تلفن</span>
+                    <strong>{patient.phoneNumber}</strong>
                 </div>
+            </div>
+        </section>
 
-                <div class="summary-item">
-                    <i class="fa-solid fa-phone"></i>
-
-                    <div>
-                        <span>Phone</span>
-                        <strong>{patient.phoneNumber}</strong>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Personal Information -->
-            <section class="profile-card">
-                <div class="card-header">
-                    <div>
-                        <h3>Personal Information</h3>
-                        <p>
-                            Update your personal details.
-                        </p>
-                    </div>
-                </div>
-
-                <form id="profile-form">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="first-name">
-                                First Name
-                            </label>
-
-                            <input
-                                id="first-name"
-                                name="first_name"
-                                type="text"
-                                value={patient.firstName}
-                                required
-                            />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="last-name">
-                                Last Name
-                            </label>
-
-                            <input
-                                id="last-name"
-                                name="last_name"
-                                type="text"
-                                value={patient.lastName}
-                                required
-                            />
-                        </div>
-
-                        <div class="form-group full-width">
-                            <label for="email">
-                                Email Address
-                            </label>
-
-                            <input
-                                id="email"
-                                name="email"
-                                type="email"
-                                value={patient.email}
-                                disabled
-                            />
-
-                            <small>
-                                Email address cannot be changed here.
-                            </small>
-                        </div>
-
-                        <div class="form-group full-width">
-                            <label for="phone-number">
-                                Phone Number
-                            </label>
-
-                            <input
-                                id="phone-number"
-                                name="phone_number"
-                                type="tel"
-                                value={patient.phoneNumber}
-                                required
-                            />
-                        </div>
-                    </div>
-
-                    <div
-                        id="profile-message"
-                        class="message d-none"
-                        role="alert"
-                    ></div>
-
-                    <div class="form-actions">
-                        <button
-                            id="save-profile"
-                            type="submit"
-                            class="save-btn"
-                        >
-                            <i class="fa-solid fa-check"></i>
-                            Save Changes
-                        </button>
-                    </div>
-                </form>
-            </section>
-        </div>
-
-        <!-- Security -->
-        <section class="profile-card security-card">
+        <!-- Personal Information -->
+        <section class="profile-card">
             <div class="card-header">
                 <div>
-                    <h3>Security</h3>
+                    <h3>اطلاعات شخصی</h3>
                     <p>
-                        Manage your account password.
+                        اطلاعات شخصی خود را به‌روزرسانی کنید.
                     </p>
                 </div>
             </div>
 
-            <div class="security-content">
-                <div class="security-info">
-                    <div class="security-icon">
-                        <i class="fa-solid fa-lock"></i>
+            <form id="profile-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="first-name">
+                            نام
+                        </label>
+
+                        <input
+                            id="first-name"
+                            name="first_name"
+                            type="text"
+                            value={patient.firstName}
+                            required
+                        />
                     </div>
 
-                    <div>
-                        <h4>Password</h4>
-                        <p>
-                            Keep your account secure by using a strong
-                            password.
-                        </p>
+                    <div class="form-group">
+                        <label for="last-name">
+                            نام خانوادگی
+                        </label>
+
+                        <input
+                            id="last-name"
+                            name="last_name"
+                            type="text"
+                            value={patient.lastName}
+                            required
+                        />
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="email">
+                            آدرس ایمیل
+                        </label>
+
+                        <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            value={patient.email}
+                            disabled
+                        />
+
+                        <small>
+                            آدرس ایمیل از این قسمت قابل تغییر نیست.
+                        </small>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="phone-number">
+                            شماره تلفن
+                        </label>
+
+                        <input
+                            id="phone-number"
+                            name="phone_number"
+                            type="tel"
+                            value={patient.phoneNumber}
+                            required
+                        />
                     </div>
                 </div>
 
-                <a
-                    href="/patient/settings"
-                    class="change-password-btn"
-                >
-                    Change Password
-                </a>
-            </div>
+                <div
+                    id="profile-message"
+                    class="message d-none"
+                    role="alert"
+                ></div>
+
+                <div class="form-actions">
+                    <button
+                        id="save-profile"
+                        type="submit"
+                        class="save-btn"
+                    >
+                        <i class="fa-solid fa-check"></i>
+                        ذخیره تغییرات
+                    </button>
+                </div>
+            </form>
         </section>
     </div>
+
+    <!-- Security -->
+    <section class="profile-card security-card">
+        <div class="card-header">
+            <div>
+                <h3>امنیت</h3>
+                <p>
+                    رمز عبور حساب خود را مدیریت کنید.
+                </p>
+            </div>
+        </div>
+
+        <div class="security-content">
+            <div class="security-info">
+                <div class="security-icon">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+
+                <div>
+                    <h4>رمز عبور</h4>
+                    <p>
+                        با استفاده از یک رمز عبور قوی، حساب خود را ایمن نگه دارید.
+                    </p>
+                </div>
+            </div>
+
+            <a
+                href="/patient/settings"
+                class="change-password-btn"
+            >
+                تغییر رمز عبور
+            </a>
+        </div>
+    </section>
+</div>
+```
+
 </PatientLayout>
 
 <script>
@@ -209,7 +211,7 @@ const patient = {
 
         saveButton.disabled = true;
         saveButton.innerHTML =
-            '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+            '<i class="fa-solid fa-spinner fa-spin"></i> در حال ذخیره...';
 
         /*
          * The real profile update API will be connected here.
@@ -218,13 +220,13 @@ const patient = {
         await new Promise((resolve) => setTimeout(resolve, 700));
 
         message.textContent =
-            "Profile changes will be connected to the API.";
+            "قابلیت ذخیره تغییرات پروفایل در آینده به API متصل خواهد شد.";
 
         message.className = "message success";
 
         saveButton.disabled = false;
         saveButton.innerHTML =
-            '<i class="fa-solid fa-check"></i> Save Changes';
+            '<i class="fa-solid fa-check"></i> ذخیره تغییرات';
     });
 </script>
 

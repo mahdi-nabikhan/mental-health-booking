@@ -1,3 +1,4 @@
+
 ---
 import Layout from '@layouts/Layout.astro';
 
@@ -9,7 +10,7 @@ import Benefits from '@components/Help/Benefits.astro';
 import HelpContact from '@components/Help/HelpContact.astro';
 import Footer from '@components/Footer.astro';
 
-const intro: string = "Seeking Help";
+const intro: string = "دریافت کمک";
 
 interface Therapist {
   id: number;
@@ -45,7 +46,7 @@ try {
 }
 ---
 
-<Layout title="Psychotherapist: Seeking Help">
+<Layout title="روان‌درمانگر: دریافت کمک">
   <header class="header" id="help-header" aria-labelledby="help-hero-title">
     <Navbar />
 
@@ -63,11 +64,14 @@ try {
 
     <Benefits />
 
-    <!-- Appointment Slots -->
-    <section class="appointment-slots" aria-labelledby="appointment-slots-title">
+    <!-- زمان‌های مشاوره -->
+    <section
+      class="appointment-slots"
+      aria-labelledby="appointment-slots-title"
+    >
       <div class="appointment-slots-container">
         <h2 id="appointment-slots-title">
-          Available Appointment Times
+          زمان‌های مشاوره موجود
         </h2>
 
         {appointmentSlots.length > 0 ? (
@@ -75,17 +79,17 @@ try {
             {appointmentSlots.map((slot) => (
               <article class="slot-card">
                 <div class="slot-date">
-                  <span>Date</span>
+                  <span>تاریخ</span>
                   <strong>{slot.date}</strong>
                 </div>
 
                 <div class="slot-time">
-                  <span>Time</span>
+                  <span>ساعت</span>
                   <strong>{slot.time.slice(0, 5)}</strong>
                 </div>
 
                 <div class="slot-therapist">
-                  <span>Therapist</span>
+                  <span>روان‌درمانگر</span>
                   <strong>
                     {slot.therapist.first_name} {slot.therapist.last_name}
                   </strong>
@@ -96,14 +100,16 @@ try {
                   class="book-slot-btn"
                   data-slot-id={slot.id}
                 >
-                  Book Appointment
+                  رزرو نوبت
                 </button>
               </article>
             ))}
           </div>
         ) : (
           <div class="empty-slots">
-            <p>No available appointment times at the moment.</p>
+            <p>
+              در حال حاضر زمان مشاوره‌ای برای رزرو وجود ندارد.
+            </p>
           </div>
         )}
       </div>
@@ -114,3 +120,4 @@ try {
 
   <Footer />
 </Layout>
+

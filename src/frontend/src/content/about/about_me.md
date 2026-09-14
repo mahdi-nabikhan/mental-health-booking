@@ -1,13 +1,14 @@
 ---
-title: "About Me"
+
+ title: "درباره من"
 ---
 
-Life is full of challenges, and sometimes, we need a guiding hand to help us find clarity, strength, and purpose. I am Clara Winslow, a Certified Psychotherapist and Life Coach, dedicated to helping individuals navigate their personal journeys toward healing and self-discovery.
+زندگی پر از چالش است و گاهی برای یافتن آرامش، قدرت و هدف، به راهنمایی نیاز داریم. من **کلارا وینسلو**، روان‌درمانگر دارای گواهینامه و مربی رشد فردی هستم و هدفم کمک به افراد برای طی کردن مسیر شخصی‌شان به سوی بهبود، شناخت بهتر خود و ایجاد تغییرات مثبت است.
 
-With years of experience, I have worked with people facing anxiety, self-doubt, and emotional roadblocks. My approach is not just about listening—it's about empowering you to take control, break free from fears, and create meaningful change in your life.
+در طول سال‌ها فعالیت حرفه‌ای، با افرادی همراه بوده‌ام که با اضطراب، تردید نسبت به خود و موانع عاطفی مواجه بوده‌اند. رویکرد من فقط گوش دادن نیست؛ بلکه کمک به شما برای به‌دست گرفتن کنترل زندگی، رهایی از ترس‌ها و ایجاد تغییرات معنادار در مسیر زندگی‌تان است.
 
-Therapy is more than just talking—it's about finding practical, lasting solutions. Whether you’re struggling with personal challenges, career transitions, or simply seeking balance, my goal is to provide a safe and supportive space where you feel heard, understood, and motivated to grow.
+روان‌درمانی چیزی فراتر از صحبت کردن است؛ هدف آن پیدا کردن راهکارهای عملی و ماندگار برای چالش‌های زندگی است. چه با مشکلات شخصی، تغییرات شغلی یا نیاز به ایجاد تعادل در زندگی مواجه باشید، هدف من فراهم کردن فضایی امن و حمایتگر است که در آن احساس کنید شنیده می‌شوید، درک می‌شوید و برای رشد و پیشرفت انگیزه پیدا می‌کنید.
 
-Every person’s journey is unique, and so is my approach. I combine evidence-based techniques with a compassionate, intuitive understanding of your needs. Together, we’ll uncover patterns, strengthen resilience, and build the confidence you need to move forward.
+مسیر زندگی هر فرد منحصربه‌فرد است و رویکرد من نیز متناسب با نیازهای هر فرد شکل می‌گیرد. من تکنیک‌های مبتنی بر شواهد علمی را با درک همدلانه و عمیق از نیازهای شما ترکیب می‌کنم. در کنار یکدیگر، الگوهای رفتاری و فکری را شناسایی می‌کنیم، تاب‌آوری شما را تقویت می‌کنیم و اعتمادبه‌نفسی را می‌سازیم که برای حرکت رو به جلو به آن نیاز دارید.
 
-You don’t have to walk this path alone. Change is possible, and I am here to help you take that first step toward a better, more fulfilling life.
+لازم نیست این مسیر را به‌تنهایی طی کنید. تغییر امکان‌پذیر است و من اینجا هستم تا به شما کمک کنم اولین قدم را به سوی زندگی بهتر، متعادل‌تر و رضایت‌بخش‌تر بردارید.

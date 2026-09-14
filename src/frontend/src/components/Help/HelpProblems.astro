@@ -1,7 +1,7 @@
 ---
 import ProblemItem from "@components/ProblemItem.astro"
 
-const title: string = "Do any of these sound familiar to you?"
+const title: string = "آیا هرکدام از این موارد برای شما آشناست؟"
 ---
 
 <section
@@ -11,42 +11,46 @@ const title: string = "Do any of these sound familiar to you?"
   <h2 class="mb-5 text-center" id="help-problems-title" data-aos="zoom-in" data-aos-duration="1250">
     {title}
   </h2>
+
   <div class="container-fluid d-flex flex-column justify-content-center align-items-center over-x">
     <ul
       class="list-group min-vw-100 mb-0 mb-md-5 justify-content-evenly align-items-center list-group-horizontal-md"
       data-aos="fade-right"
       data-aos-duration="1250"
     >
-      <ProblemItem route="/contact" className="anxiety" name="Anxiety" />
-      <ProblemItem route="/contact" className="depression" name="Depression" />
-      <ProblemItem route="/contact" className="trauma" name="Trauma" />
+      <ProblemItem route="/contact" className="anxiety" name="اضطراب" />
+      <ProblemItem route="/contact" className="depression" name="افسردگی" />
+      <ProblemItem route="/contact" className="trauma" name="تروما" />
     </ul>
+
     <ul
       class="list-group min-vw-100 mb-0 mb-md-5 justify-content-evenly align-items-center list-group-horizontal-md"
       data-aos="fade-left"
       data-aos-duration="1250"
     >
-      <ProblemItem route="/contact" className="grief" name="Grief" />
-      <ProblemItem route="/contact" className="stress" name="Stress" />
-      <ProblemItem route="/contact" className="addiction" name="Addiction" />
+      <ProblemItem route="/contact" className="grief" name="سوگ" />
+      <ProblemItem route="/contact" className="stress" name="استرس" />
+      <ProblemItem route="/contact" className="addiction" name="اعتیاد" />
     </ul>
+
     <ul
       class="list-group min-vw-100 mb-0 mb-md-5 justify-content-evenly align-items-center list-group-horizontal-md"
       data-aos="fade-right"
       data-aos-duration="1250"
     >
-      <ProblemItem route="/contact" className="phobias" name="Phobias" />
-      <ProblemItem route="/contact" className="burnout" name="Burnout" />
-      <ProblemItem route="/contact" className="insomnia" name="Insomnia" />
+      <ProblemItem route="/contact" className="phobias" name="فوبیا" />
+      <ProblemItem route="/contact" className="burnout" name="فرسودگی شغلی" />
+      <ProblemItem route="/contact" className="insomnia" name="بی‌خوابی" />
     </ul>
+
     <ul
       class="list-group min-vw-100 mb-0 mb-md-5 justify-content-evenly align-items-center list-group-horizontal-md"
       data-aos="fade-left"
       data-aos-duration="1250"
     >
-      <ProblemItem route="/contact" className="loneliness" name="Loneliness" />
-      <ProblemItem route="/contact" className="anger" name="Anger" />
-      <ProblemItem route="/contact" className="guilt" name="Guilt" />
+      <ProblemItem route="/contact" className="loneliness" name="تنهایی" />
+      <ProblemItem route="/contact" className="anger" name="خشم" />
+      <ProblemItem route="/contact" className="guilt" name="احساس گناه" />
     </ul>
   </div>
 </section>

@@ -1,5 +1,6 @@
+
 ---
-const contactFormIntro: string = "Get Your Free Consultation By Completing And Submitting This Form"
+const contactFormIntro: string = "برای دریافت مشاوره رایگان، این فرم را تکمیل و ارسال کنید"
 const actionUrl: string = "https://api.web3forms.com/submit"
 const ACCESS_KEY: string = import.meta.env.WEB3_FORMS_API_KEY
 
@@ -19,117 +20,131 @@ if(!ACCESS_KEY) console.error(`Missing environment variable: ${ACCESS_KEY}`)
   >
     {contactFormIntro}
   </h2>
+
   <form class="row g-3 col-12 col-lg-11" action={actionUrl} method="POST">
     <input type="hidden" name="access_key" value={ACCESS_KEY}>
     <input type="hidden" name="redirect" value="/">
     <input type="hidden" name="subject" value="Contact Email">
     <input type="hidden" name="from_name" value="Psychotherapist Astro Site">
+
     <input type="checkbox" name="botcheck" id="" style="display: none;">
-    <!---- Full Name ---->
+
+    <!---- نام و نام خانوادگی ---->
     <div class="col-md-6">
-      <label for="inputName" class="form-label">Full Name</label>
+      <label for="inputName" class="form-label">نام و نام خانوادگی</label>
       <input
         type="text"
         name="fullname"
         class="form-control"
         id="inputName"
-        placeholder="Your name here"
+        placeholder="نام و نام خانوادگی خود را وارد کنید"
         required
-        aria-label="Full Name"
+        aria-label="نام و نام خانوادگی"
       >
     </div>
-    <!---- Email ---->
+
+    <!---- ایمیل ---->
     <div class="col-md-6">
-      <label for="inputEmail4" class="form-label">Email</label>
+      <label for="inputEmail4" class="form-label">ایمیل</label>
       <input
         type="email"
         name="email"
         class="form-control"
         id="inputEmail4"
-        placeholder="Your email here"
+        placeholder="ایمیل خود را وارد کنید"
         required
-        aria-label="Email"
+        aria-label="ایمیل"
       >
     </div>
-    <!---- Phone ---->
+
+    <!---- تلفن ---->
     <div class="col-md-6">
-      <label for="inputPhone" class="form-label">Phone</label>
+      <label for="inputPhone" class="form-label">شماره تلفن</label>
       <input
         type="tel"
         name="phone"
         class="form-control"
         id="inputPhone"
-        placeholder="Your phone here"
+        placeholder="شماره تلفن خود را وارد کنید"
         required
-        aria-label="Phone number"
+        aria-label="شماره تلفن"
       >
     </div>
-    <!---- Address ---->
+
+    <!---- آدرس ---->
     <div class="col-md-6">
-      <label for="inputAddress" class="form-label">Address</label>
+      <label for="inputAddress" class="form-label">آدرس</label>
       <input
         type="text"
         name="address"
         class="form-control"
         id="inputAddress"
-        placeholder="Your address here"
+        placeholder="آدرس خود را وارد کنید"
         required
-        aria-label="Address"
+        aria-label="آدرس"
       >
     </div>
-    <!---- City ---->
+
+    <!---- شهر ---->
     <div class="col-md-6">
-      <label for="inputCity" class="form-label">City</label>
+      <label for="inputCity" class="form-label">شهر</label>
       <input
         type="text"
         name="city"
         class="form-control"
         id="inputCity"
-        placeholder="Your city here"
+        placeholder="شهر خود را وارد کنید"
         required
-        aria-label="City"
+        aria-label="شهر"
       >
     </div>
-    <!---- Date of Birth ---->
+
+    <!---- تاریخ تولد ---->
     <div class="col-md-6">
-      <label for="inputDate" class="form-label">Date of Birth</label>
+      <label for="inputDate" class="form-label">تاریخ تولد</label>
       <input
         type="date"
         name="birthdate"
         class="form-control"
         id="inputDate"
         required
-        aria-label="Date of Birth"
+        aria-label="تاریخ تولد"
       >
     </div>
-    <!---- Message Textarea ---->
+
+    <!---- پیام ---->
     <div class="form-floating">
       <textarea
         class="form-control"
         name="message"
-        placeholder="Leave a comment here"
+        placeholder="پیام خود را بنویسید"
         id="floatingTextarea2"
         style="height: 150px"
         required
-        aria-label="Message"
+        aria-label="پیام"
       ></textarea>
-      <label for="floatingTextarea2" id="textarea-label">Message</label>
+
+      <label for="floatingTextarea2" id="textarea-label">
+        پیام
+      </label>
     </div>
-    <!---- * BUTTONS * ---->
+
+    <!---- دکمه‌ها ---->
     <div class="col-12 d-flex flex-column flex-sm-row justify-content-center mt-4">
       <button
         type="submit"
         class="btn btn-success mx-4 mb-3 mb-sm-0 px-5 py-2 rounded-pill"
-        aria-label="Submit form with consultation request"
+        aria-label="ارسال فرم درخواست مشاوره"
       >
-        Send
+        ارسال
       </button>
+
       <button
         type="reset"
         class="btn btn-warning mx-4 px-5 py-2 rounded-pill"
-        aria-label="Clear all form fields"
+        aria-label="پاک کردن تمام اطلاعات فرم"
       >
-        Reset
+        پاک کردن
       </button>
     </div>
   </form>

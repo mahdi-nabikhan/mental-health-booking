@@ -1,15 +1,15 @@
 ---
-title: "My Motivation"
+ title: "انگیزه من"
 ---
 
-From a young age, I was drawn to understanding the complexities of the human mind. My desire to help others led me to pursue a career in psychotherapy and life coaching, where I could make a tangible difference in people’s lives.
+از دوران کودکی، همیشه به شناخت پیچیدگی‌های ذهن انسان علاقه‌مند بودم. علاقه‌ام به کمک به دیگران باعث شد مسیر حرفه‌ای خود را در زمینه روان‌درمانی و کوچینگ رشد فردی دنبال کنم؛ مسیری که به من امکان می‌دهد تأثیری واقعی و ملموس در زندگی افراد ایجاد کنم.
 
-What motivates me most is seeing the transformation in my clients. There’s nothing more rewarding than helping someone overcome their struggles and empowering them to lead a more fulfilling life.
+بیشترین انگیزه من از مشاهده تغییر و تحول مراجعانم شکل می‌گیرد. هیچ چیز برای من رضایت‌بخش‌تر از این نیست که به فردی کمک کنم بر چالش‌های خود غلبه کند و او را برای داشتن زندگی رضایت‌بخش‌تر و معنادارتر توانمند سازم.
 
-I am passionate about creating a safe and supportive environment where individuals can confront their fears, uncover their strengths, and realize their true potential. Each person’s journey is unique, and I’m honored to be a part of that process.
+من به ایجاد محیطی امن و حمایتگر متعهد هستم؛ محیطی که در آن افراد بتوانند با ترس‌های خود روبه‌رو شوند، توانمندی‌هایشان را کشف کنند و به ظرفیت واقعی خود دست پیدا کنند. مسیر هر فرد منحصربه‌فرد است و برای من افتخار بزرگی است که بخشی از این مسیر باشم.
 
-Helping others heal and grow has always been my calling. It’s a privilege to walk alongside my clients as they discover their inner strength and resilience.
+کمک به دیگران برای بهبود و رشد همیشه بخشی جدایی‌ناپذیر از رسالت من بوده است. همراهی با مراجعانم در مسیر کشف قدرت درونی و تاب‌آوری‌شان برای من یک افتخار است.
 
-My work is driven by the belief that change is possible for everyone, no matter where they begin.
+کار من بر این باور استوار است که تغییر برای هر فردی امکان‌پذیر است؛ مهم نیست این مسیر را از کجا آغاز کرده باشد.
 
-This deep-rooted motivation fuels my dedication to continuous learning and improving my practice.
+این انگیزه عمیق و ریشه‌دار، تعهد من را برای یادگیری مستمر، رشد حرفه‌ای و بهبود همیشگی روش کارم تقویت می‌کند.

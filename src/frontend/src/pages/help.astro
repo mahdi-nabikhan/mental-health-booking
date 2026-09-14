@@ -1,5 +1,4 @@
 ---
-// Layouts and components
 import Layout from '@layouts/Layout.astro';
 
 import Navbar from '@components/Navbar.astro';
@@ -10,22 +9,108 @@ import Benefits from '@components/Help/Benefits.astro';
 import HelpContact from '@components/Help/HelpContact.astro';
 import Footer from '@components/Footer.astro';
 
-const intro: string = "Seeking Help"
+const intro: string = "Seeking Help";
+
+interface Therapist {
+  id: number;
+  first_name: string;
+  last_name: string;
+  phone_number: string;
+  user: {
+    email: string;
+    id: number;
+  };
+}
+
+interface AppointmentSlot {
+  id: number;
+  date: string;
+  time: string;
+  created_at: string;
+  therapist: Therapist;
+}
+
+let appointmentSlots: AppointmentSlot[] = [];
+
+try {
+  const response = await fetch(
+    'http://localhost:8000/api/v1/booking/appointment-slots/'
+  );
+
+  if (response.ok) {
+    appointmentSlots = await response.json();
+  }
+} catch (error) {
+  console.error('Failed to fetch appointment slots:', error);
+}
 ---
 
 <Layout title="Psychotherapist: Seeking Help">
   <header class="header" id="help-header" aria-labelledby="help-hero-title">
     <Navbar />
+
     <h1 class="hero-title" id="help-hero-title">
       {intro}
     </h1>
   </header>
+
   <main id="index-main" class="main">
     <WhyTherapy />
+
     <HelpBg />
+
     <HelpProblems />
+
     <Benefits />
+
+    <!-- Appointment Slots -->
+    <section class="appointment-slots" aria-labelledby="appointment-slots-title">
+      <div class="appointment-slots-container">
+        <h2 id="appointment-slots-title">
+          Available Appointment Times
+        </h2>
+
+        {appointmentSlots.length > 0 ? (
+          <div class="slots-grid">
+            {appointmentSlots.map((slot) => (
+              <article class="slot-card">
+                <div class="slot-date">
+                  <span>Date</span>
+                  <strong>{slot.date}</strong>
+                </div>
+
+                <div class="slot-time">
+                  <span>Time</span>
+                  <strong>{slot.time.slice(0, 5)}</strong>
+                </div>
+
+                <div class="slot-therapist">
+                  <span>Therapist</span>
+                  <strong>
+                    {slot.therapist.first_name} {slot.therapist.last_name}
+                  </strong>
+                </div>
+
+                <button
+                  type="button"
+                  class="book-slot-btn"
+                  data-slot-id={slot.id}
+                >
+                  Book Appointment
+                </button>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div class="empty-slots">
+            <p>No available appointment times at the moment.</p>
+          </div>
+        )}
+      </div>
+    </section>
+
     <HelpContact />
   </main>
+
   <Footer />
 </Layout>

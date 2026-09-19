@@ -1,858 +1,1310 @@
-
 ---
 import TherapistLayout from "../../layouts/TherapistLayout.astro";
-
-const demoDays = [
-    {
-        id: 1,
-        dayName: "امروز",
-        date: "۱۹ شهریور",
-        slots: [
-            { time: "09:00", status: "available" },
-            { time: "10:30", status: "booked" },
-            { time: "11:00", status: "available" },
-            { time: "14:00", status: "available" },
-            { time: "15:30", status: "booked" },
-            { time: "17:00", status: "available" },
-        ],
-    },
-    {
-        id: 2,
-        dayName: "فردا",
-        date: "۲۰ شهریور",
-        slots: [
-            { time: "09:30", status: "available" },
-            { time: "11:00", status: "available" },
-            { time: "13:30", status: "booked" },
-            { time: "15:00", status: "available" },
-            { time: "16:30", status: "available" },
-        ],
-    },
-    {
-        id: 3,
-        dayName: "شنبه",
-        date: "۲۱ شهریور",
-        slots: [
-            { time: "10:00", status: "available" },
-            { time: "11:30", status: "available" },
-            { time: "14:00", status: "booked" },
-            { time: "16:00", status: "available" },
-            { time: "17:30", status: "available" },
-        ],
-    },
-    {
-        id: 4,
-        dayName: "یکشنبه",
-        date: "۲۲ شهریور",
-        slots: [
-            { time: "09:00", status: "available" },
-            { time: "10:00", status: "booked" },
-            { time: "12:00", status: "available" },
-            { time: "15:30", status: "available" },
-            { time: "18:00", status: "booked" },
-        ],
-    },
-    {
-        id: 5,
-        dayName: "دوشنبه",
-        date: "۲۳ شهریور",
-        slots: [
-            { time: "09:30", status: "available" },
-            { time: "11:00", status: "available" },
-            { time: "14:30", status: "available" },
-            { time: "16:00", status: "booked" },
-        ],
-    },
-];
 ---
 
 <TherapistLayout title="نوبت‌ها">
-    <main class="appointments-page">
-        <section class="appointments-container">
+    <div class="appointments-page">
 
-            <div class="page-header">
-                <div class="header-icon">
-                    <i class="fa-solid fa-calendar-days"></i>
+        <!-- Header -->
+
+        <div class="page-header">
+            <div class="page-header-content">
+
+                <div class="page-header-icon">
+                    <i class="fa-regular fa-calendar-days"></i>
                 </div>
 
                 <div>
                     <h1>نوبت‌ها</h1>
+
                     <p>
-                        زمان‌های ایجاد شده و وضعیت رزرو آن‌ها را مشاهده کنید.
+                        زمان‌های کاری و وضعیت رزرو نوبت‌های خود را مشاهده کنید.
                     </p>
                 </div>
 
-                <a href="/therapist/slots" class="create-slot-button">
-                    <i class="fa-solid fa-plus"></i>
-                    ایجاد زمان جدید
-                </a>
             </div>
 
-            <section class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fa-solid fa-calendar-plus"></i>
-                    </div>
+            <a
+                href="/therapist/slots"
+                class="create-slot-btn"
+            >
+                <i class="fa-solid fa-plus"></i>
+                ایجاد زمان آزاد
+            </a>
+        </div>
 
-                    <div>
-                        <span>کل زمان‌ها</span>
-                        <strong id="total-slots">--</strong>
-                    </div>
+
+        <!-- Statistics -->
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    <i class="fa-regular fa-calendar"></i>
                 </div>
 
-                <div class="stat-card">
-                    <div class="stat-icon available">
-                        <i class="fa-solid fa-clock"></i>
-                    </div>
+                <div class="stat-content">
+                    <span>
+                        کل زمان‌های آزاد
+                    </span>
 
-                    <div>
-                        <span>زمان‌های آزاد</span>
-                        <strong id="available-slots">--</strong>
-                    </div>
+                    <strong id="total-slots">
+                        ۰
+                    </strong>
                 </div>
 
-                <div class="stat-card">
-                    <div class="stat-icon booked">
-                        <i class="fa-solid fa-calendar-check"></i>
-                    </div>
+            </div>
 
-                    <div>
-                        <span>رزرو شده</span>
-                        <strong id="booked-slots">--</strong>
-                    </div>
-                </div>
-            </section>
 
-            <section class="appointments-card">
+            <div class="stat-card">
 
-                <div class="card-header">
-                    <div>
-                        <h2>زمان‌های ایجاد شده</h2>
-                        <p>
-                            زمان‌هایی که برای مراجعه بیماران ایجاد کرده‌اید.
-                        </p>
-                    </div>
-
-                    <div class="legend">
-                        <span>
-                            <i class="available-dot"></i>
-                            آزاد
-                        </span>
-
-                        <span>
-                            <i class="booked-dot"></i>
-                            رزرو شده
-                        </span>
-                    </div>
+                <div class="stat-icon">
+                    <i class="fa-regular fa-clock"></i>
                 </div>
 
-                <div class="days-list" id="days-list">
-                    {
-                        demoDays.map((day, index) => (
-                            <button
-                                type="button"
-                                class:list={{ active: index === 0 }}
-                                class="day-card"
-                                data-day-id={day.id}
-                            >
-                                <span class="day-name">
-                                    {day.dayName}
-                                </span>
+                <div class="stat-content">
+                    <span>
+                        زمان‌های آزاد
+                    </span>
 
-                                <span class="day-date">
-                                    {day.date}
-                                </span>
-
-                                <span class="day-slot-count">
-                                    {day.slots.length} زمان
-                                </span>
-                            </button>
-                        ))
-                    }
+                    <strong id="available-slots">
+                        ۰
+                    </strong>
                 </div>
 
-                <div class="slots-section">
+            </div>
 
-                    <div class="slots-header">
-                        <div>
-                            <h3 id="selected-day-title">
-                                زمان‌های امروز
-                            </h3>
+        </div>
 
-                            <p id="selected-day-description">
-                                وضعیت زمان‌های ایجاد شده برای امروز
-                            </p>
-                        </div>
 
-                        <span class="slot-count" id="slot-count">
-                            ۰ زمان
-                        </span>
-                    </div>
+        <!-- Loading -->
 
-                    <div
-                        class="slots-grid"
-                        id="slots-grid"
-                    ></div>
+        <div
+            id="loading"
+            class="state-card"
+        >
 
-                    <div
-                        class="empty-message"
-                        id="empty-message"
-                        hidden
-                    >
-                        <i class="fa-regular fa-calendar-xmark"></i>
+            <div class="state-icon">
+                <i class="fa-solid fa-spinner fa-spin"></i>
+            </div>
 
-                        <span>
-                            برای این روز زمانی ایجاد نکرده‌اید.
-                        </span>
-                    </div>
+            <h3>
+                در حال دریافت نوبت‌ها
+            </h3>
 
-                </div>
+            <p>
+                لطفاً کمی صبر کنید...
+            </p>
 
-            </section>
+        </div>
 
-        </section>
-    </main>
+
+        <!-- Error -->
+
+        <div
+            id="error"
+            class="state-card error-state"
+            hidden
+        >
+
+            <div class="state-icon">
+                <i class="fa-solid fa-circle-exclamation"></i>
+            </div>
+
+            <h3>
+                دریافت نوبت‌ها انجام نشد
+            </h3>
+
+            <p>
+                در دریافت اطلاعات مشکلی به وجود آمد.
+            </p>
+
+        </div>
+
+
+        <!-- Empty -->
+
+        <div
+            id="empty"
+            class="state-card"
+            hidden
+        >
+
+            <div class="state-icon">
+                <i class="fa-regular fa-calendar-xmark"></i>
+            </div>
+
+            <h3>
+                زمان آزادی وجود ندارد
+            </h3>
+
+            <p>
+                برای امروز و روزهای آینده هنوز زمان آزادی ایجاد نکرده‌اید.
+            </p>
+
+        </div>
+
+
+        <!-- Table -->
+
+        <div
+            id="table-container"
+            class="table-card"
+            hidden
+        >
+
+            <div class="table-wrapper">
+
+                <table class="appointments-table">
+
+                    <thead>
+                        <tr>
+                            <th>روز</th>
+                            <th>تاریخ</th>
+                            <th>زمان</th>
+                            <th>وضعیت</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="appointments-body">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
 </TherapistLayout>
 
-<script>
-    const demoDays = [
-        {
-            id: 1,
-            dayName: "امروز",
-            date: "۱۹ شهریور",
-            slots: [
-                { time: "09:00", status: "available" },
-                { time: "10:30", status: "booked" },
-                { time: "11:00", status: "available" },
-                { time: "14:00", status: "available" },
-                { time: "15:30", status: "booked" },
-                { time: "17:00", status: "available" },
-            ],
-        },
-        {
-            id: 2,
-            dayName: "فردا",
-            date: "۲۰ شهریور",
-            slots: [
-                { time: "09:30", status: "available" },
-                { time: "11:00", status: "available" },
-                { time: "13:30", status: "booked" },
-                { time: "15:00", status: "available" },
-                { time: "16:30", status: "available" },
-            ],
-        },
-        {
-            id: 3,
-            dayName: "شنبه",
-            date: "۲۱ شهریور",
-            slots: [
-                { time: "10:00", status: "available" },
-                { time: "11:30", status: "available" },
-                { time: "14:00", status: "booked" },
-                { time: "16:00", status: "available" },
-                { time: "17:30", status: "available" },
-            ],
-        },
-        {
-            id: 4,
-            dayName: "یکشنبه",
-            date: "۲۲ شهریور",
-            slots: [
-                { time: "09:00", status: "available" },
-                { time: "10:00", status: "booked" },
-                { time: "12:00", status: "available" },
-                { time: "15:30", status: "available" },
-                { time: "18:00", status: "booked" },
-            ],
-        },
-        {
-            id: 5,
-            dayName: "دوشنبه",
-            date: "۲۳ شهریور",
-            slots: [
-                { time: "09:30", status: "available" },
-                { time: "11:00", status: "available" },
-                { time: "14:30", status: "available" },
-                { time: "16:00", status: "booked" },
-            ],
-        },
-    ];
-
-    const daysList =
-        document.getElementById("days-list") as HTMLElement;
-
-    const slotsGrid =
-        document.getElementById("slots-grid") as HTMLElement;
-
-    const selectedDayTitle =
-        document.getElementById(
-            "selected-day-title"
-        ) as HTMLElement;
-
-    const selectedDayDescription =
-        document.getElementById(
-            "selected-day-description"
-        ) as HTMLElement;
-
-    const slotCount =
-        document.getElementById("slot-count") as HTMLElement;
-
-    const emptyMessage =
-        document.getElementById("empty-message") as HTMLElement;
-
-    const totalSlotsElement =
-        document.getElementById("total-slots") as HTMLElement;
-
-    const availableSlotsElement =
-        document.getElementById(
-            "available-slots"
-        ) as HTMLElement;
-
-    const bookedSlotsElement =
-        document.getElementById(
-            "booked-slots"
-        ) as HTMLElement;
-
-    const calculateStats = () => {
-        const allSlots = demoDays.flatMap(
-            (day) => day.slots
-        );
-
-        const total = allSlots.length;
-
-        const available = allSlots.filter(
-            (slot) => slot.status === "available"
-        ).length;
-
-        const booked = allSlots.filter(
-            (slot) => slot.status === "booked"
-        ).length;
-
-        totalSlotsElement.textContent =
-            String(total);
-
-        availableSlotsElement.textContent =
-            String(available);
-
-        bookedSlotsElement.textContent =
-            String(booked);
-    };
-
-    const renderSlots = (dayId: number) => {
-        const day = demoDays.find(
-            (item) => item.id === dayId
-        );
-
-        if (!day) {
-            return;
-        }
-
-        slotsGrid.innerHTML = "";
-
-        selectedDayTitle.textContent =
-            `زمان‌های ${day.dayName}`;
-
-        selectedDayDescription.textContent =
-            `وضعیت زمان‌های ایجاد شده برای ${day.dayName}`;
-
-        slotCount.textContent =
-            `${day.slots.length} زمان`;
-
-        if (day.slots.length === 0) {
-            emptyMessage.hidden = false;
-            return;
-        }
-
-        emptyMessage.hidden = true;
-
-        day.slots.forEach((slot) => {
-            const slotCard =
-                document.createElement("div");
-
-            slotCard.className =
-                `slot-card ${slot.status}`;
-
-            const time =
-                document.createElement("span");
-
-            time.className = "slot-time";
-            time.textContent = slot.time;
-
-            const statusWrapper =
-                document.createElement("div");
-
-            statusWrapper.className =
-                "slot-status";
-
-            const statusDot =
-                document.createElement("span");
-
-            statusDot.className =
-                "status-dot";
-
-            const statusText =
-                document.createElement("span");
-
-            statusText.textContent =
-                slot.status === "available"
-                    ? "آزاد"
-                    : "رزرو شده";
-
-            statusWrapper.appendChild(
-                statusDot
-            );
-
-            statusWrapper.appendChild(
-                statusText
-            );
-
-            slotCard.appendChild(time);
-            slotCard.appendChild(statusWrapper);
-
-            slotsGrid.appendChild(slotCard);
-        });
-    };
-
-    daysList
-        .querySelectorAll<HTMLButtonElement>(
-            ".day-card"
-        )
-        .forEach((button) => {
-            button.addEventListener(
-                "click",
-                () => {
-                    daysList
-                        .querySelectorAll(
-                            ".day-card"
-                        )
-                        .forEach((item) => {
-                            item.classList.remove(
-                                "active"
-                            );
-                        });
-
-                    button.classList.add("active");
-
-                    const dayId = Number(
-                        button.dataset.dayId
-                    );
-
-                    renderSlots(dayId);
-                }
-            );
-        });
-
-    calculateStats();
-    renderSlots(1);
-</script>
 
 <style>
+
+    /* =========================
+       Base
+    ========================== */
+
     .appointments-page {
-        min-height: 100vh;
-        padding: 35px 20px 60px;
-        background: #f8f8f8;
         direction: rtl;
+
+        width: 100%;
+        max-width: 1400px;
+
+        margin: 0 auto;
+        padding: 30px;
+
+        box-sizing: border-box;
+
+        text-align: right;
     }
 
-    .appointments-container {
-        width: 100%;
-        max-width: 1000px;
-        margin: 0 auto;
-    }
+
+    /* =========================
+       Header
+    ========================== */
 
     .page-header {
         display: flex;
+
         align-items: center;
-        gap: 14px;
-        margin-bottom: 24px;
+        justify-content: space-between;
+
+        gap: 20px;
+
+        margin-bottom: 30px;
     }
 
-    .header-icon {
-        width: 48px;
-        height: 48px;
+
+    .page-header-content {
         display: flex;
+
+        align-items: center;
+
+        gap: 16px;
+
+        min-width: 0;
+    }
+
+
+    .page-header-icon {
+        width: 58px;
+        height: 58px;
+
+        flex-shrink: 0;
+
+        display: flex;
+
         align-items: center;
         justify-content: center;
-        border-radius: 12px;
-        background: #222;
-        color: #fff;
-        font-size: 18px;
+
+        border-radius: 16px;
+
+        background: #f1f5f9;
+
+        color: #334155;
+
+        font-size: 24px;
     }
 
-    .page-header > div:nth-child(2) {
-        flex: 1;
-    }
 
     .page-header h1 {
-        margin: 0 0 5px;
-        color: #222;
-        font-size: 24px;
+        margin: 0 0 6px;
+
+        color: #111827;
+
+        font-size: 28px;
+
         font-weight: 700;
+
+        line-height: 1.5;
     }
+
 
     .page-header p {
         margin: 0;
-        color: #888;
+
+        color: #64748b;
+
+        font-size: 14px;
+
+        line-height: 1.8;
+    }
+
+
+    /* =========================
+       Create Button
+    ========================== */
+
+    .create-slot-btn {
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        gap: 8px;
+
+        flex-shrink: 0;
+
+        padding: 12px 18px;
+
+        border-radius: 12px;
+
+        background: #111827;
+
+        color: #ffffff;
+
+        text-decoration: none;
+
+        font-size: 14px;
+
+        font-weight: 600;
+
+        line-height: 1.5;
+
+        transition:
+            background 0.2s ease,
+            transform 0.2s ease;
+    }
+
+
+    .create-slot-btn:hover {
+        background: #1f2937;
+
+        color: #ffffff;
+
+        transform: translateY(-1px);
+    }
+
+
+    .create-slot-btn i {
         font-size: 13px;
     }
 
-    .create-slot-button {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        min-height: 42px;
-        padding: 0 16px;
-        border-radius: 9px;
-        background: #222;
-        color: #fff;
-        font-size: 12px;
-        font-weight: 600;
-        text-decoration: none;
-        white-space: nowrap;
-        transition: background 0.2s ease;
-    }
 
-    .create-slot-button:hover {
-        background: #000;
-    }
-
-    /* Stats */
+    /* =========================
+       Statistics
+    ========================== */
 
     .stats-grid {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 14px;
-        margin-bottom: 18px;
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 18px;
+
+        margin-bottom: 30px;
     }
+
 
     .stat-card {
         display: flex;
+
         align-items: center;
-        gap: 13px;
-        padding: 18px;
-        background: #fff;
-        border: 1px solid #e9e9e9;
-        border-radius: 14px;
+
+        gap: 16px;
+
+        min-width: 0;
+
+        padding: 20px;
+
+        background: #ffffff;
+
+        border: 1px solid #e5e7eb;
+
+        border-radius: 16px;
+
+        box-sizing: border-box;
     }
+
 
     .stat-icon {
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        width: 48px;
+        height: 48px;
+
         flex-shrink: 0;
-        border-radius: 10px;
-        background: #f1f1f1;
-        color: #333;
-        font-size: 14px;
-    }
 
-    .stat-icon.available {
-        background: #f1f1f1;
-    }
-
-    .stat-icon.booked {
-        background: #e9e9e9;
-    }
-
-    .stat-card span {
-        display: block;
-        margin-bottom: 4px;
-        color: #999;
-        font-size: 11px;
-    }
-
-    .stat-card strong {
-        color: #222;
-        font-size: 20px;
-        font-weight: 700;
-    }
-
-    /* Main card */
-
-    .appointments-card {
-        overflow: hidden;
-        background: #fff;
-        border: 1px solid #e9e9e9;
-        border-radius: 16px;
-    }
-
-    .card-header {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
-        padding: 22px 24px;
-        border-bottom: 1px solid #eeeeee;
-    }
 
-    .card-header h2 {
-        margin: 0 0 5px;
-        color: #222;
-        font-size: 17px;
-        font-weight: 700;
-    }
-
-    .card-header p {
-        margin: 0;
-        color: #999;
-        font-size: 12px;
-    }
-
-    .legend {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        color: #777;
-        font-size: 11px;
-    }
-
-    .legend span {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-
-    .legend i {
-        width: 7px;
-        height: 7px;
-        display: block;
-        border-radius: 50%;
-    }
-
-    .available-dot {
-        background: #555;
-    }
-
-    .booked-dot {
-        background: #bbb;
-    }
-
-    /* Days */
-
-    .days-list {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 10px;
-        padding: 20px 24px;
-        border-bottom: 1px solid #eeeeee;
-    }
-
-    .day-card {
-        min-height: 86px;
-        padding: 12px 8px;
-        border: 1px solid #e5e5e5;
-        border-radius: 11px;
-        background: #fff;
-        color: #333;
-        cursor: pointer;
-        font-family: inherit;
-        transition:
-            border-color 0.2s ease,
-            background 0.2s ease;
-    }
-
-    .day-card:hover {
-        border-color: #bbb;
-    }
-
-    .day-card.active {
-        border-color: #222;
-        background: #222;
-        color: #fff;
-    }
-
-    .day-name {
-        display: block;
-        margin-bottom: 6px;
-        font-size: 12px;
-        font-weight: 600;
-    }
-
-    .day-date {
-        display: block;
-        margin-bottom: 7px;
-        color: #999;
-        font-size: 11px;
-    }
-
-    .day-card.active .day-date {
-        color: #ccc;
-    }
-
-    .day-slot-count {
-        display: block;
-        color: #aaa;
-        font-size: 10px;
-    }
-
-    .day-card.active .day-slot-count {
-        color: #ccc;
-    }
-
-    /* Slots */
-
-    .slots-section {
-        padding: 24px;
-    }
-
-    .slots-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
-        margin-bottom: 18px;
-    }
-
-    .slots-header h3 {
-        margin: 0 0 5px;
-        color: #222;
-        font-size: 15px;
-        font-weight: 700;
-    }
-
-    .slots-header p {
-        margin: 0;
-        color: #999;
-        font-size: 11px;
-    }
-
-    .slot-count {
-        color: #777;
-        font-size: 11px;
-        white-space: nowrap;
-    }
-
-    .slots-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 10px;
-    }
-
-    .slot-card {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        min-height: 58px;
-        padding: 0 15px;
-        border: 1px solid #e4e4e4;
-        border-radius: 10px;
-        background: #fff;
-    }
-
-    .slot-card.available {
-        border-color: #ddd;
-    }
-
-    .slot-card.booked {
-        background: #fafafa;
-        border-color: #e8e8e8;
-    }
-
-    .slot-time {
-        color: #222;
-        font-size: 14px;
-        font-weight: 700;
-        direction: ltr;
-    }
-
-    .slot-status {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        color: #777;
-        font-size: 10px;
-        white-space: nowrap;
-    }
-
-    .status-dot {
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: #555;
-    }
-
-    .slot-card.booked .status-dot {
-        background: #bbb;
-    }
-
-    .slot-card.booked .slot-status {
-        color: #999;
-    }
-
-    .empty-message {
-        min-height: 140px;
-        display: flex;
         align-items: center;
         justify-content: center;
-        gap: 8px;
-        color: #999;
+
+        border-radius: 12px;
+
+        background: #f1f5f9;
+
+        color: #334155;
+
+        font-size: 20px;
+    }
+
+
+    .stat-content {
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 4px;
+
+        min-width: 0;
+    }
+
+
+    .stat-content span {
+        color: #64748b;
+
         font-size: 13px;
+
+        line-height: 1.7;
     }
 
-    [hidden] {
-        display: none !important;
+
+    .stat-content strong {
+        color: #111827;
+
+        font-size: 24px;
+
+        font-weight: 700;
+
+        line-height: 1.4;
     }
 
-    @media (max-width: 800px) {
+
+    /* =========================
+       State Cards
+    ========================== */
+
+    .state-card {
+        width: 100%;
+
+        box-sizing: border-box;
+
+        padding: 50px 20px;
+
+        margin-bottom: 25px;
+
+        text-align: center;
+
+        background: #ffffff;
+
+        border: 1px solid #e5e7eb;
+
+        border-radius: 18px;
+    }
+
+
+    .state-icon {
+        width: 60px;
+        height: 60px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        margin: 0 auto 16px;
+
+        border-radius: 50%;
+
+        background: #f1f5f9;
+
+        color: #475569;
+
+        font-size: 23px;
+    }
+
+
+    .state-card h3 {
+        margin: 0 0 8px;
+
+        color: #111827;
+
+        font-size: 17px;
+
+        font-weight: 700;
+
+        line-height: 1.7;
+    }
+
+
+    .state-card p {
+        margin: 0;
+
+        color: #64748b;
+
+        font-size: 14px;
+
+        line-height: 1.8;
+    }
+
+
+    .error-state .state-icon {
+        background: #fef2f2;
+
+        color: #dc2626;
+    }
+
+
+    /* =========================
+       Table
+    ========================== */
+
+    .table-card {
+        width: 100%;
+
+        box-sizing: border-box;
+
+        overflow: hidden;
+
+        background: #ffffff;
+
+        border: 1px solid #e5e7eb;
+
+        border-radius: 18px;
+    }
+
+
+    .table-wrapper {
+        width: 100%;
+
+        overflow-x: auto;
+
+        -webkit-overflow-scrolling: touch;
+    }
+
+
+    .appointments-table {
+        width: 100%;
+
+        min-width: 650px;
+
+        margin: 0;
+
+        border-collapse: collapse;
+
+        border-spacing: 0;
+
+        table-layout: fixed;
+
+        direction: rtl;
+
+        text-align: right;
+    }
+
+
+    /* Prevent global CSS conflicts */
+
+    .appointments-table thead {
+        display: table-header-group;
+    }
+
+
+    .appointments-table tbody {
+        display: table-row-group;
+    }
+
+
+    .appointments-table tr {
+        display: table-row;
+    }
+
+
+    .appointments-table th,
+    .appointments-table td {
+        display: table-cell;
+    }
+
+
+    /* =========================
+       Table Header
+    ========================== */
+
+    .appointments-table th {
+        padding: 17px 22px;
+
+        background: #f8fafc;
+
+        color: #475569;
+
+        font-size: 13px;
+
+        font-weight: 700;
+
+        line-height: 1.7;
+
+        text-align: right;
+
+        vertical-align: middle;
+
+        white-space: nowrap;
+
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+
+    /* =========================
+       Table Cells
+    ========================== */
+
+    .appointments-table td {
+        padding: 18px 22px;
+
+        background: #ffffff;
+
+        color: #111827;
+
+        font-size: 14px;
+
+        font-weight: 400;
+
+        line-height: 1.7;
+
+        text-align: right;
+
+        vertical-align: middle;
+
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+
+    .appointments-table tbody tr {
+        transition: background 0.15s ease;
+    }
+
+
+    .appointments-table tbody tr:hover {
+        background: #f8fafc;
+    }
+
+
+    .appointments-table tbody tr:hover td {
+        background: #f8fafc;
+    }
+
+
+    .appointments-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+
+    /* =========================
+       Columns
+    ========================== */
+
+    .appointments-table th:nth-child(1),
+    .appointments-table td:nth-child(1) {
+        width: 20%;
+    }
+
+
+    .appointments-table th:nth-child(2),
+    .appointments-table td:nth-child(2) {
+        width: 35%;
+    }
+
+
+    .appointments-table th:nth-child(3),
+    .appointments-table td:nth-child(3) {
+        width: 25%;
+    }
+
+
+    .appointments-table th:nth-child(4),
+    .appointments-table td:nth-child(4) {
+        width: 20%;
+    }
+
+
+    /* =========================
+       Day
+    ========================== */
+
+    .day-cell {
+        color: #111827;
+
+        font-weight: 700;
+
+        white-space: nowrap;
+    }
+
+
+    /* =========================
+       Date
+    ========================== */
+
+    .date-cell {
+        color: #64748b;
+
+        direction: rtl;
+
+        white-space: nowrap;
+
+        font-variant-numeric: tabular-nums;
+    }
+
+
+    /* =========================
+       Time
+    ========================== */
+
+    .time-cell {
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 9px;
+
+        direction: rtl;
+
+        color: #111827;
+
+        font-weight: 700;
+
+        white-space: nowrap;
+
+        font-variant-numeric: tabular-nums;
+    }
+
+
+    .time-cell i {
+        color: #64748b;
+
+        font-size: 14px;
+    }
+
+
+    /* =========================
+       Available Status
+    ========================== */
+
+    .available-badge {
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        gap: 7px;
+
+        padding: 7px 12px;
+
+        border-radius: 999px;
+
+        background: #ecfdf5;
+
+        color: #059669;
+
+        font-size: 12px;
+
+        font-weight: 700;
+
+        line-height: 1.5;
+
+        white-space: nowrap;
+    }
+
+
+    .available-badge i {
+        color: #10b981;
+
+        font-size: 8px;
+    }
+
+
+    /* =========================
+       Responsive
+    ========================== */
+
+    @media (max-width: 768px) {
+
+        .appointments-page {
+            padding: 20px;
+        }
+
+
+        .page-header {
+            align-items: flex-start;
+
+            flex-direction: column;
+        }
+
+
+        .page-header-content {
+            width: 100%;
+        }
+
+
+        .create-slot-btn {
+            width: 100%;
+        }
+
+
         .stats-grid {
             grid-template-columns: 1fr;
         }
 
-        .days-list {
-            grid-template-columns: repeat(3, 1fr);
+
+        .appointments-table {
+            min-width: 700px;
         }
 
-        .slots-grid {
-            grid-template-columns: repeat(3, 1fr);
+
+        .appointments-table th,
+        .appointments-table td {
+            padding: 15px 18px;
         }
+
     }
 
-    @media (max-width: 600px) {
+
+    @media (max-width: 480px) {
+
         .appointments-page {
-            padding: 25px 14px 40px;
+            padding: 15px;
         }
 
-        .page-header {
+
+        .page-header-content {
             align-items: flex-start;
-            flex-wrap: wrap;
+
+            gap: 12px;
         }
 
-        .create-slot-button {
-            width: 100%;
-            justify-content: center;
+
+        .page-header-icon {
+            width: 48px;
+            height: 48px;
+
+            font-size: 20px;
+
+            border-radius: 13px;
         }
 
-        .card-header {
-            align-items: flex-start;
-            flex-direction: column;
-            padding: 18px;
+
+        .page-header h1 {
+            font-size: 23px;
         }
 
-        .days-list {
-            grid-template-columns: repeat(2, 1fr);
+
+        .page-header p {
+            font-size: 13px;
+        }
+
+
+        .stat-card {
             padding: 16px;
         }
 
-        .slots-section {
-            padding: 18px;
+
+        .stat-icon {
+            width: 44px;
+            height: 44px;
+
+            font-size: 18px;
         }
 
-        .slots-grid {
-            grid-template-columns: repeat(2, 1fr);
+
+        .stat-content strong {
+            font-size: 22px;
         }
+
     }
 
-    @media (max-width: 400px) {
-        .slots-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .slot-card {
-            min-height: 54px;
-        }
-    }
 </style>
 
+
+<script>
+
+    interface AppointmentSlot {
+        id: number;
+        time: string;
+        status: "available" | "booked";
+    }
+
+
+    interface AppointmentDay {
+        id: number;
+        date: string;
+        day_name: string;
+        slots?: AppointmentSlot[];
+    }
+
+
+    interface AppointmentResponse {
+        results?: AppointmentDay[];
+    }
+
+
+    const API_URL =
+        "http://localhost:8000/api/v1/booking/appointments/today/";
+
+
+    const loading =
+        document.getElementById(
+            "loading"
+        );
+
+
+    const error =
+        document.getElementById(
+            "error"
+        );
+
+
+    const empty =
+        document.getElementById(
+            "empty"
+        );
+
+
+    const tableContainer =
+        document.getElementById(
+            "table-container"
+        );
+
+
+    const appointmentsBody =
+        document.getElementById(
+            "appointments-body"
+        );
+
+
+    const totalSlots =
+        document.getElementById(
+            "total-slots"
+        );
+
+
+    const availableSlots =
+        document.getElementById(
+            "available-slots"
+        );
+
+
+    /* =========================
+       Persian Digits
+    ========================== */
+
+    const toPersianDigits = (
+        value: string | number
+    ) => {
+
+        return String(value).replace(
+            /\d/g,
+            (digit) =>
+                "۰۱۲۳۴۵۶۷۸۹"[
+                    Number(digit)
+                ]
+        );
+
+    };
+
+
+    /* =========================
+       Format Time
+    ========================== */
+
+    const formatTime = (
+        time: string
+    ) => {
+
+        /*
+         * 05:44:49.851000
+         *
+         * ↓
+         *
+         * ۰۵:۴۴
+         */
+
+        const cleanTime =
+            time.slice(0, 5);
+
+
+        return toPersianDigits(
+            cleanTime
+        );
+
+    };
+
+
+    /* =========================
+       Format Persian Date
+    ========================== */
+
+    const formatDate = (
+        date: string
+    ) => {
+
+        /*
+         * 2026-09-19
+         *
+         * ↓
+         *
+         * ۲۸/۰۶/۱۴۰۵
+         */
+
+        const parsedDate =
+            new Date(
+                `${date}T00:00:00`
+            );
+
+
+        const formatter =
+            new Intl.DateTimeFormat(
+                "fa-IR-u-ca-persian",
+                {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                }
+            );
+
+
+        const parts =
+            formatter.formatToParts(
+                parsedDate
+            );
+
+
+        const day =
+            parts.find(
+                (part) =>
+                    part.type === "day"
+            )?.value ?? "";
+
+
+        const month =
+            parts.find(
+                (part) =>
+                    part.type === "month"
+            )?.value ?? "";
+
+
+        const year =
+            parts.find(
+                (part) =>
+                    part.type === "year"
+            )?.value ?? "";
+
+
+        /*
+         * همیشه:
+         *
+         * روز / ماه / سال
+         */
+
+        return `${day}/${month}/${year}`;
+
+    };
+
+
+    /* =========================
+       Render Table
+    ========================== */
+
+    const renderTable = (
+        days: AppointmentDay[]
+    ) => {
+
+        if (!appointmentsBody) {
+            return false;
+        }
+
+
+        appointmentsBody.innerHTML =
+            "";
+
+
+        let hasAvailableSlots =
+            false;
+
+
+        days.forEach((day) => {
+
+            const slots =
+                (day.slots ?? []).filter(
+                    (slot) =>
+                        slot.status ===
+                        "available"
+                );
+
+
+            slots.forEach((slot) => {
+
+                hasAvailableSlots =
+                    true;
+
+
+                const row =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                row.innerHTML = `
+                    <td class="day-cell">
+                        ${day.day_name}
+                    </td>
+
+                    <td class="date-cell">
+                        ${formatDate(day.date)}
+                    </td>
+
+                    <td>
+                        <span class="time-cell">
+                            <i class="fa-regular fa-clock"></i>
+                            ${formatTime(slot.time)}
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="available-badge">
+                            <i class="fa-solid fa-circle"></i>
+                            آزاد
+                        </span>
+                    </td>
+                `;
+
+
+                appointmentsBody.appendChild(
+                    row
+                );
+
+            });
+
+        });
+
+
+        return hasAvailableSlots;
+
+    };
+
+
+    /* =========================
+       Load Appointments
+    ========================== */
+
+    const loadAppointments =
+        async () => {
+
+            try {
+
+                if (loading) {
+                    loading.hidden =
+                        false;
+                }
+
+
+                if (error) {
+                    error.hidden =
+                        true;
+                }
+
+
+                if (empty) {
+                    empty.hidden =
+                        true;
+                }
+
+
+                if (tableContainer) {
+                    tableContainer.hidden =
+                        true;
+                }
+
+
+                /* Request */
+
+                const response =
+                    await fetch(
+                        API_URL,
+                        {
+                            method: "GET",
+
+                            credentials:
+                                "include",
+
+                            headers: {
+                                Accept:
+                                    "application/json",
+                            },
+                        }
+                    );
+
+
+                if (!response.ok) {
+                    throw new Error(
+                        "Failed to fetch appointments"
+                    );
+                }
+
+
+                /* Response */
+
+                const data:
+                    AppointmentResponse =
+                        await response.json();
+
+
+                console.log(
+                    "APPOINTMENTS:",
+                    data
+                );
+
+
+                const days =
+                    data.results ?? [];
+
+
+                /* Count */
+
+                let availableCount =
+                    0;
+
+
+                days.forEach((day) => {
+
+                    (
+                        day.slots ?? []
+                    ).forEach((slot) => {
+
+                        if (
+                            slot.status ===
+                            "available"
+                        ) {
+
+                            availableCount++;
+
+                        }
+
+                    });
+
+                });
+
+
+                /* Persian Count */
+
+                const formattedCount =
+                    toPersianDigits(
+                        availableCount
+                    );
+
+
+                if (totalSlots) {
+                    totalSlots.textContent =
+                        formattedCount;
+                }
+
+
+                if (availableSlots) {
+                    availableSlots.textContent =
+                        formattedCount;
+                }
+
+
+                /* Hide Loading */
+
+                if (loading) {
+                    loading.hidden =
+                        true;
+                }
+
+
+                /* Render Table */
+
+                const hasAvailableSlots =
+                    renderTable(days);
+
+
+                /* Empty */
+
+                if (!hasAvailableSlots) {
+
+                    if (empty) {
+                        empty.hidden =
+                            false;
+                    }
+
+                    return;
+                }
+
+
+                /* Show Table */
+
+                if (tableContainer) {
+                    tableContainer.hidden =
+                        false;
+                }
+
+            } catch (err) {
+
+                console.error(
+                    "APPOINTMENTS ERROR:",
+                    err
+                );
+
+
+                if (loading) {
+                    loading.hidden =
+                        true;
+                }
+
+
+                if (error) {
+                    error.hidden =
+                        false;
+                }
+
+            }
+
+        };
+
+
+    /* =========================
+       Init
+    ========================== */
+
+    loadAppointments();
+
+</script>

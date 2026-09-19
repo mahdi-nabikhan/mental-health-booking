@@ -231,35 +231,59 @@ class RetrieveUpdateDeleteAppointmentApiView(generics.GenericAPIView):
             
 
 class TodayAppointmentApiView(generics.GenericAPIView):
-    serializer_class = AppointmentSerializer
     pagination_class = StandardPagination
+
+    WEEKDAYS = {
+        0: "دوشنبه",
+        1: "سه‌شنبه",
+        2: "چهارشنبه",
+        3: "پنجشنبه",
+        4: "جمعه",
+        5: "شنبه",
+        6: "یکشنبه",
+    }
 
     def get_queryset(self):
         return (
-            models.Appointment.objects
+            models.AppointmentSlot.objects
             .filter(
-                slot__date=timezone.localdate(),
-                slot__therapist__user=self.request.user,
+                date__gte=timezone.localdate(),
+                therapist__user=self.request.user,
             )
-            .select_related(
-                "slot",
-                "slot__therapist",
-                "patient",
+            .exclude(
+                appointment__status=models.Appointment.Status.SCHEDULED,
             )
             .order_by(
-                "slot__time",
+                "date",
+                "time",
                 "id",
             )
         )
 
     def get(self, request):
         queryset = self.get_queryset()
-        page = self.paginate_queryset(queryset)
+        slots = self.paginate_queryset(queryset)
 
-        serializer = self.serializer_class(
-            page,
-            many=True,
-            context={"request": request},
-        )
+        days = {}
 
-        return self.get_paginated_response(serializer.data)
+        for slot in slots:
+
+            if slot.date not in days:
+                days[slot.date] = {
+                    "id": slot.date.toordinal(),
+                    "date": slot.date,
+                    "day_name": self.WEEKDAYS[
+                        slot.date.weekday()
+                    ],
+                    "slots": [],
+                }
+
+            days[slot.date]["slots"].append({
+                "id": slot.id,
+                "time": slot.time,
+                "status": "available",
+            })
+
+        results = list(days.values())
+
+        return self.get_paginated_response(results)

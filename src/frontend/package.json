@@ -12,7 +12,8 @@
   "dependencies": {
     "aos": "^2.3.4",
     "astro": "^5.7.13",
-    "bootstrap": "^5.3.3"
+    "bootstrap": "^5.3.3",
+    "jalaali-js": "^2.0.1"
   },
   "devDependencies": {
     "@types/aos": "^3.0.7",

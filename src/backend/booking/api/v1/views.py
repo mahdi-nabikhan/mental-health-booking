@@ -1,5 +1,7 @@
 from rest_framework import generics,status,response
+from rest_framework import generics
 
+from .serializers import AppointmentSlotSerializer
 from django.utils import timezone
 from rest_framework import generics
 
@@ -44,24 +46,7 @@ class ListCreateAppointmentSlotApiView(generics.GenericAPIView):
 
         return self.get_paginated_response(serializer.data)
 
-    def post(self, request):
-        serializer = AppointmentSlotSerializer(
-            data=request.data,
-            context={"request": request},
-        )
 
-        if serializer.is_valid():
-            serializer.save()
-
-            return response.Response(
-                {"message": "Appointment Slot successfully created"},
-                status=status.HTTP_200_OK,
-            )
-
-        return response.Response(
-            serializer.errors,
-            status=status.HTTP_400_BAD_REQUEST,
-        )
         
 class RetriveDeleteUpdateAppointmentSlotApiView(generics.GenericAPIView):
     serializer_class = AppointmentSlotSerializer
@@ -303,3 +288,13 @@ class TodayAppointmentApiView(generics.GenericAPIView):
         results = list(days.values())
 
         return self.get_paginated_response(results)
+    
+    
+
+
+
+class CreateAppointmentSlotApiView(generics.CreateAPIView):
+    serializer_class = AppointmentSlotSerializer
+
+    def get_queryset(self):
+        return models.AppointmentSlot.objects.all()    

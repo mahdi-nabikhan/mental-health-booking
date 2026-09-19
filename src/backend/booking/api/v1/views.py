@@ -8,11 +8,28 @@ from booking import models
 from .paginations import *
 
 class ListCreateAppointmentSlotApiView(generics.GenericAPIView):
-    serializer_class = AppointmentSlotSerializer
+    serializer_class = AppointmentSerializer
     pagination_class = StandardPagination
 
     def get_queryset(self):
-        return models.AppointmentSlot.objects.filter(appointment__isnull=True).order_by("date","time","id",)
+        today = timezone.localdate()
+
+        return (
+            models.Appointment.objects
+            .filter(
+                slot__date=today,
+                status=models.Appointment.Status.SCHEDULED,
+            )
+            .select_related(
+                "patient",
+                "slot",
+                "slot__therapist",
+            )
+            .order_by(
+                "slot__time",
+                "id",
+            )
+        )
 
     def get(self, request):
         queryset = self.get_queryset()
@@ -28,7 +45,7 @@ class ListCreateAppointmentSlotApiView(generics.GenericAPIView):
         return self.get_paginated_response(serializer.data)
 
     def post(self, request):
-        serializer = self.serializer_class(
+        serializer = AppointmentSlotSerializer(
             data=request.data,
             context={"request": request},
         )
@@ -45,7 +62,6 @@ class ListCreateAppointmentSlotApiView(generics.GenericAPIView):
             serializer.errors,
             status=status.HTTP_400_BAD_REQUEST,
         )
-        
         
 class RetriveDeleteUpdateAppointmentSlotApiView(generics.GenericAPIView):
     serializer_class = AppointmentSlotSerializer

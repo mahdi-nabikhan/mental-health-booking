@@ -8,31 +8,41 @@ from .paginations import *
 class ListCreateAppointmentSlotApiView(generics.GenericAPIView):
     serializer_class = AppointmentSlotSerializer
     pagination_class = StandardPagination
-    
-    
+
     def get_queryset(self):
         return models.AppointmentSlot.objects.all()
-    
-    
-    
-    
-    def get(self,request):
-        queryset =  self.get_queryset()
-        serializer = self.serializer_class(instance = queryset,context ={'request':request} , many=True)
-        return response.Response(serializer.data,status=status.HTTP_200_OK)
-    
-    
-    
-    def post(self,request):
-        serializer = self.serializer_class(data=request.data,context ={'request':request})
+
+    def get(self, request):
+        queryset = self.get_queryset()
+
+        page = self.paginate_queryset(queryset)
+
+        serializer = self.serializer_class(
+            page,
+            many=True,
+            context={"request": request},
+        )
+
+        return self.get_paginated_response(serializer.data)
+
+    def post(self, request):
+        serializer = self.serializer_class(
+            data=request.data,
+            context={"request": request},
+        )
+
         if serializer.is_valid():
             serializer.save()
-            return response.Response({"message":'Appointment Slot successfully created'},status=status.HTTP_200_OK)
-            
-        else:
-            return response.Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
-        
-        
+
+            return response.Response(
+                {"message": "Appointment Slot successfully created"},
+                status=status.HTTP_200_OK,
+            )
+
+        return response.Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST,
+        )
         
         
 class RetriveDeleteUpdateAppointmentSlotApiView(generics.GenericAPIView):

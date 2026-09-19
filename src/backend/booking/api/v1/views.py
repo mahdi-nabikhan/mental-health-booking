@@ -9,7 +9,7 @@ class ListCreateAppointmentSlotApiView(generics.GenericAPIView):
     
     
     def get_queryset(self):
-        return models.AppointmentSlot.objects.filter(therapist__user=self.request.user)
+        return models.AppointmentSlot.objects.all()
     
     
     

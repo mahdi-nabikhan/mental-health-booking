@@ -25,25 +25,43 @@ interface AppointmentSlot {
   therapist: Therapist;
 }
 
+interface AppointmentSlotsResponse {
+  links: {
+    next: string | null;
+    previous: string | null;
+  };
+  count: number;
+  results: AppointmentSlot[];
+}
+
 let appointmentSlots: AppointmentSlot[] = [];
+let totalCount = 0;
+
+const currentPage = Math.max(
+  1,
+  Number(Astro.url.searchParams.get('page') ?? '1')
+);
 
 try {
   const response = await fetch(
-    'http://localhost:8000/api/v1/booking/appointment-slots/'
+    `http://localhost:8000/api/v1/booking/appointment-slots/?page=${currentPage}`
   );
 
   if (response.ok) {
-    const data = await response.json();
+    const data: AppointmentSlotsResponse = await response.json();
 
-    if (Array.isArray(data)) {
-      appointmentSlots = data;
-    } else if (Array.isArray(data.data)) {
-      appointmentSlots = data.data;
-    }
+    appointmentSlots = Array.isArray(data.results)
+      ? data.results
+      : [];
+
+    totalCount = data.count ?? 0;
   }
 } catch (error) {
   console.warn('Appointment slots are currently unavailable.');
 }
+
+const pageSize = 4;
+const totalPages = Math.ceil(totalCount / pageSize);
 ---
 
 <Layout title="روان‌درمانگر: رزرو نوبت">
@@ -77,71 +95,106 @@ try {
         </div>
 
         {appointmentSlots.length > 0 ? (
-          <div class="slots-grid">
-            {appointmentSlots.map((slot) => (
-              <article class="slot-card">
+          <>
+            <div class="slots-grid">
+              {appointmentSlots.map((slot) => (
+                <article class="slot-card">
 
-                <div class="slot-card-header">
-                  <div class="slot-icon">
-                    <i class="fa-regular fa-calendar"></i>
+                  <div class="slot-card-header">
+                    <div class="slot-icon">
+                      <i class="fa-regular fa-calendar"></i>
+                    </div>
+
+                    <span class="available-badge">
+                      زمان آزاد
+                    </span>
                   </div>
 
-                  <span class="available-badge">
-                    زمان آزاد
-                  </span>
-                </div>
+                  <div class="slot-info">
 
-                <div class="slot-info">
+                    <div class="slot-info-item">
+                      <span class="slot-info-label">
+                        تاریخ
+                      </span>
 
-                  <div class="slot-info-item">
-                    <span class="slot-info-label">
-                      تاریخ
+                      <strong class="slot-info-value">
+                        {slot.date}
+                      </strong>
+                    </div>
+
+                    <div class="slot-info-item">
+                      <span class="slot-info-label">
+                        ساعت
+                      </span>
+
+                      <strong class="slot-info-value slot-time-value">
+                        {slot.time.slice(0, 5)}
+                      </strong>
+                    </div>
+
+                    <div class="slot-info-item therapist-info">
+                      <span class="slot-info-label">
+                        روان‌درمانگر
+                      </span>
+
+                      <strong class="slot-info-value">
+                        {slot.therapist.first_name}
+                        {' '}
+                        {slot.therapist.last_name}
+                      </strong>
+                    </div>
+
+                  </div>
+
+                  <button
+                    type="button"
+                    class="book-slot-btn"
+                    data-slot-id={slot.id}
+                  >
+                    <span>
+                      رزرو نوبت
                     </span>
 
-                    <strong class="slot-info-value">
-                      {slot.date}
-                    </strong>
-                  </div>
+                    <i class="fa-solid fa-arrow-left"></i>
+                  </button>
 
-                  <div class="slot-info-item">
-                    <span class="slot-info-label">
-                      ساعت
-                    </span>
+                </article>
+              ))}
+            </div>
 
-                    <strong class="slot-info-value slot-time-value">
-                      {slot.time.slice(0, 5)}
-                    </strong>
-                  </div>
+            {totalPages > 1 && (
+              <nav
+                class="pagination"
+                aria-label="صفحه‌بندی نوبت‌ها"
+              >
+                {currentPage > 1 && (
+                  <a
+                    href={`/main-slot?page=${currentPage - 1}`}
+                    class="pagination-btn"
+                    aria-label="صفحه قبلی"
+                  >
+                    <i class="fa-solid fa-arrow-right"></i>
+                    <span>قبلی</span>
+                  </a>
+                )}
 
-                  <div class="slot-info-item therapist-info">
-                    <span class="slot-info-label">
-                      روان‌درمانگر
-                    </span>
+                <span class="pagination-current">
+                  صفحه {currentPage} از {totalPages}
+                </span>
 
-                    <strong class="slot-info-value">
-                      {slot.therapist.first_name}
-                      {' '}
-                      {slot.therapist.last_name}
-                    </strong>
-                  </div>
-
-                </div>
-
-                <button
-                  type="button"
-                  class="book-slot-btn"
-                  data-slot-id={slot.id}
-                >
-                  <span>
-                    رزرو نوبت
-                  </span>
-
-                  <i class="fa-solid fa-arrow-left"></i>
-                </button>
-
-              </article>
-            ))}
-          </div>
+                {currentPage < totalPages && (
+                  <a
+                    href={`/main-slot?page=${currentPage + 1}`}
+                    class="pagination-btn"
+                    aria-label="صفحه بعدی"
+                  >
+                    <span>بعدی</span>
+                    <i class="fa-solid fa-arrow-left"></i>
+                  </a>
+                )}
+              </nav>
+            )}
+          </>
         ) : (
           <div class="empty-slots">
 
@@ -215,7 +268,7 @@ try {
 
   .slots-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 24px;
   }
 
@@ -343,6 +396,49 @@ try {
     box-shadow: none;
   }
 
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 45px;
+    direction: rtl;
+  }
+
+  .pagination-btn,
+  .pagination-current {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    text-decoration: none;
+  }
+
+  .pagination-btn {
+    background: #263238;
+    color: #ffffff;
+    transition:
+      background 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .pagination-btn:hover {
+    background: #37474f;
+    color: #ffffff;
+    transform: translateY(-1px);
+  }
+
+  .pagination-current {
+    min-width: 130px;
+    background: #eef2f3;
+    color: #263238;
+    font-weight: 600;
+  }
+
   .empty-slots {
     max-width: 650px;
     margin: 0 auto;
@@ -418,6 +514,20 @@ try {
       min-height: auto;
       padding: 22px;
     }
+
+    .pagination {
+      gap: 8px;
+    }
+
+    .pagination-btn,
+    .pagination-current {
+      min-height: 40px;
+      padding: 7px 12px;
+      font-size: 13px;
+    }
+
+    .pagination-current {
+      min-width: auto;
+    }
   }
 </style>
-

@@ -1,0 +1,423 @@
+
+---
+import Layout from '@layouts/Layout.astro';
+import Navbar from '@components/Navbar.astro';
+import Footer from '@components/Footer.astro';
+
+const intro = 'رزرو نوبت';
+
+interface Therapist {
+  id: number;
+  first_name: string;
+  last_name: string;
+  phone_number: string;
+  user: {
+    email: string;
+    id: number;
+  };
+}
+
+interface AppointmentSlot {
+  id: number;
+  date: string;
+  time: string;
+  created_at: string;
+  therapist: Therapist;
+}
+
+let appointmentSlots: AppointmentSlot[] = [];
+
+try {
+  const response = await fetch(
+    'http://localhost:8000/api/v1/booking/appointment-slots/'
+  );
+
+  if (response.ok) {
+    const data = await response.json();
+
+    if (Array.isArray(data)) {
+      appointmentSlots = data;
+    } else if (Array.isArray(data.data)) {
+      appointmentSlots = data.data;
+    }
+  }
+} catch (error) {
+  console.warn('Appointment slots are currently unavailable.');
+}
+---
+
+<Layout title="روان‌درمانگر: رزرو نوبت">
+  <header class="header" id="help-header">
+    <Navbar />
+
+    <h1 class="hero-title" id="help-hero-title">
+      {intro}
+    </h1>
+  </header>
+
+  <main class="main" id="index-main">
+    <section
+      class="appointment-slots"
+      aria-labelledby="appointment-slots-title"
+    >
+      <div class="appointment-slots-container">
+
+        <div class="appointment-slots-heading">
+          <span class="appointment-slots-label">
+            رزرو آنلاین
+          </span>
+
+          <h2 id="appointment-slots-title">
+            زمان‌های مشاوره موجود
+          </h2>
+
+          <p>
+            زمان مناسب خود را انتخاب کنید و برای دریافت مشاوره نوبت رزرو کنید.
+          </p>
+        </div>
+
+        {appointmentSlots.length > 0 ? (
+          <div class="slots-grid">
+            {appointmentSlots.map((slot) => (
+              <article class="slot-card">
+
+                <div class="slot-card-header">
+                  <div class="slot-icon">
+                    <i class="fa-regular fa-calendar"></i>
+                  </div>
+
+                  <span class="available-badge">
+                    زمان آزاد
+                  </span>
+                </div>
+
+                <div class="slot-info">
+
+                  <div class="slot-info-item">
+                    <span class="slot-info-label">
+                      تاریخ
+                    </span>
+
+                    <strong class="slot-info-value">
+                      {slot.date}
+                    </strong>
+                  </div>
+
+                  <div class="slot-info-item">
+                    <span class="slot-info-label">
+                      ساعت
+                    </span>
+
+                    <strong class="slot-info-value slot-time-value">
+                      {slot.time.slice(0, 5)}
+                    </strong>
+                  </div>
+
+                  <div class="slot-info-item therapist-info">
+                    <span class="slot-info-label">
+                      روان‌درمانگر
+                    </span>
+
+                    <strong class="slot-info-value">
+                      {slot.therapist.first_name}
+                      {' '}
+                      {slot.therapist.last_name}
+                    </strong>
+                  </div>
+
+                </div>
+
+                <button
+                  type="button"
+                  class="book-slot-btn"
+                  data-slot-id={slot.id}
+                >
+                  <span>
+                    رزرو نوبت
+                  </span>
+
+                  <i class="fa-solid fa-arrow-left"></i>
+                </button>
+
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div class="empty-slots">
+
+            <div class="empty-slots-icon">
+              <i class="fa-regular fa-calendar-xmark"></i>
+            </div>
+
+            <h3>
+              در حال حاضر نوبت آزادی وجود ندارد
+            </h3>
+
+            <p>
+              در حال حاضر زمان مشاوره‌ای برای رزرو وجود ندارد.
+              لطفاً بعداً دوباره مراجعه کنید.
+            </p>
+
+          </div>
+        )}
+
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .appointment-slots {
+    padding: 90px 20px;
+    background: #f8fafc;
+    direction: rtl;
+  }
+
+  .appointment-slots-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .appointment-slots-heading {
+    max-width: 700px;
+    margin: 0 auto 45px;
+    text-align: center;
+  }
+
+  .appointment-slots-label {
+    display: inline-block;
+    margin-bottom: 12px;
+    padding: 7px 16px;
+    border-radius: 30px;
+    background: #eef2f3;
+    color: #52636a;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .appointment-slots-heading h2 {
+    margin: 0 0 14px;
+    color: #263238;
+    font-size: 34px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .appointment-slots-heading p {
+    margin: 0;
+    color: #7a858c;
+    font-size: 15px;
+    line-height: 1.9;
+  }
+
+  .slots-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .slot-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 350px;
+    padding: 25px;
+    background: #ffffff;
+    border: 1px solid #e8ecef;
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease,
+      border-color 0.25s ease;
+  }
+
+  .slot-card:hover {
+    transform: translateY(-5px);
+    border-color: #d9e0e3;
+    box-shadow: 0 15px 38px rgba(0, 0, 0, 0.09);
+  }
+
+  .slot-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .slot-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: #f1f4f5;
+    color: #455a64;
+    font-size: 19px;
+  }
+
+  .available-badge {
+    padding: 6px 11px;
+    border-radius: 20px;
+    background: #f1f7f3;
+    color: #4f765d;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .slot-info {
+    margin-bottom: 22px;
+  }
+
+  .slot-info-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 14px 0;
+    border-bottom: 1px solid #eef1f3;
+  }
+
+  .slot-info-label {
+    color: #7a858c;
+    font-size: 13px;
+  }
+
+  .slot-info-value {
+    color: #263238;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .slot-time-value {
+    direction: ltr;
+  }
+
+  .therapist-info {
+    border-bottom: none;
+  }
+
+  .book-slot-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 50px;
+    margin-top: auto;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 11px;
+    background: #263238;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      background 0.2s ease,
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .book-slot-btn:hover {
+    background: #37474f;
+    transform: translateY(-1px);
+    box-shadow: 0 7px 18px rgba(38, 50, 56, 0.18);
+  }
+
+  .book-slot-btn i {
+    font-size: 13px;
+    transition: transform 0.2s ease;
+  }
+
+  .book-slot-btn:hover i {
+    transform: translateX(-3px);
+  }
+
+  .book-slot-btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+
+  .empty-slots {
+    max-width: 650px;
+    margin: 0 auto;
+    padding: 45px 30px;
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #e8ecef;
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+  }
+
+  .empty-slots-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    background: #f1f4f5;
+    color: #718087;
+    font-size: 22px;
+  }
+
+  .empty-slots h3 {
+    margin: 0 0 10px;
+    color: #263238;
+    font-size: 19px;
+    font-weight: 600;
+  }
+
+  .empty-slots p {
+    max-width: 450px;
+    margin: 0 auto;
+    color: #7a858c;
+    font-size: 14px;
+    line-height: 1.9;
+  }
+
+  @media (max-width: 992px) {
+    .slots-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .appointment-slots-heading h2 {
+      font-size: 30px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .appointment-slots {
+      padding: 65px 16px;
+    }
+
+    .appointment-slots-heading {
+      margin-bottom: 30px;
+    }
+
+    .appointment-slots-heading h2 {
+      font-size: 26px;
+    }
+
+    .appointment-slots-heading p {
+      font-size: 14px;
+    }
+
+    .slots-grid {
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .slot-card {
+      min-height: auto;
+      padding: 22px;
+    }
+  }
+</style>
+

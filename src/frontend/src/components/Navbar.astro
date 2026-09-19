@@ -1,6 +1,7 @@
 ---
 const currentPath = Astro.url.pathname;
-const isActive = (path: string) => currentPath === path ? "nav-link active" : "nav-link";
+const isActive = (path: string) =>
+  currentPath === path ? "nav-link active" : "nav-link";
 ---
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary" id="navigation">
@@ -43,12 +44,12 @@ const isActive = (path: string) => currentPath === path ? "nav-link active" : "n
 
         <li class="nav-item">
           <a
-            class={isActive("/help")}
-            href="/help"
-            title="رفتن به صفحه دریافت کمک"
-            aria-label="رفتن به صفحه دریافت کمک"
+            class={isActive("/main-slot")}
+            href="/main-slot"
+            title="رفتن به صفحه رزرو نوبت"
+            aria-label="رفتن به صفحه رزرو نوبت"
           >
-            دریافت کمک
+            رزرو نوبت
           </a>
         </li>
 

@@ -1,11 +1,13 @@
 from rest_framework import generics,status,response
 from .serializers import *
 from booking import models
+from .paginations import *
 
 
 
 class ListCreateAppointmentSlotApiView(generics.GenericAPIView):
     serializer_class = AppointmentSlotSerializer
+    pagination_class = StandardPagination
     
     
     def get_queryset(self):

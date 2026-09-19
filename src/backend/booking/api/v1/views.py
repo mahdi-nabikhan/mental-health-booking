@@ -10,7 +10,7 @@ class ListCreateAppointmentSlotApiView(generics.GenericAPIView):
     pagination_class = StandardPagination
 
     def get_queryset(self):
-        return models.AppointmentSlot.objects.all()
+        return models.AppointmentSlot.objects.filter(appointment__isnull=True).order_by("date","time","id",)
 
     def get(self, request):
         queryset = self.get_queryset()

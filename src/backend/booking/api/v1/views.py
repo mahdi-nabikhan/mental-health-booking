@@ -1,9 +1,11 @@
 from rest_framework import generics,status,response
+
+from django.utils import timezone
+from rest_framework import generics
+
 from .serializers import *
 from booking import models
 from .paginations import *
-
-
 
 class ListCreateAppointmentSlotApiView(generics.GenericAPIView):
     serializer_class = AppointmentSlotSerializer
@@ -228,5 +230,36 @@ class RetrieveUpdateDeleteAppointmentApiView(generics.GenericAPIView):
             
             
 
-                
-        
+class TodayAppointmentApiView(generics.GenericAPIView):
+    serializer_class = AppointmentSerializer
+    pagination_class = StandardPagination
+
+    def get_queryset(self):
+        return (
+            models.Appointment.objects
+            .filter(
+                slot__date=timezone.localdate(),
+                slot__therapist__user=self.request.user,
+            )
+            .select_related(
+                "slot",
+                "slot__therapist",
+                "patient",
+            )
+            .order_by(
+                "slot__time",
+                "id",
+            )
+        )
+
+    def get(self, request):
+        queryset = self.get_queryset()
+        page = self.paginate_queryset(queryset)
+
+        serializer = self.serializer_class(
+            page,
+            many=True,
+            context={"request": request},
+        )
+
+        return self.get_paginated_response(serializer.data)

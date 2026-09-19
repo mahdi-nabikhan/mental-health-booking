@@ -32,4 +32,8 @@ urlpatterns = [
         views.RetrieveUpdateDeleteAppointmentApiView.as_view(),
         name="appointment-detail",
     ),
+    path(
+    "appointments/today/",
+    views.TodayAppointmentApiView.as_view(),
+    name="appointment-today",),
 ]

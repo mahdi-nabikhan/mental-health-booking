@@ -319,3 +319,25 @@ class TherapistAppointmentSlotListView(generics.ListAPIView):
             )
             .order_by("date", "time")
         )
+        
+        
+
+
+
+class TherapistAvailableSlotListView(generics.ListAPIView):
+    serializer_class = AppointmentSlotSerializer
+    pagination_class = StandardPagination
+
+    def get_queryset(self):
+        therapist = models.Therapist.objects.get(
+            user=self.request.user
+        )
+
+        return (
+            models.AppointmentSlot.objects
+            .filter(
+                therapist=therapist,
+                appointment__isnull=True,
+            )
+            .order_by("date", "time")
+        )

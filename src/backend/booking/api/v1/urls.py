@@ -43,6 +43,9 @@ urlpatterns = [
     path(
     "therapist/appointment-slots/",
     views.TherapistAppointmentSlotListView.as_view(),
-    name="therapist-appointment-slots",
-),
+    name="therapist-appointment-slots",),
+    path(
+    "therapist/appointment-slots/available/",
+    views.TherapistAvailableSlotListView.as_view(),
+    name="therapist-available-slots",),
 ]

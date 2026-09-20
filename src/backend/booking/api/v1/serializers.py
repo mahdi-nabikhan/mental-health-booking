@@ -48,7 +48,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
     
     
     
-class AllAppointmentSlotSerializer(serializers.ModelSerializer):
+class TherapistAppointmentSlotSerializer(serializers.ModelSerializer):
     status = serializers.SerializerMethodField()
     appointment = serializers.SerializerMethodField()
 
@@ -58,7 +58,6 @@ class AllAppointmentSlotSerializer(serializers.ModelSerializer):
             "id",
             "date",
             "time",
-            "therapist",
             "status",
             "appointment",
         ]

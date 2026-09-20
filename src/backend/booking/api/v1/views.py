@@ -303,7 +303,7 @@ class CreateAppointmentSlotApiView(generics.CreateAPIView):
 
 class TherapistAppointmentSlotListView(generics.ListAPIView):
     serializer_class = TherapistAppointmentSlotSerializer
-    permission_classes = [IsAuthenticated]
+    
 
     def get_queryset(self):
         therapist = models.Therapist.objects.get(

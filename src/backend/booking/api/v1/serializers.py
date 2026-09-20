@@ -48,3 +48,41 @@ class AppointmentSerializer(serializers.ModelSerializer):
     
     
     
+class AllAppointmentSlotSerializer(serializers.ModelSerializer):
+    status = serializers.SerializerMethodField()
+    appointment = serializers.SerializerMethodField()
+
+    class Meta:
+        model = models.AppointmentSlot
+        fields = [
+            "id",
+            "date",
+            "time",
+            "therapist",
+            "status",
+            "appointment",
+        ]
+
+    def get_status(self, obj):
+        if not hasattr(obj, "appointment"):
+            return "available"
+
+        return obj.appointment.status
+
+    def get_appointment(self, obj):
+        if not hasattr(obj, "appointment"):
+            return None
+
+        appointment = obj.appointment
+
+        return {
+            "id": appointment.id,
+            "patient": {
+                "id": appointment.patient.id,
+                "first_name": appointment.patient.first_name,
+                "last_name": appointment.patient.last_name,
+                "phone_number": appointment.patient.phone_number,
+            },
+            "reason": appointment.reason,
+            "status": appointment.status,
+        }

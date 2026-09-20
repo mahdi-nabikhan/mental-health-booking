@@ -40,4 +40,9 @@ urlpatterns = [
     "create/appointment-slots/",
     views.CreateAppointmentSlotApiView.as_view(),
     name="appointment-slots",),
+    path(
+    "therapist/appointment-slots/",
+    views.TherapistAppointmentSlotListView.as_view(),
+    name="therapist-appointment-slots",
+),
 ]

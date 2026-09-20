@@ -298,3 +298,24 @@ class CreateAppointmentSlotApiView(generics.CreateAPIView):
 
     def get_queryset(self):
         return models.AppointmentSlot.objects.all()    
+    
+
+
+class TherapistAppointmentSlotListView(generics.ListAPIView):
+    serializer_class = TherapistAppointmentSlotSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        therapist = models.Therapist.objects.get(
+            user=self.request.user
+        )
+
+        return (
+            models.AppointmentSlot.objects
+            .filter(therapist=therapist)
+            .select_related(
+                "appointment",
+                "appointment__patient",
+            )
+            .order_by("date", "time")
+        )

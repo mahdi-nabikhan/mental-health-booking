@@ -1,4 +1,3 @@
-
 ---
 import Layout from '@layouts/Layout.astro';
 import Navbar from '@components/Navbar.astro';
@@ -42,13 +41,16 @@ const currentPage = Math.max(
   Number(Astro.url.searchParams.get('page') ?? '1')
 );
 
+const pageSize = 4;
+
 try {
   const response = await fetch(
-    `http://localhost:8000/api/v1/booking/appointment-slots/?page=${currentPage}`
+    `http://localhost:8000/api/v1/booking/appointment-slots/available/?page=${currentPage}&page_size=${pageSize}`
   );
 
   if (response.ok) {
-    const data: AppointmentSlotsResponse = await response.json();
+    const data: AppointmentSlotsResponse =
+      await response.json();
 
     appointmentSlots = Array.isArray(data.results)
       ? data.results
@@ -57,232 +59,302 @@ try {
     totalCount = data.count ?? 0;
   }
 } catch (error) {
-  console.warn('Appointment slots are currently unavailable.');
+  console.warn(
+    'Appointment slots are currently unavailable.'
+  );
 }
 
-const pageSize = 4;
-const totalPages = Math.ceil(totalCount / pageSize);
+const totalPages = Math.ceil(
+  totalCount / pageSize
+);
+
+const formatTime = (time: string) => {
+  return time.slice(0, 5);
+};
+
+const formatDate = (date: string) => {
+  const [year, month, day] = date.split('-');
+
+  return `${year}/${month}/${day}`;
+};
 ---
 
-<Layout title="روان‌درمانگر: رزرو نوبت">
-  <header class="header" id="help-header">
-    <Navbar />
+<Layout title={intro}>
+  <Navbar />
 
-    <h1 class="hero-title" id="help-hero-title">
-      {intro}
-    </h1>
-  </header>
+  <main class="booking-page">
+    <section class="hero-section">
+      <div class="hero-content">
+        <span class="hero-badge">
+          رزرو آنلاین
+        </span>
 
-  <main class="main" id="index-main">
-    <section
-      class="appointment-slots"
-      aria-labelledby="appointment-slots-title"
-    >
-      <div class="appointment-slots-container">
+        <h1>
+          رزرو نوبت مشاوره
+        </h1>
 
-        <div class="appointment-slots-heading">
-          <span class="appointment-slots-label">
-            رزرو آنلاین
+        <p>
+          زمان مناسب خود را انتخاب کنید و برای جلسه
+          مشاوره نوبت بگیرید.
+        </p>
+      </div>
+    </section>
+
+    <section class="slots-section">
+      <div class="section-header">
+        <div>
+          <span class="section-label">
+            نوبت‌های موجود
           </span>
 
-          <h2 id="appointment-slots-title">
-            زمان‌های مشاوره موجود
+          <h2>
+            زمان‌های مشاوره
           </h2>
 
           <p>
-            زمان مناسب خود را انتخاب کنید و برای دریافت مشاوره نوبت رزرو کنید.
+            یکی از زمان‌های آزاد را برای رزرو جلسه
+            انتخاب کنید.
           </p>
         </div>
 
-        {appointmentSlots.length > 0 ? (
+        {
+          totalCount > 0 && (
+            <div class="slots-count">
+              {totalCount} نوبت موجود
+            </div>
+          )
+        }
+      </div>
+
+      {
+        appointmentSlots.length > 0 ? (
           <>
             <div class="slots-grid">
-              {appointmentSlots.map((slot) => (
-                <article class="slot-card">
+              {appointmentSlots.map((slot) => {
+                const therapistName =
+                  `${slot.therapist.first_name} ${slot.therapist.last_name}`.trim();
 
-                  <div class="slot-card-header">
-                    <div class="slot-icon">
-                      <i class="fa-regular fa-calendar"></i>
-                    </div>
+                return (
+                  <article class="slot-card">
+                    <div class="slot-card-header">
+                      <div class="slot-icon">
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M7 3V6M17 3V6M4 9H20M6 5H18C19.1046 5 20 5.89543 20 7V19C20 20.1046 19.1046 21 18 21H6C4.89543 21 4 20.1046 4 19V7C4 5.89543 4.89543 5 6 5Z"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                      </div>
 
-                    <span class="available-badge">
-                      زمان آزاد
-                    </span>
-                  </div>
-
-                  <div class="slot-info">
-
-                    <div class="slot-info-item">
-                      <span class="slot-info-label">
-                        تاریخ
+                      <span class="available-badge">
+                        آزاد
                       </span>
-
-                      <strong class="slot-info-value">
-                        {slot.date}
-                      </strong>
                     </div>
 
-                    <div class="slot-info-item">
-                      <span class="slot-info-label">
-                        ساعت
-                      </span>
+                    <div class="slot-info">
+                      <div class="info-row">
+                        <span>
+                          تاریخ
+                        </span>
 
-                      <strong class="slot-info-value slot-time-value">
-                        {slot.time.slice(0, 5)}
-                      </strong>
+                        <strong>
+                          {formatDate(slot.date)}
+                        </strong>
+                      </div>
+
+                      <div class="info-row">
+                        <span>
+                          ساعت
+                        </span>
+
+                        <strong>
+                          {formatTime(slot.time)}
+                        </strong>
+                      </div>
+
+                      <div class="info-row">
+                        <span>
+                          روان‌درمانگر
+                        </span>
+
+                        <strong>
+                          {therapistName ||
+                            'روان‌درمانگر'}
+                        </strong>
+                      </div>
                     </div>
 
-                    <div class="slot-info-item therapist-info">
-                      <span class="slot-info-label">
-                        روان‌درمانگر
-                      </span>
-
-                      <strong class="slot-info-value">
-                        {slot.therapist.first_name}
-                        {' '}
-                        {slot.therapist.last_name}
-                      </strong>
-                    </div>
-
-                  </div>
-
-                  <button
-                    type="button"
-                    class="book-slot-btn"
-                    data-slot-id={slot.id}
-                    data-slot-date={slot.date}
-                    data-slot-time={slot.time.slice(0, 5)}
-                    data-slot-therapist={`${slot.therapist.first_name} ${slot.therapist.last_name}`}
-                  >
-                    <span>
+                    <button
+                      type="button"
+                      class="book-button"
+                      data-slot-id={slot.id}
+                      data-slot-date={formatDate(slot.date)}
+                      data-slot-time={formatTime(slot.time)}
+                      data-therapist={therapistName}
+                    >
                       رزرو نوبت
-                    </span>
-
-                    <i class="fa-solid fa-arrow-left"></i>
-                  </button>
-
-                </article>
-              ))}
+                    </button>
+                  </article>
+                );
+              })}
             </div>
 
-            {totalPages > 1 && (
-              <nav
-                class="pagination"
-                aria-label="صفحه‌بندی نوبت‌ها"
-              >
-
-                {currentPage > 1 && (
+            {
+              totalPages > 1 && (
+                <nav
+                  class="pagination"
+                  aria-label="صفحه‌بندی"
+                >
                   <a
-                    href={`/main-slot?page=${currentPage - 1}`}
-                    class="pagination-btn"
-                    aria-label="صفحه قبلی"
+                    href={
+                      currentPage > 1
+                        ? `/main-slot?page=${currentPage - 1}`
+                        : '#'
+                    }
+                    class:list={[
+                      'pagination-button',
+                      {
+                        disabled:
+                          currentPage <= 1,
+                      },
+                    ]}
+                    aria-disabled={
+                      currentPage <= 1
+                    }
                   >
-                    <i class="fa-solid fa-arrow-right"></i>
-
-                    <span>
-                      قبلی
-                    </span>
+                    قبلی
                   </a>
-                )}
 
-                <span class="pagination-current">
-                  صفحه {currentPage} از {totalPages}
-                </span>
+                  <div class="pagination-pages">
+                    {Array.from(
+                      {
+                        length: totalPages,
+                      },
+                      (_, index) => index + 1
+                    ).map((page) => (
+                      <a
+                        href={`/main-slot?page=${page}`}
+                        class:list={[
+                          'pagination-page',
+                          {
+                            active:
+                              page ===
+                              currentPage,
+                          },
+                        ]}
+                      >
+                        {page}
+                      </a>
+                    ))}
+                  </div>
 
-                {currentPage < totalPages && (
                   <a
-                    href={`/main-slot?page=${currentPage + 1}`}
-                    class="pagination-btn"
-                    aria-label="صفحه بعدی"
+                    href={
+                      currentPage < totalPages
+                        ? `/main-slot?page=${currentPage + 1}`
+                        : '#'
+                    }
+                    class:list={[
+                      'pagination-button',
+                      {
+                        disabled:
+                          currentPage >=
+                          totalPages,
+                      },
+                    ]}
+                    aria-disabled={
+                      currentPage >=
+                      totalPages
+                    }
                   >
-                    <span>
-                      بعدی
-                    </span>
-
-                    <i class="fa-solid fa-arrow-left"></i>
+                    بعدی
                   </a>
-                )}
-
-              </nav>
-            )}
+                </nav>
+              )
+            }
           </>
         ) : (
-          <div class="empty-slots">
-
-            <div class="empty-slots-icon">
-              <i class="fa-regular fa-calendar-xmark"></i>
+          <div class="empty-state">
+            <div class="empty-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M7 3V6M17 3V6M4 9H20M6 5H18C19.1046 5 20 5.89543 20 7V19C20 20.1046 19.1046 21 18 21H6C4.89543 21 4 20.1046 4 19V7C4 5.89543 4 5 6 5Z"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
             </div>
 
             <h3>
-              در حال حاضر نوبت آزادی وجود ندارد
+              در حال حاضر نوبتی موجود نیست
             </h3>
 
             <p>
-              در حال حاضر زمان مشاوره‌ای برای رزرو وجود ندارد.
-              لطفاً بعداً دوباره مراجعه کنید.
+              در حال حاضر هیچ زمان آزادی برای رزرو
+              وجود ندارد.
             </p>
-
           </div>
-        )}
-
-      </div>
+        )
+      }
     </section>
   </main>
 
   <!-- Booking Modal -->
-
   <div
-    class="booking-modal"
     id="booking-modal"
+    class="booking-modal"
     aria-hidden="true"
   >
-    <div
-      class="booking-modal-overlay"
-      data-close-modal
-    ></div>
-
     <div
       class="booking-modal-content"
       role="dialog"
       aria-modal="true"
       aria-labelledby="booking-modal-title"
     >
-
       <button
         type="button"
-        class="booking-modal-close"
-        data-close-modal
+        id="close-modal"
+        class="close-modal"
         aria-label="بستن"
       >
-        <i class="fa-solid fa-xmark"></i>
+        ×
       </button>
 
-      <div class="booking-modal-header">
+      <div class="modal-header">
+        <span class="modal-label">
+          رزرو نوبت
+        </span>
 
-        <div class="booking-modal-icon">
-          <i class="fa-regular fa-calendar-check"></i>
-        </div>
+        <h2 id="booking-modal-title">
+          تکمیل رزرو
+        </h2>
 
-        <div>
-          <span class="booking-modal-label">
-            رزرو نوبت
-          </span>
-
-          <h2 id="booking-modal-title">
-            تأیید رزرو جلسه
-          </h2>
-        </div>
-
+        <p>
+          اطلاعات نوبت را بررسی کنید و دلیل مراجعه
+          خود را وارد کنید.
+        </p>
       </div>
 
       <div class="selected-slot">
-
         <div class="selected-slot-item">
           <span>
             تاریخ
           </span>
 
-          <strong id="modal-slot-date">
+          <strong id="modal-date">
             -
           </strong>
         </div>
@@ -292,7 +364,7 @@ const totalPages = Math.ceil(totalCount / pageSize);
             ساعت
           </span>
 
-          <strong id="modal-slot-time">
+          <strong id="modal-time">
             -
           </strong>
         </div>
@@ -302,942 +374,954 @@ const totalPages = Math.ceil(totalCount / pageSize);
             روان‌درمانگر
           </span>
 
-          <strong id="modal-slot-therapist">
+          <strong id="modal-therapist">
             -
           </strong>
         </div>
-
       </div>
 
       <form id="booking-form">
-
-        <div class="booking-form-group">
-
-          <label for="booking-reason">
+        <div class="form-group">
+          <label for="reason">
             دلیل مراجعه
           </label>
 
           <textarea
-            id="booking-reason"
+            id="reason"
             name="reason"
-            rows="4"
-            placeholder="لطفاً دلیل مراجعه خود را بنویسید..."
+            rows="5"
             required
+            placeholder="لطفاً دلیل مراجعه خود را به صورت کوتاه وارد کنید..."
           ></textarea>
-
         </div>
 
         <div
-          class="booking-error"
           id="booking-error"
-          role="alert"
+          class="booking-error"
+          hidden
         ></div>
 
-        <div class="booking-modal-actions">
+        <button
+          type="submit"
+          id="submit-booking"
+          class="submit-booking"
+        >
+          <span id="submit-text">
+            تأیید و رزرو نوبت
+          </span>
 
-          <button
-            type="button"
-            class="booking-cancel-btn"
-            data-close-modal
+          <span
+            id="submit-loading"
+            hidden
           >
-            انصراف
-          </button>
-
-          <button
-            type="submit"
-            class="booking-submit-btn"
-            id="booking-submit-btn"
-          >
-            <span id="booking-submit-text">
-              تأیید و رزرو نوبت
-            </span>
-
-            <span
-              id="booking-submit-loading"
-              hidden
-            >
-              در حال رزرو...
-            </span>
-          </button>
-
-        </div>
-
+            در حال ثبت...
+          </span>
+        </button>
       </form>
-
     </div>
   </div>
 
   <Footer />
 </Layout>
 
-<style>
-  /* =========================
-     Appointment Slots
-  ========================= */
+<script is:inline>
+  (() => {
+    const modal =
+      document.getElementById(
+        'booking-modal'
+      );
 
-  .appointment-slots {
-    padding: 90px 20px;
-    background: #f8fafc;
-    direction: rtl;
+    const closeButton =
+      document.getElementById(
+        'close-modal'
+      );
+
+    const bookingForm =
+      document.getElementById(
+        'booking-form'
+      );
+
+    const reasonInput =
+      document.getElementById(
+        'reason'
+      );
+
+    const modalDate =
+      document.getElementById(
+        'modal-date'
+      );
+
+    const modalTime =
+      document.getElementById(
+        'modal-time'
+      );
+
+    const modalTherapist =
+      document.getElementById(
+        'modal-therapist'
+      );
+
+    const bookingError =
+      document.getElementById(
+        'booking-error'
+      );
+
+    const submitButton =
+      document.getElementById(
+        'submit-booking'
+      );
+
+    const submitText =
+      document.getElementById(
+        'submit-text'
+      );
+
+    const submitLoading =
+      document.getElementById(
+        'submit-loading'
+      );
+
+    let selectedSlotId = null;
+
+    console.log(
+      'BOOKING SCRIPT LOADED'
+    );
+
+
+    /*
+     * باز کردن مودال
+     */
+    const bookButtons =
+      document.querySelectorAll(
+        '.book-button'
+      );
+
+    console.log(
+      'BOOK BUTTONS:',
+      bookButtons.length
+    );
+
+    bookButtons.forEach(
+      (button) => {
+        button.addEventListener(
+          'click',
+          () => {
+            console.log(
+              'BOOK BUTTON CLICKED'
+            );
+
+            selectedSlotId =
+              button.getAttribute(
+                'data-slot-id'
+              );
+
+            const date =
+              button.getAttribute(
+                'data-slot-date'
+              );
+
+            const time =
+              button.getAttribute(
+                'data-slot-time'
+              );
+
+            const therapist =
+              button.getAttribute(
+                'data-therapist'
+              );
+
+            console.log({
+              selectedSlotId,
+              date,
+              time,
+              therapist,
+            });
+
+            modalDate.textContent =
+              date || '-';
+
+            modalTime.textContent =
+              time || '-';
+
+            modalTherapist.textContent =
+              therapist ||
+              'روان‌درمانگر';
+
+            reasonInput.value = '';
+
+            bookingError.hidden = true;
+            bookingError.textContent = '';
+
+            modal.classList.add(
+              'show'
+            );
+
+            modal.setAttribute(
+              'aria-hidden',
+              'false'
+            );
+
+            document.body.style.overflow =
+              'hidden';
+
+            setTimeout(() => {
+              reasonInput.focus();
+            }, 50);
+          }
+        );
+      }
+    );
+
+
+    /*
+     * بستن مودال
+     */
+    closeButton.addEventListener(
+      'click',
+      () => {
+        modal.classList.remove(
+          'show'
+        );
+
+        modal.setAttribute(
+          'aria-hidden',
+          'true'
+        );
+
+        document.body.style.overflow =
+          '';
+
+        selectedSlotId = null;
+      }
+    );
+
+
+    /*
+     * بستن با کلیک بیرون
+     */
+    modal.addEventListener(
+      'click',
+      (event) => {
+        if (
+          event.target === modal
+        ) {
+          modal.classList.remove(
+            'show'
+          );
+
+          modal.setAttribute(
+            'aria-hidden',
+            'true'
+          );
+
+          document.body.style.overflow =
+            '';
+
+          selectedSlotId = null;
+        }
+      }
+    );
+
+
+    /*
+     * بستن با Escape
+     */
+    document.addEventListener(
+      'keydown',
+      (event) => {
+        if (
+          event.key === 'Escape' &&
+          modal.classList.contains(
+            'show'
+          )
+        ) {
+          modal.classList.remove(
+            'show'
+          );
+
+          modal.setAttribute(
+            'aria-hidden',
+            'true'
+          );
+
+          document.body.style.overflow =
+            '';
+
+          selectedSlotId = null;
+        }
+      }
+    );
+
+
+    /*
+     * ارسال رزرو
+     */
+    bookingForm.addEventListener(
+      'submit',
+      async (event) => {
+        event.preventDefault();
+
+        const reason =
+          reasonInput.value.trim();
+
+        if (!selectedSlotId) {
+          bookingError.textContent =
+            'نوبت انتخاب نشده است.';
+
+          bookingError.hidden = false;
+
+          return;
+        }
+
+        if (!reason) {
+          bookingError.textContent =
+            'لطفاً دلیل مراجعه را وارد کنید.';
+
+          bookingError.hidden = false;
+
+          reasonInput.focus();
+
+          return;
+        }
+
+        bookingError.hidden = true;
+
+        submitButton.disabled = true;
+
+        submitText.hidden = true;
+
+        submitLoading.hidden = false;
+
+        try {
+          const response =
+            await fetch(
+              `http://localhost:8000/api/v1/booking/appointments/create/${selectedSlotId}/`,
+              {
+                method: 'POST',
+
+                credentials: 'include',
+
+                headers: {
+                  'Content-Type':
+                    'application/json',
+                },
+
+                body: JSON.stringify({
+                  reason: reason,
+                }),
+              }
+            );
+
+          const data =
+            await response
+              .json()
+              .catch(() => ({}));
+
+          console.log(
+            'BOOKING RESPONSE:',
+            response.status,
+            data
+          );
+
+
+          if (
+            response.status === 401
+          ) {
+            bookingError.textContent =
+              'برای رزرو نوبت ابتدا باید وارد حساب کاربری شوید.';
+
+            bookingError.hidden = false;
+
+            return;
+          }
+
+
+          if (
+            response.status === 409
+          ) {
+            bookingError.textContent =
+              data.detail ||
+              'این نوبت قبلاً رزرو شده است.';
+
+            bookingError.hidden = false;
+
+            return;
+          }
+
+
+          if (!response.ok) {
+            bookingError.textContent =
+              data.detail ||
+              'رزرو نوبت انجام نشد.';
+
+            bookingError.hidden = false;
+
+            return;
+          }
+
+
+          alert(
+            'نوبت شما با موفقیت رزرو شد.'
+          );
+
+          window.location.reload();
+
+        } catch (error) {
+          console.error(
+            'BOOKING ERROR:',
+            error
+          );
+
+          bookingError.textContent =
+            'ارتباط با سرور برقرار نشد.';
+
+          bookingError.hidden = false;
+
+        } finally {
+          submitButton.disabled =
+            false;
+
+          submitText.hidden =
+            false;
+
+          submitLoading.hidden =
+            true;
+        }
+      }
+    );
+  })();
+</script>
+
+<style>
+  :global(body) {
+    margin: 0;
+    background: #f8f9fb;
+    color: #20242a;
   }
 
-  .appointment-slots-container {
-    width: 100%;
-    max-width: 1200px;
+  .booking-page {
+    min-height: 70vh;
+  }
+
+  .hero-section {
+    padding: 90px 20px 70px;
+    text-align: center;
+    background: linear-gradient(
+      135deg,
+      #f3f5f8 0%,
+      #ffffff 100%
+    );
+  }
+
+  .hero-content {
+    max-width: 760px;
     margin: 0 auto;
   }
 
-  .appointment-slots-heading {
-    max-width: 700px;
-    margin: 0 auto 45px;
-    text-align: center;
-  }
-
-  .appointment-slots-label {
-    display: inline-block;
-    margin-bottom: 12px;
-    padding: 7px 16px;
-    border-radius: 30px;
-    background: #eef2f3;
-    color: #52636a;
-    font-size: 13px;
+  .hero-badge {
+    display: inline-flex;
+    padding: 8px 16px;
+    margin-bottom: 18px;
+    border-radius: 999px;
+    background: #eef1f5;
+    color: #555d68;
+    font-size: 14px;
     font-weight: 600;
   }
 
-  .appointment-slots-heading h2 {
-    margin: 0 0 14px;
-    color: #263238;
-    font-size: 34px;
-    font-weight: 600;
-    line-height: 1.5;
+  .hero-content h1 {
+    margin: 0 0 18px;
+    font-size: clamp(32px, 5vw, 52px);
+    line-height: 1.3;
+    font-weight: 800;
   }
 
-  .appointment-slots-heading p {
+  .hero-content p {
     margin: 0;
-    color: #7a858c;
-    font-size: 15px;
-    line-height: 1.9;
+    color: #69717c;
+    font-size: 17px;
+    line-height: 2;
+  }
+
+  .slots-section {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 70px 20px 100px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 30px;
+    margin-bottom: 35px;
+  }
+
+  .section-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #777f89;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .section-header h2 {
+    margin: 0 0 10px;
+    font-size: 30px;
+    font-weight: 800;
+  }
+
+  .section-header p {
+    margin: 0;
+    color: #737b85;
+    line-height: 1.8;
+  }
+
+  .slots-count {
+    padding: 10px 16px;
+    border: 1px solid #e6e9ed;
+    border-radius: 10px;
+    background: #fff;
+    color: #555d67;
+    font-size: 14px;
+    font-weight: 600;
   }
 
   .slots-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 24px;
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+    gap: 20px;
   }
 
   .slot-card {
-    display: flex;
-    flex-direction: column;
-    min-height: 350px;
-    padding: 25px;
-    background: #ffffff;
-    border: 1px solid #e8ecef;
+    padding: 26px;
+    border: 1px solid #e5e8ec;
     border-radius: 18px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
-    transition:
-      transform 0.25s ease,
-      box-shadow 0.25s ease,
-      border-color 0.25s ease;
-  }
-
-  .slot-card:hover {
-    transform: translateY(-5px);
-    border-color: #d9e0e3;
-    box-shadow: 0 15px 38px rgba(0, 0, 0, 0.09);
+    background: #fff;
+    box-shadow:
+      0 8px 30px rgba(20, 25, 30, 0.05);
   }
 
   .slot-card-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
   }
 
   .slot-icon {
+    width: 46px;
+    height: 46px;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 48px;
+
     border-radius: 12px;
-    background: #f1f4f5;
-    color: #455a64;
-    font-size: 19px;
+    background: #f1f3f6;
+    color: #4f5761;
+  }
+
+  .slot-icon svg {
+    width: 23px;
+    height: 23px;
   }
 
   .available-badge {
-    padding: 6px 11px;
-    border-radius: 20px;
-    background: #f1f7f3;
-    color: #4f765d;
-    font-size: 12px;
-    font-weight: 600;
+    padding: 7px 12px;
+    border-radius: 8px;
+    background: #f1f3f6;
+    color: #4d555f;
+    font-size: 13px;
+    font-weight: 700;
   }
 
   .slot-info {
-    margin-bottom: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 25px;
   }
 
-  .slot-info-item {
+  .info-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 15px;
-    padding: 14px 0;
-    border-bottom: 1px solid #eef1f3;
   }
 
-  .slot-info-label {
-    color: #7a858c;
-    font-size: 13px;
+  .info-row span {
+    color: #818892;
+    font-size: 14px;
   }
 
-  .slot-info-value {
-    color: #263238;
+  .info-row strong {
+    color: #252a30;
     font-size: 15px;
-    font-weight: 600;
   }
 
-  .slot-time-value {
-    direction: ltr;
-  }
-
-  .therapist-info {
-    border-bottom: none;
-  }
-
-  .book-slot-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+  .book-button {
     width: 100%;
-    min-height: 50px;
-    margin-top: auto;
-    padding: 12px 18px;
-    border: none;
+    min-height: 48px;
+
+    border: 0;
     border-radius: 11px;
-    background: #263238;
-    color: #ffffff;
+
+    background: #252a30;
+    color: #fff;
+
+    cursor: pointer;
+
     font-family: inherit;
     font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition:
-      background 0.2s ease,
-      transform 0.2s ease,
-      box-shadow 0.2s ease;
+    font-weight: 700;
   }
 
-  .book-slot-btn:hover {
-    background: #37474f;
-    transform: translateY(-1px);
-    box-shadow: 0 7px 18px rgba(38, 50, 56, 0.18);
+  .book-button:hover {
+    background: #171a1e;
   }
-
-  .book-slot-btn i {
-    font-size: 13px;
-    transition: transform 0.2s ease;
-  }
-
-  .book-slot-btn:hover i {
-    transform: translateX(-3px);
-  }
-
-  .book-slot-btn:active {
-    transform: translateY(0);
-    box-shadow: none;
-  }
-
-  /* =========================
-     Pagination
-  ========================= */
 
   .pagination {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
+    gap: 18px;
     margin-top: 45px;
-    direction: rtl;
   }
 
-  .pagination-btn,
-  .pagination-current {
+  .pagination-pages {
+    display: flex;
+    gap: 8px;
+  }
+
+  .pagination-button,
+  .pagination-page {
+    min-width: 42px;
+    height: 42px;
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    min-height: 44px;
-    padding: 8px 16px;
-    border-radius: 10px;
-    font-size: 14px;
+
+    padding: 0 12px;
+    box-sizing: border-box;
+
+    border: 1px solid #e2e5e9;
+    border-radius: 9px;
+
+    background: #fff;
+    color: #454c55;
+
     text-decoration: none;
-  }
 
-  .pagination-btn {
-    background: #263238;
-    color: #ffffff;
-    transition:
-      background 0.2s ease,
-      transform 0.2s ease;
-  }
-
-  .pagination-btn:hover {
-    background: #37474f;
-    color: #ffffff;
-    transform: translateY(-1px);
-  }
-
-  .pagination-current {
-    min-width: 130px;
-    background: #eef2f3;
-    color: #263238;
+    font-size: 14px;
     font-weight: 600;
   }
 
-  /* =========================
-     Empty State
-  ========================= */
-
-  .empty-slots {
-    max-width: 650px;
-    margin: 0 auto;
-    padding: 45px 30px;
-    text-align: center;
-    background: #ffffff;
-    border: 1px solid #e8ecef;
-    border-radius: 18px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+  .pagination-page.active {
+    background: #252a30;
+    border-color: #252a30;
+    color: #fff;
   }
 
-  .empty-slots-icon {
+  .pagination-button.disabled {
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
+  .empty-state {
+    padding: 70px 20px;
+
+    border: 1px dashed #dfe3e8;
+    border-radius: 18px;
+
+    background: #fff;
+
+    text-align: center;
+  }
+
+  .empty-icon {
+    width: 60px;
+    height: 60px;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 58px;
-    height: 58px;
-    margin: 0 auto 18px;
-    border-radius: 50%;
-    background: #f1f4f5;
-    color: #718087;
-    font-size: 22px;
+
+    margin: 0 auto 20px;
+
+    border-radius: 16px;
+
+    background: #f1f3f5;
+    color: #666e78;
   }
 
-  .empty-slots h3 {
+  .empty-icon svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .empty-state h3 {
     margin: 0 0 10px;
-    color: #263238;
-    font-size: 19px;
-    font-weight: 600;
+    font-size: 21px;
   }
 
-  .empty-slots p {
-    max-width: 450px;
+  .empty-state p {
+    max-width: 500px;
     margin: 0 auto;
-    color: #7a858c;
-    font-size: 14px;
+    color: #747c86;
     line-height: 1.9;
   }
 
+
   /* =========================
      Booking Modal
-  ========================= */
+     ========================= */
 
   .booking-modal {
     position: fixed;
     inset: 0;
-    z-index: 9999;
+
+    z-index: 999999;
+
     display: none;
+
     align-items: center;
     justify-content: center;
+
     padding: 20px;
+    box-sizing: border-box;
+
+    background: rgba(0, 0, 0, 0.55);
   }
 
-  .booking-modal.is-open {
+  .booking-modal.show {
     display: flex;
-  }
-
-  .booking-modal-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(20, 27, 31, 0.55);
-    backdrop-filter: blur(4px);
   }
 
   .booking-modal-content {
     position: relative;
-    z-index: 1;
-    width: 100%;
-    max-width: 540px;
+
+    width: min(100%, 540px);
     max-height: calc(100vh - 40px);
+
     overflow-y: auto;
-    padding: 30px;
-    background: #ffffff;
-    border: 1px solid #e8ecef;
+
+    padding: 32px;
+    box-sizing: border-box;
+
     border-radius: 20px;
-    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.18);
-    direction: rtl;
-    animation: bookingModalShow 0.2s ease;
+
+    background: #fff;
+
+    box-shadow:
+      0 24px 70px rgba(0, 0, 0, 0.25);
   }
 
-  @keyframes bookingModalShow {
-    from {
-      opacity: 0;
-      transform: translateY(15px) scale(0.98);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-  }
-
-  .booking-modal-close {
+  .close-modal {
     position: absolute;
-    top: 18px;
-    left: 18px;
+
+    top: 16px;
+    left: 16px;
+
+    width: 40px;
+    height: 40px;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
-    border: none;
-    border-radius: 50%;
-    background: #f1f4f5;
-    color: #54636a;
-    font-size: 15px;
+
+    padding: 0;
+
+    border: 0;
+    border-radius: 10px;
+
+    background: #f1f3f5;
+    color: #555d66;
+
     cursor: pointer;
-    transition:
-      background 0.2s ease,
-      color 0.2s ease;
+
+    font-family: inherit;
+    font-size: 26px;
+    line-height: 1;
   }
 
-  .booking-modal-close:hover {
-    background: #e5eaec;
-    color: #263238;
-  }
-
-  .booking-modal-header {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+  .modal-header {
+    padding-left: 45px;
     margin-bottom: 25px;
   }
 
-  .booking-modal-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 52px;
-    height: 52px;
-    flex-shrink: 0;
-    border-radius: 14px;
-    background: #f1f4f5;
-    color: #455a64;
-    font-size: 20px;
-  }
-
-  .booking-modal-label {
+  .modal-label {
     display: block;
-    margin-bottom: 3px;
-    color: #7a858c;
-    font-size: 12px;
+    margin-bottom: 7px;
+
+    color: #7b838d;
+
+    font-size: 13px;
+    font-weight: 700;
   }
 
-  .booking-modal-header h2 {
+  .modal-header h2 {
+    margin: 0 0 8px;
+
+    font-size: 27px;
+    font-weight: 800;
+  }
+
+  .modal-header p {
     margin: 0;
-    color: #263238;
-    font-size: 23px;
-    font-weight: 600;
+
+    color: #747c85;
+
+    font-size: 14px;
+    line-height: 1.9;
   }
 
   .selected-slot {
+    display: grid;
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+
+    gap: 10px;
+
     margin-bottom: 25px;
-    padding: 5px 18px;
-    background: #f8fafb;
-    border: 1px solid #e8ecef;
-    border-radius: 13px;
   }
 
   .selected-slot-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    padding: 13px 0;
-    border-bottom: 1px solid #e8ecef;
-  }
+    min-width: 0;
 
-  .selected-slot-item:last-child {
-    border-bottom: none;
+    padding: 14px;
+
+    border-radius: 12px;
+
+    background: #f6f7f8;
   }
 
   .selected-slot-item span {
-    color: #7a858c;
-    font-size: 13px;
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #818892;
+
+    font-size: 12px;
   }
 
   .selected-slot-item strong {
-    color: #263238;
-    font-size: 14px;
-  }
-
-  #modal-slot-time {
-    direction: ltr;
-  }
-
-  .booking-form-group {
-    margin-bottom: 18px;
-  }
-
-  .booking-form-group label {
     display: block;
-    margin-bottom: 9px;
-    color: #263238;
+
+    overflow: hidden;
+
+    color: #2c3137;
+
     font-size: 14px;
-    font-weight: 600;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
-  .booking-form-group textarea {
+  .form-group label {
     display: block;
+
+    margin-bottom: 8px;
+
+    color: #343a40;
+
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .form-group textarea {
     width: 100%;
-    min-height: 115px;
-    padding: 13px 15px;
-    border: 1px solid #dfe5e8;
-    border-radius: 11px;
+    min-height: 130px;
+
+    padding: 14px;
+    box-sizing: border-box;
+
+    resize: vertical;
+
+    border: 1px solid #dfe3e7;
+    border-radius: 12px;
+
     outline: none;
-    background: #ffffff;
-    color: #263238;
+
     font-family: inherit;
     font-size: 14px;
-    line-height: 1.8;
-    resize: vertical;
-    transition:
-      border-color 0.2s ease,
-      box-shadow 0.2s ease;
+    line-height: 1.9;
   }
 
-  .booking-form-group textarea:focus {
-    border-color: #90a4ae;
-    box-shadow: 0 0 0 3px rgba(144, 164, 174, 0.12);
-  }
-
-  .booking-form-group textarea::placeholder {
-    color: #a1aaaf;
+  .form-group textarea:focus {
+    border-color: #8c949e;
   }
 
   .booking-error {
-    display: none;
-    margin-bottom: 15px;
-    padding: 11px 13px;
+    margin-top: 12px;
+
+    padding: 10px 13px;
+
     border-radius: 10px;
-    background: #fff3f3;
-    color: #b54444;
+
+    background: #fdf0f0;
+    color: #a23d3d;
+
     font-size: 13px;
-    line-height: 1.7;
+    line-height: 1.8;
   }
 
-  .booking-error.is-visible {
-    display: block;
-  }
+  .submit-booking {
+    width: 100%;
 
-  .booking-modal-actions {
-    display: flex;
-    gap: 10px;
-  }
+    min-height: 50px;
 
-  .booking-cancel-btn,
-  .booking-submit-btn {
-    min-height: 48px;
-    padding: 11px 18px;
-    border-radius: 10px;
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 600;
+    margin-top: 16px;
+
+    border: 0;
+    border-radius: 11px;
+
+    background: #252a30;
+    color: #fff;
+
     cursor: pointer;
+
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
   }
 
-  .booking-cancel-btn {
-    flex: 0 0 auto;
-    border: 1px solid #dfe5e8;
-    background: #ffffff;
-    color: #54636a;
-  }
-
-  .booking-cancel-btn:hover {
-    background: #f7f9fa;
-  }
-
-  .booking-submit-btn {
-    flex: 1;
-    border: none;
-    background: #263238;
-    color: #ffffff;
-    transition:
-      background 0.2s ease,
-      opacity 0.2s ease;
-  }
-
-  .booking-submit-btn:hover:not(:disabled) {
-    background: #37474f;
-  }
-
-  .booking-submit-btn:disabled {
-    opacity: 0.65;
+  .submit-booking:disabled {
     cursor: not-allowed;
+    opacity: 0.6;
   }
 
-  /* =========================
-     Responsive
-  ========================= */
-
-  @media (max-width: 1200px) {
-    .slots-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  @media (max-width: 992px) {
-    .appointment-slots-heading h2 {
-      font-size: 30px;
-    }
-  }
-
-  @media (max-width: 640px) {
-    .appointment-slots {
-      padding: 65px 16px;
+  @media (max-width: 768px) {
+    .hero-section {
+      padding: 65px 20px 55px;
     }
 
-    .appointment-slots-heading {
-      margin-bottom: 30px;
+    .slots-section {
+      padding-top: 50px;
     }
 
-    .appointment-slots-heading h2 {
-      font-size: 26px;
-    }
-
-    .appointment-slots-heading p {
-      font-size: 14px;
+    .section-header {
+      align-items: flex-start;
+      flex-direction: column;
     }
 
     .slots-grid {
       grid-template-columns: 1fr;
-      gap: 18px;
     }
 
-    .slot-card {
-      min-height: auto;
-      padding: 22px;
-    }
-
-    .pagination {
-      gap: 8px;
-    }
-
-    .pagination-btn,
-    .pagination-current {
-      min-height: 40px;
-      padding: 7px 12px;
-      font-size: 13px;
-    }
-
-    .pagination-current {
-      min-width: auto;
-    }
-
-    .booking-modal {
-      padding: 12px;
+    .selected-slot {
+      grid-template-columns: 1fr;
     }
 
     .booking-modal-content {
       padding: 25px 20px;
-      border-radius: 17px;
     }
 
-    .booking-modal-header h2 {
-      font-size: 20px;
-    }
-
-    .booking-modal-actions {
-      flex-direction: column-reverse;
-    }
-
-    .booking-cancel-btn,
-    .booking-submit-btn {
-      width: 100%;
+    .modal-header {
+      padding-left: 45px;
     }
   }
 </style>
-
-<script>
-  const modal = document.getElementById(
-    'booking-modal'
-  ) as HTMLDivElement | null;
-
-  const form = document.getElementById(
-    'booking-form'
-  ) as HTMLFormElement | null;
-
-  const reasonInput = document.getElementById(
-    'booking-reason'
-  ) as HTMLTextAreaElement | null;
-
-  const modalSlotDate = document.getElementById(
-    'modal-slot-date'
-  );
-
-  const modalSlotTime = document.getElementById(
-    'modal-slot-time'
-  );
-
-  const modalSlotTherapist = document.getElementById(
-    'modal-slot-therapist'
-  );
-
-  const errorBox = document.getElementById(
-    'booking-error'
-  );
-
-  const submitButton = document.getElementById(
-    'booking-submit-btn'
-  ) as HTMLButtonElement | null;
-
-  const submitText = document.getElementById(
-    'booking-submit-text'
-  ) as HTMLSpanElement | null;
-
-  const submitLoading = document.getElementById(
-    'booking-submit-loading'
-  ) as HTMLSpanElement | null;
-
-  let selectedSlotId: number | null = null;
-
-  const openModal = (
-    button: HTMLButtonElement
-  ) => {
-    if (!modal || !reasonInput) {
-      return;
-    }
-
-    selectedSlotId = Number(
-      button.dataset.slotId
-    );
-
-    if (!selectedSlotId) {
-      return;
-    }
-
-    if (modalSlotDate) {
-      modalSlotDate.textContent =
-        button.dataset.slotDate ?? '-';
-    }
-
-    if (modalSlotTime) {
-      modalSlotTime.textContent =
-        button.dataset.slotTime ?? '-';
-    }
-
-    if (modalSlotTherapist) {
-      modalSlotTherapist.textContent =
-        button.dataset.slotTherapist ?? '-';
-    }
-
-    reasonInput.value = '';
-
-    if (errorBox) {
-      errorBox.textContent = '';
-      errorBox.classList.remove(
-        'is-visible'
-      );
-    }
-
-    modal.classList.add('is-open');
-    modal.setAttribute(
-      'aria-hidden',
-      'false'
-    );
-
-    document.body.style.overflow = 'hidden';
-
-    setTimeout(() => {
-      reasonInput.focus();
-    }, 100);
-  };
-
-  const closeModal = () => {
-    if (!modal || !reasonInput) {
-      return;
-    }
-
-    modal.classList.remove('is-open');
-
-    modal.setAttribute(
-      'aria-hidden',
-      'true'
-    );
-
-    document.body.style.overflow = '';
-
-    selectedSlotId = null;
-
-    reasonInput.value = '';
-
-    if (errorBox) {
-      errorBox.textContent = '';
-      errorBox.classList.remove(
-        'is-visible'
-      );
-    }
-  };
-
-  document
-    .querySelectorAll<HTMLButtonElement>(
-      '.book-slot-btn'
-    )
-    .forEach((button) => {
-      button.addEventListener(
-        'click',
-        () => {
-          openModal(button);
-        }
-      );
-    });
-
-  document
-    .querySelectorAll<HTMLElement>(
-      '[data-close-modal]'
-    )
-    .forEach((element) => {
-      element.addEventListener(
-        'click',
-        closeModal
-      );
-    });
-
-  document.addEventListener(
-    'keydown',
-    (event) => {
-      if (
-        event.key === 'Escape' &&
-        modal?.classList.contains(
-          'is-open'
-        )
-      ) {
-        closeModal();
-      }
-    }
-  );
-
-  form?.addEventListener(
-    'submit',
-    async (event) => {
-      event.preventDefault();
-
-      if (
-        !selectedSlotId ||
-        !reasonInput ||
-        !submitButton ||
-        !submitText ||
-        !submitLoading
-      ) {
-        return;
-      }
-
-      const reason =
-        reasonInput.value.trim();
-
-      if (!reason) {
-        if (errorBox) {
-          errorBox.textContent =
-            'لطفاً دلیل مراجعه را وارد کنید.';
-
-          errorBox.classList.add(
-            'is-visible'
-          );
-        }
-
-        reasonInput.focus();
-
-        return;
-      }
-
-      submitButton.disabled = true;
-
-      submitText.hidden = true;
-      submitLoading.hidden = false;
-
-      if (errorBox) {
-        errorBox.textContent = '';
-        errorBox.classList.remove(
-          'is-visible'
-        );
-      }
-
-      try {
-        const response = await fetch(
-          `http://localhost:8000/api/v1/booking/appointments/create/${selectedSlotId}/`,
-          {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-              'Content-Type':
-                'application/json',
-            },
-            body: JSON.stringify({
-              reason,
-            }),
-          }
-        );
-
-        const data =
-          await response
-            .json()
-            .catch(() => null);
-
-        if (!response.ok) {
-          if (response.status === 401) {
-            throw new Error(
-              'برای رزرو نوبت ابتدا باید وارد حساب کاربری خود شوید.'
-            );
-          }
-
-          if (response.status === 409) {
-            throw new Error(
-              'این نوبت قبلاً رزرو شده است.'
-            );
-          }
-
-          throw new Error(
-            data?.detail ||
-            'رزرو نوبت انجام نشد. لطفاً دوباره تلاش کنید.'
-          );
-        }
-
-        closeModal();
-
-        alert(
-          'نوبت شما با موفقیت رزرو شد.'
-        );
-
-        window.location.reload();
-      } catch (error) {
-        if (errorBox) {
-          errorBox.textContent =
-            error instanceof Error
-              ? error.message
-              : 'خطایی هنگام رزرو نوبت رخ داد.';
-
-          errorBox.classList.add(
-            'is-visible'
-          );
-        }
-      } finally {
-        submitButton.disabled = false;
-
-        submitText.hidden = false;
-        submitLoading.hidden = true;
-      }
-    }
-  );
-</script>
-

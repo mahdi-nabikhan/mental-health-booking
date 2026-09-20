@@ -45,7 +45,8 @@ urlpatterns = [
     views.TherapistAppointmentSlotListView.as_view(),
     name="therapist-appointment-slots",),
     path(
-    "therapist/appointment-slots/available/",
-    views.TherapistAvailableSlotListView.as_view(),
-    name="therapist-available-slots",),
+    "appointment-slots/available/",
+    views.AvailableAppointmentSlotListView.as_view(),
+    name="available-appointment-slots",),
+
 ]

@@ -1,59 +1,59 @@
----
 
+---
 import PatientLayout from "../../layouts/PatientLayout.astro";
 import PatientStatCard from "../../components/Dashboard/PatientStatCard.astro";
 
 const stats = [
-{
-title: "نوبت‌های پیش‌رو",
-value: 3,
-description: "نوبت‌های برنامه‌ریزی‌شده",
-icon: "fa-solid fa-calendar-check",
-},
-{
-title: "جلسات تکمیل‌شده",
-value: 8,
-description: "جلسات با موفقیت تکمیل‌شده",
-icon: "fa-solid fa-circle-check",
-},
-{
-title: "زمان‌های آزاد",
-value: 12,
-description: "زمان‌های قابل رزرو",
-icon: "fa-solid fa-calendar-days",
-},
-{
-title: "مجموع جلسات",
-value: 11,
-description: "جلسات شما",
-icon: "fa-solid fa-clock-rotate-left",
-},
+    {
+        title: "نوبت‌های پیش‌رو",
+        value: 3,
+        description: "نوبت‌های برنامه‌ریزی‌شده",
+        icon: "fa-solid fa-calendar-check",
+    },
+    {
+        title: "جلسات تکمیل‌شده",
+        value: 8,
+        description: "جلسات با موفقیت تکمیل‌شده",
+        icon: "fa-solid fa-circle-check",
+    },
+    {
+        title: "زمان‌های آزاد",
+        value: 12,
+        description: "زمان‌های قابل رزرو",
+        icon: "fa-solid fa-calendar-days",
+    },
+    {
+        title: "مجموع جلسات",
+        value: 11,
+        description: "جلسات شما",
+        icon: "fa-solid fa-clock-rotate-left",
+    },
 ];
 
 const upcomingAppointments = [
-{
-date: "۱۵ سپتامبر ۲۰۲۶",
-time: "۱۰:۰۰",
-therapist: "دکتر سارا جانسون",
-type: "جلسه فردی",
-status: "برنامه‌ریزی‌شده",
-},
-{
-date: "۱۸ سپتامبر ۲۰۲۶",
-time: "۱۴:۳۰",
-therapist: "دکتر مایکل براون",
-type: "جلسه مشاوره",
-status: "برنامه‌ریزی‌شده",
-},
-{
-date: "۲۲ سپتامبر ۲۰۲۶",
-time: "۱۱:۰۰",
-therapist: "دکتر سارا جانسون",
-type: "جلسه پیگیری",
-status: "برنامه‌ریزی‌شده",
-},
+    {
+        date: "۱۵ سپتامبر ۲۰۲۶",
+        time: "۱۰:۰۰",
+        therapist: "دکتر سارا جانسون",
+        type: "جلسه فردی",
+        status: "برنامه‌ریزی‌شده",
+    },
+    {
+        date: "۱۸ سپتامبر ۲۰۲۶",
+        time: "۱۴:۳۰",
+        therapist: "دکتر مایکل براون",
+        type: "جلسه مشاوره",
+        status: "برنامه‌ریزی‌شده",
+    },
+    {
+        date: "۲۲ سپتامبر ۲۰۲۶",
+        time: "۱۱:۰۰",
+        therapist: "دکتر سارا جانسون",
+        type: "جلسه پیگیری",
+        status: "برنامه‌ریزی‌شده",
+    },
 ];
---
+---
 
 <PatientLayout title="داشبورد بیمار">
     <div class="dashboard">
@@ -66,170 +66,173 @@ status: "برنامه‌ریزی‌شده",
                 </p>
             </div>
 
-```
-        <a href="/patient/slots" class="primary-btn">
-            <i class="fa-solid fa-plus"></i>
-            رزرو نوبت
-        </a>
-    </section>
+            <a href="/patient/slots" class="primary-btn">
+                <i class="fa-solid fa-plus"></i>
+                رزرو نوبت
+            </a>
+        </section>
 
-    <!-- Statistics -->
-    <section class="stats-grid">
-        {
-            stats.map((stat) => (
-                <PatientStatCard
-                    title={stat.title}
-                    value={stat.value}
-                    description={stat.description}
-                    icon={stat.icon}
-                />
-            ))
-        }
-    </section>
+        <!-- Statistics -->
+        <section class="stats-grid">
+            {
+                stats.map((stat) => (
+                    <PatientStatCard
+                        title={stat.title}
+                        value={stat.value}
+                        description={stat.description}
+                        icon={stat.icon}
+                    />
+                ))
+            }
+        </section>
 
-    <!-- Upcoming Appointments -->
-    <section class="appointments-section">
-        <div class="section-header">
-            <div>
-                <h3>نوبت‌های پیش‌رو</h3>
-                <p>جلسات برنامه‌ریزی‌شده بعدی شما</p>
+        <!-- Upcoming Appointments -->
+        <section class="appointments-section">
+            <div class="section-header">
+                <div>
+                    <h3>نوبت‌های پیش‌رو</h3>
+                    <p>جلسات برنامه‌ریزی‌شده بعدی شما</p>
+                </div>
+
+                <a href="/patient/appointments" class="view-all">
+                    مشاهده همه
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
             </div>
 
-            <a href="/patient/appointments" class="view-all">
-                مشاهده همه
-                <i class="fa-solid fa-arrow-right"></i>
-            </a>
-        </div>
+            <div class="appointments-card">
+                {upcomingAppointments.length > 0 ? (
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>تاریخ</th>
+                                    <th>ساعت</th>
+                                    <th>روان‌درمانگر</th>
+                                    <th>نوع جلسه</th>
+                                    <th>وضعیت</th>
+                                </tr>
+                            </thead>
 
-        <div class="appointments-card">
-            {upcomingAppointments.length > 0 ? (
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>تاریخ</th>
-                                <th>ساعت</th>
-                                <th>روان‌درمانگر</th>
-                                <th>نوع جلسه</th>
-                                <th>وضعیت</th>
-                            </tr>
-                        </thead>
+                            <tbody>
+                                {
+                                    upcomingAppointments.map(
+                                        (appointment) => (
+                                            <tr>
+                                                <td>{appointment.date}</td>
 
-                        <tbody>
-                            {
-                                upcomingAppointments.map(
-                                    (appointment) => (
-                                        <tr>
-                                            <td>{appointment.date}</td>
+                                                <td>
+                                                    {appointment.time}
+                                                </td>
 
-                                            <td>
-                                                {appointment.time}
-                                            </td>
+                                                <td>
+                                                    <div class="therapist">
+                                                        <div class="therapist-avatar">
+                                                            <i class="fa-solid fa-user-doctor"></i>
+                                                        </div>
 
-                                            <td>
-                                                <div class="therapist">
-                                                    <div class="therapist-avatar">
-                                                        <i class="fa-solid fa-user-doctor"></i>
+                                                        <span>
+                                                            {
+                                                                appointment.therapist
+                                                            }
+                                                        </span>
                                                     </div>
+                                                </td>
 
-                                                    <span>
-                                                        {
-                                                            appointment.therapist
-                                                        }
+                                                <td>
+                                                    {appointment.type}
+                                                </td>
+
+                                                <td>
+                                                    <span class="status">
+                                                        <span class="status-dot"></span>
+                                                        {appointment.status}
                                                     </span>
-                                                </div>
-                                            </td>
+                                                </td>
+                                            </tr>
+                                        ),
+                                    )
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                ) : (
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fa-solid fa-calendar-xmark"></i>
+                        </div>
 
-                                            <td>
-                                                {appointment.type}
-                                            </td>
+                        <h4>نوبت پیش‌رویی وجود ندارد</h4>
 
-                                            <td>
-                                                <span class="status">
-                                                    <span class="status-dot"></span>
-                                                    {appointment.status}
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    ),
-                                )
-                            }
-                        </tbody>
-                    </table>
+                        <p>
+                            هنوز هیچ نوبت برنامه‌ریزی‌شده‌ای ندارید.
+                        </p>
+
+                        <a href="/patient/slots" class="secondary-btn">
+                            مشاهده زمان‌های آزاد
+                        </a>
+                    </div>
+                )}
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions-section">
+            <div class="section-header">
+                <div>
+                    <h3>دسترسی سریع</h3>
+                    <p>عملیات پرکاربرد موردنیاز شما</p>
                 </div>
-            ) : (
-                <div class="empty-state">
-                    <div class="empty-icon">
-                        <i class="fa-solid fa-calendar-xmark"></i>
+            </div>
+
+            <div class="quick-actions">
+                <a href="/patient/slots" class="action-card">
+                    <div class="action-icon">
+                        <i class="fa-solid fa-calendar-plus"></i>
                     </div>
 
-                    <h4>نوبت پیش‌رویی وجود ندارد</h4>
+                    <div>
+                        <h4>رزرو نوبت</h4>
+                        <p>
+                            یک زمان آزاد برای جلسه با روان‌درمانگر پیدا کنید.
+                        </p>
+                    </div>
 
-                    <p>
-                        هنوز هیچ نوبت برنامه‌ریزی‌شده‌ای ندارید.
-                    </p>
+                    <i class="fa-solid fa-chevron-right action-arrow"></i>
+                </a>
 
-                    <a href="/patient/slots" class="secondary-btn">
-                        مشاهده زمان‌های آزاد
-                    </a>
-                </div>
-            )}
-        </div>
-    </section>
+                <a href="/patient/appointments" class="action-card">
+                    <div class="action-icon">
+                        <i class="fa-solid fa-calendar-check"></i>
+                    </div>
 
-    <!-- Quick Actions -->
-    <section class="quick-actions-section">
-        <div class="section-header">
-            <div>
-                <h3>دسترسی سریع</h3>
-                <p>عملیات پرکاربرد موردنیاز شما</p>
+                    <div>
+                        <h4>نوبت‌های من</h4>
+                        <p>
+                            نوبت‌های خود را مشاهده و مدیریت کنید.
+                        </p>
+                    </div>
+
+                    <i class="fa-solid fa-chevron-right action-arrow"></i>
+                </a>
+
+                <a href="/patient/profile" class="action-card">
+                    <div class="action-icon">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+
+                    <div>
+                        <h4>پروفایل من</h4>
+                        <p>
+                            اطلاعات شخصی خود را مشاهده و به‌روزرسانی کنید.
+                        </p>
+                    </div>
+
+                    <i class="fa-solid fa-chevron-right action-arrow"></i>
+                </a>
             </div>
-        </div>
-
-        <div class="quick-actions">
-            <a href="/patient/slots" class="action-card">
-                <div class="action-icon">
-                    <i class="fa-solid fa-calendar-plus"></i>
-                </div>
-
-                <div>
-                    <h4>رزرو نوبت</h4>
-                    <p>یک زمان آزاد برای جلسه با روان‌درمانگر پیدا کنید.</p>
-                </div>
-
-                <i class="fa-solid fa-chevron-right action-arrow"></i>
-            </a>
-
-            <a href="/patient/appointments" class="action-card">
-                <div class="action-icon">
-                    <i class="fa-solid fa-calendar-check"></i>
-                </div>
-
-                <div>
-                    <h4>نوبت‌های من</h4>
-                    <p>نوبت‌های خود را مشاهده و مدیریت کنید.</p>
-                </div>
-
-                <i class="fa-solid fa-chevron-right action-arrow"></i>
-            </a>
-
-            <a href="/patient/profile" class="action-card">
-                <div class="action-icon">
-                    <i class="fa-solid fa-user"></i>
-                </div>
-
-                <div>
-                    <h4>پروفایل من</h4>
-                    <p>اطلاعات شخصی خود را مشاهده و به‌روزرسانی کنید.</p>
-                </div>
-
-                <i class="fa-solid fa-chevron-right action-arrow"></i>
-            </a>
-        </div>
-    </section>
-</div>
-```
-
+        </section>
+    </div>
 </PatientLayout>
 
 <style>
@@ -624,3 +627,4 @@ status: "برنامه‌ریزی‌شده",
         }
     }
 </style>
+

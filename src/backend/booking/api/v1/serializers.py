@@ -85,3 +85,41 @@ class TherapistAppointmentSlotSerializer(serializers.ModelSerializer):
             "reason": appointment.reason,
             "status": appointment.status,
         }
+        
+        
+        
+        
+
+
+
+
+
+class PatientAppointmentSerializer(serializers.ModelSerializer):
+    therapist_id = serializers.IntegerField(source="slot.therapist.id", read_only=True)
+    therapist_name = serializers.CharField(
+        source="slot.therapist.user.get_full_name",
+        read_only=True,
+    )
+    date = serializers.DateField(source="slot.date", read_only=True)
+    time = serializers.TimeField(source="slot.time", read_only=True)
+
+    class Meta:
+        model = models.Appointment
+        fields = [
+            "id",
+            "therapist_id",
+            "therapist_name",
+            "date",
+            "time",
+            "reason",
+            "status",
+            "created_at",
+        ]
+        
+        
+        
+        
+        
+        
+        
+        

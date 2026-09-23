@@ -1,6 +1,6 @@
 from rest_framework import generics,status,response
 from rest_framework import generics
-
+from rest_framework.permissions import IsAuthenticated
 from .serializers import AppointmentSlotSerializer
 from django.utils import timezone
 from rest_framework import generics
@@ -295,7 +295,7 @@ class TodayAppointmentApiView(generics.GenericAPIView):
 
 class CreateAppointmentSlotApiView(generics.CreateAPIView):
     serializer_class = AppointmentSlotSerializer
-
+    permission_classes = [IsAuthenticated]
     def get_queryset(self):
         return models.AppointmentSlot.objects.all()    
     
@@ -338,4 +338,63 @@ class AvailableAppointmentSlotListView(generics.ListAPIView):
                 "therapist__user",
             )
             .order_by("date", "time")
+        )
+        
+        
+        
+        
+        
+        
+        
+        
+    
+
+
+class PatientAppointmentListView(generics.ListAPIView):
+    serializer_class = PatientAppointmentSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return (
+            models.Appointment.objects
+            .filter(patient__user=self.request.user)
+            .select_related(
+                "slot",
+                "slot__therapist",
+                "slot__therapist__user",
+            )
+            .order_by("slot__date", "slot__time")
+        )
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+class PatientTodayAppointmentListView(generics.ListAPIView):
+    serializer_class = PatientAppointmentSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        today = timezone.localdate()
+
+        return (
+            models.Appointment.objects
+            .filter(
+                patient__user=self.request.user,
+                slot__date=today,
+            )
+            .select_related(
+                "slot",
+                "slot__therapist",
+                "slot__therapist__user",
+            )
+            .order_by("slot__time")
         )

@@ -1,413 +1,997 @@
 ---
 import PatientLayout from "../../layouts/PatientLayout.astro";
 import PatientStatCard from "../../components/Dashboard/PatientStatCard.astro";
-
-const stats = [
-    {
-        title: "نوبت‌های پیش‌رو",
-        value: 3,
-        description: "نوبت‌های برنامه‌ریزی‌شده",
-        icon: "fa-solid fa-calendar-check",
-    },
-    {
-        title: "جلسات تکمیل‌شده",
-        value: 8,
-        description: "جلسات با موفقیت تکمیل‌شده",
-        icon: "fa-solid fa-circle-check",
-    },
-    {
-        title: "مجموع جلسات",
-        value: 11,
-        description: "جلسات شما",
-        icon: "fa-solid fa-clock-rotate-left",
-    },
-];
-
-const upcomingAppointments = [
-    {
-        date: "۱۵ سپتامبر ۲۰۲۶",
-        time: "۱۰:۰۰",
-        therapist: "دکتر سارا جانسون",
-        type: "جلسه فردی",
-        status: "برنامه‌ریزی‌شده",
-    },
-    {
-        date: "۱۸ سپتامبر ۲۰۲۶",
-        time: "۱۴:۳۰",
-        therapist: "دکتر مایکل براون",
-        type: "جلسه مشاوره",
-        status: "برنامه‌ریزی‌شده",
-    },
-    {
-        date: "۲۲ سپتامبر ۲۰۲۶",
-        time: "۱۱:۰۰",
-        therapist: "دکتر سارا جانسون",
-        type: "جلسه پیگیری",
-        status: "برنامه‌ریزی‌شده",
-    },
-];
 ---
 
 <PatientLayout title="داشبورد بیمار">
-    <div class="dashboard">
-        <!-- Welcome -->
-        <section class="welcome-section">
+    <div class="dashboard-page" dir="rtl">
+        <!-- Header -->
+        <section class="dashboard-header">
             <div>
-                <h2>خوش آمدید!</h2>
+                <span class="header-label">
+                    پنل بیمار
+                </span>
+
+                <h1>داشبورد من</h1>
+
                 <p>
-                    نوبت‌های خود را مدیریت کنید و جلساتتان را پیگیری کنید.
+                    نوبت‌ها و اطلاعات جلسات خود را از اینجا مدیریت کنید.
                 </p>
             </div>
+
+            <div class="header-icon">
+                <i class="fa-solid fa-user"></i>
+            </div>
         </section>
 
-        <!-- Statistics -->
+        <!-- Stats -->
         <section class="stats-grid">
-            {
-                stats.map((stat) => (
-                    <PatientStatCard
-                        title={stat.title}
-                        value={stat.value}
-                        description={stat.description}
-                        icon={stat.icon}
-                    />
-                ))
-            }
+            <PatientStatCard
+                title="نوبت‌های پیش‌رو"
+                value="-"
+                description="نوبت‌های برنامه‌ریزی‌شده"
+                icon="fa-solid fa-calendar-check"
+            />
+
+            <PatientStatCard
+                title="جلسات تکمیل‌شده"
+                value="-"
+                description="جلسات تکمیل‌شده"
+                icon="fa-solid fa-circle-check"
+            />
+
+            <PatientStatCard
+                title="مجموع جلسات"
+                value="-"
+                description="مجموع نوبت‌های شما"
+                icon="fa-solid fa-clock-rotate-left"
+            />
         </section>
 
-        <!-- Upcoming Appointments -->
-        <section class="appointments-section">
+        <!-- Appointments -->
+        <section class="appointments-card">
             <div class="section-header">
-                <div>
-                    <h3>نوبت‌های پیش‌رو</h3>
-                    <p>جلسات برنامه‌ریزی‌شده بعدی شما</p>
+                <div class="section-title-wrapper">
+                    <div class="section-icon">
+                        <i class="fa-solid fa-calendar-days"></i>
+                    </div>
+
+                    <div>
+                        <h2>نوبت‌های امروز من</h2>
+                        <p>
+                            لیست نوبت‌های ثبت‌شده شما
+                        </p>
+                    </div>
                 </div>
 
-                <a href="/patient/appointments" class="view-all">
-                    مشاهده همه
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
+                <span class="appointment-count" id="appointment-count">
+                    ۰ نوبت
+                </span>
             </div>
 
-            <div class="appointments-card">
-                {
-                    upcomingAppointments.length > 0 ? (
-                        <div class="table-wrapper">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>تاریخ</th>
-                                        <th>ساعت</th>
-                                        <th>روان‌درمانگر</th>
-                                        <th>نوع جلسه</th>
-                                        <th>وضعیت</th>
-                                    </tr>
-                                </thead>
+            <!-- Loading -->
+            <div id="appointments-loading" class="state-box">
+                <div class="loading-spinner"></div>
 
-                                <tbody>
-                                    {upcomingAppointments.map((appointment) => (
-                                        <tr>
-                                            <td>{appointment.date}</td>
+                <p>
+                    در حال دریافت نوبت‌ها...
+                </p>
+            </div>
 
-                                            <td>{appointment.time}</td>
+            <!-- Error -->
+            <div
+                id="appointments-error"
+                class="state-box error-state"
+                style="display: none;"
+            >
+                <div class="state-icon">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
 
-                                            <td>
-                                                <div class="therapist">
-                                                    <div class="therapist-avatar">
-                                                        <i class="fa-solid fa-user-doctor"></i>
-                                                    </div>
+                <h3>خطا در دریافت اطلاعات</h3>
 
-                                                    <span>
-                                                        {appointment.therapist}
-                                                    </span>
-                                                </div>
-                                            </td>
+                <p id="error-message">
+                    دریافت نوبت‌ها با مشکل مواجه شد.
+                </p>
 
-                                            <td>{appointment.type}</td>
+                <button id="retry-button" type="button">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    تلاش مجدد
+                </button>
+            </div>
 
-                                            <td>
-                                                <span class="status">
-                                                    <span class="status-dot"></span>
-                                                    {appointment.status}
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    ) : (
-                        <div class="empty-state">
-                            <div class="empty-icon">
-                                <i class="fa-solid fa-calendar-xmark"></i>
-                            </div>
+            <!-- Empty -->
+            <div
+                id="appointments-empty"
+                class="state-box empty-state"
+                style="display: none;"
+            >
+                <div class="state-icon">
+                    <i class="fa-regular fa-calendar-xmark"></i>
+                </div>
 
-                            <h4>نوبت پیش‌رویی وجود ندارد</h4>
+                <h3>نوبتی وجود ندارد</h3>
 
-                            <p>
-                                هنوز هیچ نوبت برنامه‌ریزی‌شده‌ای ندارید.
-                            </p>
-                        </div>
-                    )
-                }
+                <p>
+                    در حال حاضر نوبتی برای نمایش وجود ندارد.
+                </p>
+            </div>
+
+            <!-- Table -->
+            <div
+                id="appointments-table-wrapper"
+                class="table-wrapper"
+                style="display: none;"
+            >
+                <table class="appointments-table">
+                    <thead>
+                        <tr>
+                            <th>تاریخ</th>
+                            <th>ساعت</th>
+                            <th>تراپیست</th>
+                            <th>دلیل مراجعه</th>
+                            <th>وضعیت</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="appointments-table-body"></tbody>
+                </table>
             </div>
         </section>
     </div>
 </PatientLayout>
 
-<style>
-    .dashboard {
-        max-width: 1400px;
-        margin: 0 auto;
+<script>
+    interface Appointment {
+        id: number;
+        therapist_id: number;
+        date: string;
+        time: string;
+        reason: string;
+        status: "scheduled" | "completed" | "cancelled";
+        created_at: string;
     }
 
-    .welcome-section {
+    const loadingElement =
+        document.getElementById("appointments-loading");
+
+    const errorElement =
+        document.getElementById("appointments-error");
+
+    const emptyElement =
+        document.getElementById("appointments-empty");
+
+    const tableWrapper =
+        document.getElementById("appointments-table-wrapper");
+
+    const tableBody =
+        document.getElementById("appointments-table-body");
+
+    const errorMessage =
+        document.getElementById("error-message");
+
+    const retryButton =
+        document.getElementById("retry-button");
+
+    const appointmentCount =
+        document.getElementById("appointment-count");
+
+    function showLoading() {
+        if (loadingElement) {
+            loadingElement.style.display = "flex";
+        }
+
+        if (errorElement) {
+            errorElement.style.display = "none";
+        }
+
+        if (emptyElement) {
+            emptyElement.style.display = "none";
+        }
+
+        if (tableWrapper) {
+            tableWrapper.style.display = "none";
+        }
+    }
+
+    function showError(message: string) {
+        if (loadingElement) {
+            loadingElement.style.display = "none";
+        }
+
+        if (emptyElement) {
+            emptyElement.style.display = "none";
+        }
+
+        if (tableWrapper) {
+            tableWrapper.style.display = "none";
+        }
+
+        if (errorElement) {
+            errorElement.style.display = "flex";
+        }
+
+        if (errorMessage) {
+            errorMessage.textContent = message;
+        }
+    }
+
+    function showEmpty() {
+        if (loadingElement) {
+            loadingElement.style.display = "none";
+        }
+
+        if (errorElement) {
+            errorElement.style.display = "none";
+        }
+
+        if (tableWrapper) {
+            tableWrapper.style.display = "none";
+        }
+
+        if (emptyElement) {
+            emptyElement.style.display = "flex";
+        }
+
+        if (appointmentCount) {
+            appointmentCount.textContent = "۰ نوبت";
+        }
+    }
+
+    function showTable() {
+        if (loadingElement) {
+            loadingElement.style.display = "none";
+        }
+
+        if (errorElement) {
+            errorElement.style.display = "none";
+        }
+
+        if (emptyElement) {
+            emptyElement.style.display = "none";
+        }
+
+        if (tableWrapper) {
+            tableWrapper.style.display = "block";
+        }
+    }
+
+    function formatDate(date: string) {
+        const [year, month, day] = date.split("-");
+
+        if (!year || !month || !day) {
+            return date;
+        }
+
+        return `${year}/${month}/${day}`;
+    }
+
+    function formatTime(time: string) {
+        const parts = time.split(":");
+
+        if (parts.length < 2) {
+            return time;
+        }
+
+        return `${parts[0]}:${parts[1]}`;
+    }
+
+    function getStatusLabel(status: Appointment["status"]) {
+        switch (status) {
+            case "scheduled":
+                return "رزرو شده";
+
+            case "completed":
+                return "تکمیل شده";
+
+            case "cancelled":
+                return "لغو شده";
+
+            default:
+                return status;
+        }
+    }
+
+    function getStatusClass(status: Appointment["status"]) {
+        switch (status) {
+            case "scheduled":
+                return "status-scheduled";
+
+            case "completed":
+                return "status-completed";
+
+            case "cancelled":
+                return "status-cancelled";
+
+            default:
+                return "";
+        }
+    }
+
+    function updateStats(appointments: Appointment[]) {
+        const scheduledCount =
+            appointments.filter(
+                (appointment) =>
+                    appointment.status === "scheduled"
+            ).length;
+
+        const completedCount =
+            appointments.filter(
+                (appointment) =>
+                    appointment.status === "completed"
+            ).length;
+
+        const totalCount = appointments.length;
+
+        const statValues =
+            document.querySelectorAll(".stat-card strong");
+
+        if (statValues.length >= 3) {
+            statValues[0].textContent =
+                String(scheduledCount);
+
+            statValues[1].textContent =
+                String(completedCount);
+
+            statValues[2].textContent =
+                String(totalCount);
+        }
+    }
+
+    function renderAppointments(
+        appointments: Appointment[]
+    ) {
+        if (!tableBody) {
+            return;
+        }
+
+        tableBody.innerHTML = "";
+
+        if (appointmentCount) {
+            appointmentCount.textContent =
+                `${appointments.length} نوبت`;
+        }
+
+        appointments.forEach((appointment) => {
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+                <td>
+                    <div class="date-cell">
+                        <span class="cell-icon">
+                            <i class="fa-regular fa-calendar"></i>
+                        </span>
+                        <span>
+                            ${formatDate(appointment.date)}
+                        </span>
+                    </div>
+                </td>
+
+                <td>
+                    <div class="time-cell">
+                        <i class="fa-regular fa-clock"></i>
+                        ${formatTime(appointment.time)}
+                    </div>
+                </td>
+
+                <td>
+                    <div class="therapist-cell">
+                        <div class="therapist-avatar">
+                            <i class="fa-solid fa-user-doctor"></i>
+                        </div>
+
+                        <span>
+                            تراپیست #${appointment.therapist_id}
+                        </span>
+                    </div>
+                </td>
+
+                <td>
+                    <span class="reason-cell">
+                        ${
+                            appointment.reason
+                                ? appointment.reason
+                                : "ثبت نشده"
+                        }
+                    </span>
+                </td>
+
+                <td>
+                    <span
+                        class="status-badge ${getStatusClass(
+                            appointment.status
+                        )}"
+                    >
+                        <span class="status-dot"></span>
+                        ${getStatusLabel(
+                            appointment.status
+                        )}
+                    </span>
+                </td>
+            `;
+
+            tableBody.appendChild(row);
+        });
+    }
+
+    async function fetchAppointments() {
+        showLoading();
+
+        try {
+            const response = await fetch(
+                "http://localhost:8000/api/v1/booking/patient/appointments/today/",
+                {
+                    method: "GET",
+                    credentials: "include",
+                    headers: {
+                        Accept: "application/json",
+                    },
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(
+                    `خطای سرور: ${response.status}`
+                );
+            }
+
+            const appointments: Appointment[] =
+                await response.json();
+
+            updateStats(appointments);
+
+            if (appointments.length === 0) {
+                showEmpty();
+                return;
+            }
+
+            renderAppointments(appointments);
+            showTable();
+        } catch (error) {
+            console.error(
+                "Failed to fetch patient appointments:",
+                error
+            );
+
+            showError(
+                "دریافت نوبت‌ها با مشکل مواجه شد. لطفاً دوباره تلاش کنید."
+            );
+        }
+    }
+
+    retryButton?.addEventListener(
+        "click",
+        fetchAppointments
+    );
+
+    fetchAppointments();
+</script>
+
+<style>
+    .dashboard-page {
+        width: 100%;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 28px 24px 48px;
+        box-sizing: border-box;
+    }
+
+    /* Header */
+
+    .dashboard-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 20px;
+        gap: 24px;
 
-        margin-bottom: 30px;
-        padding: 28px 30px;
+        padding: 30px 34px;
+        margin-bottom: 24px;
 
-        border-radius: 14px;
+        border-radius: 20px;
 
-        background: #111827;
-        color: #ffffff;
+        background:
+            radial-gradient(
+                circle at top left,
+                rgba(255, 255, 255, 0.13),
+                transparent 35%
+            ),
+            linear-gradient(
+                135deg,
+                #202b3c,
+                #111827
+            );
+
+        color: #fff;
+
+        box-shadow:
+            0 12px 30px rgba(15, 23, 42, 0.12);
     }
 
-    .welcome-section h2 {
+    .header-label {
+        display: inline-block;
+
+        margin-bottom: 8px;
+
+        font-size: 13px;
+        font-weight: 600;
+
+        color: #cbd5e1;
+    }
+
+    .dashboard-header h1 {
+        margin: 0 0 8px;
+
+        font-size: 28px;
+        font-weight: 800;
+
+        color: #fff;
+    }
+
+    .dashboard-header p {
         margin: 0;
 
-        font-size: 24px;
-        font-weight: 700;
-    }
+        color: #cbd5e1;
 
-    .welcome-section p {
-        margin: 7px 0 0;
-
-        color: #d1d5db;
         font-size: 14px;
+        line-height: 1.8;
     }
+
+    .header-icon {
+        width: 64px;
+        height: 64px;
+
+        flex-shrink: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 18px;
+
+        background: rgba(255, 255, 255, 0.1);
+
+        color: #fff;
+
+        font-size: 24px;
+
+        border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    /* Stats */
 
     .stats-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 18px;
 
-        margin-bottom: 30px;
+        margin-bottom: 24px;
     }
 
-    .appointments-section {
-        margin-bottom: 30px;
+    .stats-grid :global(.stat-card) {
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+    .stats-grid :global(.stat-card:hover) {
+        transform: translateY(-3px);
+
+        box-shadow:
+            0 12px 28px rgba(15, 23, 42, 0.1);
+    }
+
+    /* Appointment Card */
+
+    .appointments-card {
+        overflow: hidden;
+
+        background: #fff;
+
+        border: 1px solid #e5e7eb;
+
+        border-radius: 20px;
+
+        box-shadow:
+            0 8px 25px rgba(15, 23, 42, 0.06);
     }
 
     .section-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
+
         gap: 20px;
 
-        margin-bottom: 15px;
+        padding: 22px 24px;
+
+        border-bottom: 1px solid #eef0f3;
     }
 
-    .section-header h3 {
-        margin: 0;
+    .section-title-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
 
-        color: #111827;
+    .section-icon {
+        width: 46px;
+        height: 46px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        flex-shrink: 0;
+
+        border-radius: 13px;
+
+        background: #f1f5f9;
+
+        color: #334155;
 
         font-size: 18px;
-        font-weight: 700;
+    }
+
+    .section-header h2 {
+        margin: 0 0 4px;
+
+        font-size: 18px;
+        font-weight: 800;
+
+        color: #111827;
     }
 
     .section-header p {
-        margin: 5px 0 0;
+        margin: 0;
 
-        color: #9ca3af;
+        color: #6b7280;
 
         font-size: 13px;
     }
 
-    .view-all {
+    .appointment-count {
         display: inline-flex;
         align-items: center;
-        gap: 7px;
 
-        color: #374151;
+        padding: 7px 12px;
 
-        text-decoration: none;
+        border-radius: 999px;
 
-        font-size: 13px;
-        font-weight: 600;
+        background: #f3f4f6;
+
+        color: #4b5563;
+
+        font-size: 12px;
+        font-weight: 700;
+
+        white-space: nowrap;
     }
 
-    .view-all:hover {
-        color: #111827;
-    }
-
-    .appointments-card {
-        overflow: hidden;
-
-        border: 1px solid #e5e7eb;
-        border-radius: 12px;
-
-        background: #ffffff;
-    }
+    /* Table */
 
     .table-wrapper {
         width: 100%;
         overflow-x: auto;
     }
 
-    table {
+    .appointments-table {
         width: 100%;
-        min-width: 800px;
 
         border-collapse: collapse;
+
+        min-width: 760px;
     }
 
-    th {
-        padding: 15px 18px;
+    .appointments-table th {
+        padding: 15px 20px;
 
-        background: #f9fafb;
+        background: #f8fafc;
+
+        color: #64748b;
+
+        font-size: 12px;
+        font-weight: 700;
+
+        text-align: right;
+
         border-bottom: 1px solid #e5e7eb;
 
-        color: #6b7280;
-
-        font-size: 11px;
-        font-weight: 700;
-        text-align: left;
-        text-transform: uppercase;
+        white-space: nowrap;
     }
 
-    td {
-        padding: 17px 18px;
-
-        border-bottom: 1px solid #f0f0f0;
+    .appointments-table td {
+        padding: 17px 20px;
 
         color: #374151;
 
         font-size: 13px;
+
+        border-bottom: 1px solid #f1f5f9;
+
+        vertical-align: middle;
     }
 
-    tbody tr:last-child td {
-        border-bottom: 0;
+    .appointments-table tbody tr {
+        transition: background 0.15s ease;
     }
 
-    tbody tr:hover {
-        background: #fafafa;
+    .appointments-table tbody tr:hover {
+        background: #f8fafc;
     }
 
-    .therapist {
+    .appointments-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .date-cell,
+    .time-cell {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
 
-        color: #111827;
-        font-weight: 500;
+        white-space: nowrap;
+    }
+
+    .date-cell {
+        font-weight: 600;
+    }
+
+    .cell-icon,
+    .time-cell i {
+        color: #64748b;
+    }
+
+    .therapist-cell {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+
+        font-weight: 600;
     }
 
     .therapist-avatar {
-        width: 32px;
-        height: 32px;
+        width: 34px;
+        height: 34px;
 
         display: flex;
         align-items: center;
         justify-content: center;
 
+        border-radius: 10px;
+
+        background: #f1f5f9;
+
+        color: #475569;
+
+        font-size: 14px;
+    }
+
+    .reason-cell {
+        display: inline-block;
+
+        max-width: 220px;
+
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+
+        white-space: nowrap;
+    }
+
+    /* Status */
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+
+        padding: 6px 10px;
+
+        border-radius: 999px;
+
+        font-size: 11px;
+        font-weight: 700;
+
+        white-space: nowrap;
+    }
+
+    .status-dot {
+        width: 6px;
+        height: 6px;
+
         border-radius: 50%;
 
-        background: #f3f4f6;
+        background: currentColor;
+    }
+
+    .status-scheduled {
+        background: #ecfdf5;
+        color: #047857;
+    }
+
+    .status-completed {
+        background: #eff6ff;
+        color: #1d4ed8;
+    }
+
+    .status-cancelled {
+        background: #fef2f2;
+        color: #dc2626;
+    }
+
+    /* States */
+
+    .state-box {
+        min-height: 280px;
+
+        display: flex;
+        flex-direction: column;
+
+        align-items: center;
+        justify-content: center;
+
+        padding: 40px 24px;
+
+        text-align: center;
+    }
+
+    .state-box p {
+        margin: 8px 0 0;
+
         color: #6b7280;
 
         font-size: 13px;
     }
 
-    .status {
-        display: inline-flex;
-        align-items: center;
-        gap: 7px;
-
-        color: #15803d;
-
-        font-size: 12px;
-        font-weight: 600;
-    }
-
-    .status-dot {
-        width: 7px;
-        height: 7px;
-
-        border-radius: 50%;
-
-        background: #22c55e;
-    }
-
-    .empty-state {
-        padding: 55px 20px;
-
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .empty-icon {
-        width: 58px;
-        height: 58px;
+    .state-icon {
+        width: 62px;
+        height: 62px;
 
         display: flex;
         align-items: center;
         justify-content: center;
 
-        margin-bottom: 15px;
+        margin-bottom: 14px;
+
+        border-radius: 18px;
+
+        background: #f8fafc;
+
+        color: #64748b;
+
+        font-size: 24px;
+    }
+
+    .state-box h3 {
+        margin: 0;
+
+        color: #1f2937;
+
+        font-size: 16px;
+        font-weight: 800;
+    }
+
+    .error-state .state-icon {
+        background: #fef2f2;
+        color: #dc2626;
+    }
+
+    #retry-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+
+        margin-top: 18px;
+
+        padding: 10px 16px;
+
+        border: none;
+        border-radius: 10px;
+
+        background: #1f2937;
+
+        color: #fff;
+
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 700;
+
+        cursor: pointer;
+
+        transition:
+            background 0.2s ease,
+            transform 0.2s ease;
+    }
+
+    #retry-button:hover {
+        background: #111827;
+
+        transform: translateY(-1px);
+    }
+
+    /* Loading */
+
+    .loading-spinner {
+        width: 32px;
+        height: 32px;
+
+        margin-bottom: 14px;
+
+        border: 3px solid #e5e7eb;
+        border-top-color: #374151;
 
         border-radius: 50%;
 
-        background: #f3f4f6;
-        color: #9ca3af;
-
-        font-size: 22px;
+        animation: spin 0.8s linear infinite;
     }
 
-    .empty-state h4 {
-        margin: 0;
-
-        color: #111827;
-
-        font-size: 16px;
-    }
-
-    .empty-state p {
-        margin: 7px 0 0;
-
-        color: #9ca3af;
-
-        font-size: 13px;
-    }
-
-    @media (max-width: 1100px) {
-        .stats-grid {
-            grid-template-columns: repeat(2, 1fr);
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
         }
     }
 
-    @media (max-width: 768px) {
-        .welcome-section {
-            align-items: flex-start;
-            flex-direction: column;
-        }
+    /* Responsive */
 
+    @media (max-width: 900px) {
         .stats-grid {
             grid-template-columns: 1fr;
         }
 
-        .section-header {
-            align-items: flex-start;
-            flex-direction: column;
+        .dashboard-header {
+            padding: 24px;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .dashboard-page {
+            padding: 18px 14px 32px;
         }
 
-        .view-all {
-            align-self: flex-end;
+        .dashboard-header {
+            align-items: flex-start;
+
+            padding: 22px;
+
+            border-radius: 16px;
+        }
+
+        .dashboard-header h1 {
+            font-size: 23px;
+        }
+
+        .header-icon {
+            width: 50px;
+            height: 50px;
+
+            border-radius: 14px;
+
+            font-size: 18px;
+        }
+
+        .section-header {
+            align-items: flex-start;
+
+            padding: 18px;
+        }
+
+        .appointment-count {
+            display: none;
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+
+            font-size: 16px;
+        }
+
+        .section-header h2 {
+            font-size: 16px;
+        }
+
+        .state-box {
+            min-height: 240px;
         }
     }
 </style>

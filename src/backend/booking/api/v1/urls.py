@@ -49,12 +49,12 @@ urlpatterns = [
     views.AvailableAppointmentSlotListView.as_view(),
     name="available-appointment-slots",),
      path(
-        "appointments/",
+        "patient/appointments/",
         views.PatientAppointmentListView.as_view(),
         name="patient-appointments",
     ),
     path(
-        "appointments/today/",
+        "patient/appointments/today/",
         views.PatientTodayAppointmentListView.as_view(),
         name="patient-today-appointments",
     ),

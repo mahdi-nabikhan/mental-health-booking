@@ -3,7 +3,10 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from accounts.models import *
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.generics import GenericAPIView,ListAPIView
+
+
 class JwtLoginApiView(TokenObtainPairView):
     serializer_class = CustomObtainPairTokenSerializer
     
@@ -29,7 +32,7 @@ class JwtLoginApiView(TokenObtainPairView):
                 httponly=True,
                 secure=True,
                 samesite='Strict',
-                max_age= 60 * 15)
+                max_age= 60 * 60)
             
             response.set_cookie(
                 key='refresh_token',
@@ -142,3 +145,43 @@ class ChangePasswordApiView(GenericAPIView):
         else:
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
             
+            
+            
+
+class JwtRefreshApiView(APIView):
+    
+    def post(self, request, *args, **kwargs):
+        refresh_token = request.COOKIES.get("refresh_token")
+
+        if not refresh_token:
+            return Response(
+                {"detail": "Refresh token not found."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+        try:
+            refresh = RefreshToken(refresh_token)
+
+            access_token = str(refresh.access_token)
+
+            response = Response(
+                {"detail": "Token refreshed successfully."},
+                status=status.HTTP_200_OK,
+            )
+
+            response.set_cookie(
+                key="access_token",
+                value=access_token,
+                httponly=True,
+                secure=True,
+                samesite="Strict",
+                max_age=60 * 60,
+            )
+
+            return response
+
+        except Exception:
+            return Response(
+                {"detail": "Invalid or expired refresh token."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )

@@ -10,6 +10,7 @@ from .views import (
     PatientDetailApiView,
     TherapistDetailApiView,
     ChangePasswordApiView,
+    JwtRefreshApiView
 )
 
 
@@ -62,5 +63,10 @@ urlpatterns = [
         'change-password/',
         ChangePasswordApiView.as_view(),
         name='change-password'
+    ),
+    path(
+        "refresh/",
+        JwtRefreshApiView.as_view(),
+        name="jwt-refresh",
     ),
 ]

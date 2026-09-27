@@ -1,3 +1,4 @@
+
 <nav class="navbar navbar-expand-lg bg-body-tertiary" id="navigation">
   <div class="container-fluid" id="navigation-wrapper">
     <button
@@ -92,6 +93,18 @@
           </a>
         </li>
 
+        <li class="nav-item" id="logout-nav-item" hidden>
+          <button
+            class="nav-link"
+            type="button"
+            id="logout-button"
+            title="خروج از حساب کاربری"
+            aria-label="خروج از حساب کاربری"
+          >
+            خروج
+          </button>
+        </li>
+
       </ul>
     </div>
   </div>
@@ -101,13 +114,20 @@
   const profileUrl =
     "http://localhost:8000/api/v1/accounts/patient/profile/";
 
+  const logoutUrl =
+    "http://localhost:8000/api/v1/accounts/logout/";
+
   const profileNavItem = document.getElementById("profile-nav-item");
   const loginNavItem = document.getElementById("login-nav-item");
   const registerNavItem = document.getElementById("register-nav-item");
+  const logoutNavItem = document.getElementById("logout-nav-item");
+  const logoutButton = document.getElementById("logout-button");
 
   const currentPath = window.location.pathname;
 
-  const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
+  const navLinks = document.querySelectorAll(
+    ".navbar-nav .nav-link"
+  );
 
   navLinks.forEach((link) => {
     const href = link.getAttribute("href");
@@ -119,6 +139,7 @@
 
   const showLoggedInState = () => {
     profileNavItem?.removeAttribute("hidden");
+    logoutNavItem?.removeAttribute("hidden");
 
     loginNavItem?.setAttribute("hidden", "");
     registerNavItem?.setAttribute("hidden", "");
@@ -126,10 +147,42 @@
 
   const showLoggedOutState = () => {
     profileNavItem?.setAttribute("hidden", "");
+    logoutNavItem?.setAttribute("hidden", "");
 
     loginNavItem?.removeAttribute("hidden");
     registerNavItem?.removeAttribute("hidden");
   };
+
+  const logout = async () => {
+    if (!logoutButton) {
+      return;
+    }
+
+    logoutButton.setAttribute("disabled", "");
+
+    try {
+      const response = await fetch(logoutUrl, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      if (response.ok) {
+        window.location.href = "/login";
+        return;
+      }
+
+      console.error("Logout failed:", response.status);
+    } catch (error) {
+      console.error("Failed to logout:", error);
+    } finally {
+      logoutButton.removeAttribute("disabled");
+    }
+  };
+
+  logoutButton?.addEventListener("click", logout);
 
   const checkAuthentication = async () => {
     try {
@@ -154,3 +207,4 @@
 
   checkAuthentication();
 </script>
+

@@ -10,7 +10,8 @@ from .views import (
     PatientDetailApiView,
     TherapistDetailApiView,
     ChangePasswordApiView,
-    JwtRefreshApiView
+    JwtRefreshApiView,
+    JwtLogoutApiView
 )
 
 
@@ -69,4 +70,5 @@ urlpatterns = [
         JwtRefreshApiView.as_view(),
         name="jwt-refresh",
     ),
+    path( "logout/", JwtLogoutApiView.as_view(), name="logout", ),
 ]

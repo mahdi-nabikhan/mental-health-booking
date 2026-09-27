@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.generics import GenericAPIView,ListAPIView
+from rest_framework.views import APIView
 
 
 class JwtLoginApiView(TokenObtainPairView):
@@ -185,3 +186,28 @@ class JwtRefreshApiView(APIView):
                 {"detail": "Invalid or expired refresh token."},
                 status=status.HTTP_401_UNAUTHORIZED,
             )
+            
+            
+            
+
+
+class JwtLogoutApiView(APIView):
+
+    def post(self, request, *args, **kwargs):
+        response = Response(
+            {"detail": "Successfully logged out."},
+            status=status.HTTP_200_OK,
+        )
+
+        response.delete_cookie(
+            key="access_token",
+            samesite="Strict",
+        )
+
+        response.delete_cookie(
+            key="refresh_token",
+            samesite="Strict",
+        )
+
+        return response
+

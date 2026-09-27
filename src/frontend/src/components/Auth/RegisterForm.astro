@@ -3,15 +3,6 @@
 ---
 
 <form id="register-form" class="auth-form">
-    <div class="mb-3">
-        <label for="role" class="form-label">نوع حساب</label>
-
-        <select id="role" name="role" class="form-select" required>
-            <option value="patient">بیمار</option>
-            <option value="therapist">روان‌درمانگر</option>
-        </select>
-    </div>
-
     <div class="row">
         <div class="col-md-6 mb-3">
             <label for="first_name" class="form-label">نام</label>
@@ -108,14 +99,12 @@
         ایجاد حساب کاربری
     </button>
 
-    <!-- پیام خطا -->
     <div
         id="register-error"
         class="alert alert-danger mt-3 d-none"
         role="alert"
     ></div>
 
-    <!-- پیام موفقیت -->
     <div
         id="register-success"
         class="alert alert-success mt-3 d-none"
@@ -206,10 +195,6 @@
 
         const formData = new FormData(registerForm);
 
-        const role = String(
-            formData.get("role") ?? "",
-        );
-
         const email = String(
             formData.get("email") ?? "",
         );
@@ -235,29 +220,27 @@
         );
 
         try {
-            const endpoint =
-                role === "therapist"
-                    ? `${API_BASE_URL}/therapist/register/`
-                    : `${API_BASE_URL}/patient/register/`;
-
-            const response = await fetch(endpoint, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    user: {
-                        email,
-                        password,
-
-                        // Backend currently expects this typo.
-                        confrim_password: confirmPassword,
+            const response = await fetch(
+                `${API_BASE_URL}/patient/register/`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
                     },
-                    first_name: firstName,
-                    last_name: lastName,
-                    phone_number: phoneNumber,
-                }),
-            });
+                    body: JSON.stringify({
+                        user: {
+                            email,
+                            password,
+
+                            // Backend currently expects this typo.
+                            confrim_password: confirmPassword,
+                        },
+                        first_name: firstName,
+                        last_name: lastName,
+                        phone_number: phoneNumber,
+                    }),
+                },
+            );
 
             const data = await response.json();
 
@@ -289,3 +272,4 @@
         }
     });
 </script>
+

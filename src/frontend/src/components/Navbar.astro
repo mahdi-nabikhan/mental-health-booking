@@ -1,5 +1,6 @@
 ---
 const currentPath = Astro.url.pathname;
+
 const isActive = (path: string) =>
   currentPath === path ? "nav-link active" : "nav-link";
 ---
@@ -64,6 +65,102 @@ const isActive = (path: string) =>
           </a>
         </li>
       </ul>
+
+      <div class="navbar-auth ms-auto" id="navbar-auth">
+        <!-- وضعیت در حال بررسی -->
+        <span id="auth-loading">
+          ...
+        </span>
+
+        <!-- کاربر لاگین نیست -->
+        <div id="auth-guest" hidden>
+          <a
+            href="/login"
+            class="nav-link"
+            title="ورود به حساب کاربری"
+            aria-label="ورود به حساب کاربری"
+          >
+            ورود
+          </a>
+
+          <a
+            href="/register"
+            class="nav-link"
+            title="ثبت‌نام"
+            aria-label="ثبت‌نام"
+          >
+            ثبت‌نام
+          </a>
+        </div>
+
+        <!-- کاربر لاگین است -->
+        <div id="auth-user" hidden>
+          <a
+            href="/profile"
+            class="nav-link"
+            id="patient-name"
+            title="مشاهده پروفایل"
+            aria-label="مشاهده پروفایل"
+          >
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </nav>
+
+<script>
+  const profileUrl =
+    "http://localhost:8000/api/v1/accounts/patient/profile/";
+
+  const loadingElement = document.getElementById("auth-loading");
+  const guestElement = document.getElementById("auth-guest");
+  const userElement = document.getElementById("auth-user");
+  const patientNameElement = document.getElementById("patient-name");
+
+  const showGuest = () => {
+    loadingElement?.setAttribute("hidden", "");
+    userElement?.setAttribute("hidden", "");
+    guestElement?.removeAttribute("hidden");
+  };
+
+  const showUser = (firstName, lastName) => {
+    loadingElement?.setAttribute("hidden", "");
+    guestElement?.setAttribute("hidden", "");
+
+    if (patientNameElement) {
+      const fullName = `${firstName ?? ""} ${lastName ?? ""}`.trim();
+
+      patientNameElement.textContent = fullName || "پروفایل";
+    }
+
+    userElement?.removeAttribute("hidden");
+  };
+
+  const loadPatientProfile = async () => {
+    try {
+      const response = await fetch(profileUrl, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        showGuest();
+        return;
+      }
+
+      const profile = await response.json();
+
+      showUser(profile.first_name, profile.last_name);
+    } catch (error) {
+      console.error("Failed to load patient profile:", error);
+
+      showGuest();
+    }
+  };
+
+  loadPatientProfile();
+</script>

@@ -27,9 +27,6 @@ services:
         condition: service_started
 
 
-
-
-
   nginx:
     image: nginx:alpine
 
@@ -46,7 +43,6 @@ services:
 
     depends_on:
       - web
-      - frontend
 
 
   db:

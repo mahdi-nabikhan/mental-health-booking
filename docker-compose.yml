@@ -27,17 +27,7 @@ services:
         condition: service_started
 
 
-  frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile.frontend
 
-    container_name: mental_health_frontend
-
-    restart: unless-stopped
-
-    expose:
-      - "80"
 
 
   nginx:

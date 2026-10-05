@@ -1,7 +1,9 @@
+
 ---
 import Layout from '@layouts/Layout.astro';
 import Navbar from '@components/Navbar.astro';
 import Footer from '@components/Footer.astro';
+import { API_BASE_URL } from '../config/api';
 
 const intro = 'رزرو نوبت';
 
@@ -45,7 +47,7 @@ const pageSize = 4;
 
 try {
   const response = await fetch(
-    `http://localhost:8000/api/v1/booking/appointment-slots/available/?page=${currentPage}&page_size=${pageSize}`
+    `${API_BASE_URL}/booking/appointment-slots/available/?page=${currentPage}&page_size=${pageSize}`
   );
 
   if (response.ok) {
@@ -487,7 +489,6 @@ const formatDate = (date: string) => {
       'BOOKING SCRIPT LOADED'
     );
 
-
     /*
      * باز کردن مودال
      */
@@ -572,7 +573,6 @@ const formatDate = (date: string) => {
       }
     );
 
-
     /*
      * بستن مودال
      */
@@ -594,7 +594,6 @@ const formatDate = (date: string) => {
         selectedSlotId = null;
       }
     );
-
 
     /*
      * بستن با کلیک بیرون
@@ -621,7 +620,6 @@ const formatDate = (date: string) => {
         }
       }
     );
-
 
     /*
      * بستن با Escape
@@ -651,7 +649,6 @@ const formatDate = (date: string) => {
         }
       }
     );
-
 
     /*
      * ارسال رزرو
@@ -695,7 +692,7 @@ const formatDate = (date: string) => {
         try {
           const response =
             await fetch(
-              `http://localhost:8000/api/v1/booking/appointments/create/${selectedSlotId}/`,
+              `/api/v1/booking/appointments/create/${selectedSlotId}/`,
               {
                 method: 'POST',
 
@@ -723,7 +720,6 @@ const formatDate = (date: string) => {
             data
           );
 
-
           if (
             response.status === 401
           ) {
@@ -734,7 +730,6 @@ const formatDate = (date: string) => {
 
             return;
           }
-
 
           if (
             response.status === 409
@@ -748,7 +743,6 @@ const formatDate = (date: string) => {
             return;
           }
 
-
           if (!response.ok) {
             bookingError.textContent =
               data.detail ||
@@ -758,7 +752,6 @@ const formatDate = (date: string) => {
 
             return;
           }
-
 
           alert(
             'نوبت شما با موفقیت رزرو شد.'
@@ -1073,7 +1066,6 @@ const formatDate = (date: string) => {
     color: #747c86;
     line-height: 1.9;
   }
-
 
   /* =========================
      Booking Modal

@@ -1,130 +1,135 @@
 ---
+
 import TherapistLayout from '@layouts/TherapistLayout.astro';
----
+import { API_BASE_URL } from '../../../config/api';
+---------------------------------------------------
 
 <TherapistLayout title="مراجعین">
     <div class="patients-container">
 
-        <!-- Header -->
-        <section class="page-header">
+```
+    <!-- Header -->
+    <section class="page-header">
+        <div>
+            <h1>مراجعین</h1>
+            <p>لیست مراجعین شما و اطلاعات آن‌ها</p>
+        </div>
+    </section>
+
+    <!-- Loading -->
+    <div id="patientsLoading" class="state-message">
+        در حال دریافت لیست مراجعین...
+    </div>
+
+    <!-- Error -->
+    <div id="patientsError" class="state-message error-message hidden">
+        دریافت لیست مراجعین انجام نشد.
+    </div>
+
+    <!-- Empty -->
+    <div id="patientsEmpty" class="state-message hidden">
+        در حال حاضر مراجعی برای نمایش وجود ندارد.
+    </div>
+
+    <!-- Patients Table -->
+    <section id="patientsTableWrapper" class="table-wrapper hidden">
+        <table class="patients-table">
+            <thead>
+                <tr>
+                    <th>نام و نام خانوادگی</th>
+                    <th>شماره تماس</th>
+                    <th>ایمیل</th>
+                    <th>عملیات</th>
+                </tr>
+            </thead>
+
+            <tbody id="patientsTableBody"></tbody>
+        </table>
+    </section>
+</div>
+
+<!-- Patient Details Modal -->
+<div id="patientModal" class="modal hidden">
+    <div class="modal-overlay"></div>
+
+    <div class="modal-content">
+        <div class="modal-header">
             <div>
-                <h1>مراجعین</h1>
-                <p>لیست مراجعین شما و اطلاعات آن‌ها</p>
-            </div>
-        </section>
-
-        <!-- Loading -->
-        <div id="patientsLoading" class="state-message">
-            در حال دریافت لیست مراجعین...
-        </div>
-
-        <!-- Error -->
-        <div id="patientsError" class="state-message error-message hidden">
-            دریافت لیست مراجعین انجام نشد.
-        </div>
-
-        <!-- Empty -->
-        <div id="patientsEmpty" class="state-message hidden">
-            در حال حاضر مراجعی برای نمایش وجود ندارد.
-        </div>
-
-        <!-- Patients Table -->
-        <section id="patientsTableWrapper" class="table-wrapper hidden">
-            <table class="patients-table">
-                <thead>
-                    <tr>
-                        <th>نام و نام خانوادگی</th>
-                        <th>شماره تماس</th>
-                        <th>ایمیل</th>
-                        <th>عملیات</th>
-                    </tr>
-                </thead>
-
-                <tbody id="patientsTableBody"></tbody>
-            </table>
-        </section>
-    </div>
-
-    <!-- Patient Details Modal -->
-    <div id="patientModal" class="modal hidden">
-        <div class="modal-overlay"></div>
-
-        <div class="modal-content">
-            <div class="modal-header">
-                <div>
-                    <h2>جزئیات مراجع</h2>
-                    <p>اطلاعات ثبت‌شده مراجع</p>
-                </div>
-
-                <button
-                    type="button"
-                    id="closePatientModal"
-                    class="modal-close"
-                    aria-label="بستن"
-                >
-                    ×
-                </button>
+                <h2>جزئیات مراجع</h2>
+                <p>اطلاعات ثبت‌شده مراجع</p>
             </div>
 
-            <!-- Modal Loading -->
-            <div id="patientDetailsLoading" class="modal-state">
-                در حال دریافت اطلاعات مراجع...
-            </div>
-
-            <!-- Modal Error -->
-            <div
-                id="patientDetailsError"
-                class="modal-state error-message hidden"
+            <button
+                type="button"
+                id="closePatientModal"
+                class="modal-close"
+                aria-label="بستن"
             >
-                دریافت اطلاعات مراجع انجام نشد.
+                ×
+            </button>
+        </div>
+
+        <!-- Modal Loading -->
+        <div id="patientDetailsLoading" class="modal-state">
+            در حال دریافت اطلاعات مراجع...
+        </div>
+
+        <!-- Modal Error -->
+        <div
+            id="patientDetailsError"
+            class="modal-state error-message hidden"
+        >
+            دریافت اطلاعات مراجع انجام نشد.
+        </div>
+
+        <!-- Modal Details -->
+        <div id="patientDetailsContent" class="patient-details hidden">
+
+            <div class="detail-item">
+                <span class="detail-label">شناسه مراجع</span>
+                <strong id="detailPatientId">-</strong>
             </div>
 
-            <!-- Modal Details -->
-            <div id="patientDetailsContent" class="patient-details hidden">
-
-                <div class="detail-item">
-                    <span class="detail-label">شناسه مراجع</span>
-                    <strong id="detailPatientId">-</strong>
-                </div>
-
-                <div class="detail-item">
-                    <span class="detail-label">نام</span>
-                    <strong id="detailFirstName">-</strong>
-                </div>
-
-                <div class="detail-item">
-                    <span class="detail-label">نام خانوادگی</span>
-                    <strong id="detailLastName">-</strong>
-                </div>
-
-                <div class="detail-item">
-                    <span class="detail-label">شماره تماس</span>
-                    <strong id="detailPhone">-</strong>
-                </div>
-
-                <div class="detail-item">
-                    <span class="detail-label">ایمیل</span>
-                    <strong id="detailEmail">-</strong>
-                </div>
-
-                <div class="detail-item">
-                    <span class="detail-label">شناسه کاربر</span>
-                    <strong id="detailUserId">-</strong>
-                </div>
-
+            <div class="detail-item">
+                <span class="detail-label">نام</span>
+                <strong id="detailFirstName">-</strong>
             </div>
 
-            <div class="modal-footer">
-                <button
-                    type="button"
-                    id="closePatientModalFooter"
-                    class="close-button"
-                >
-                    بستن
-                </button>
+            <div class="detail-item">
+                <span class="detail-label">نام خانوادگی</span>
+                <strong id="detailLastName">-</strong>
             </div>
+
+            <div class="detail-item">
+                <span class="detail-label">شماره تماس</span>
+                <strong id="detailPhone">-</strong>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">ایمیل</span>
+                <strong id="detailEmail">-</strong>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">شناسه کاربر</span>
+                <strong id="detailUserId">-</strong>
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <button
+                type="button"
+                id="closePatientModalFooter"
+                class="close-button"
+            >
+                بستن
+            </button>
         </div>
     </div>
+</div>
+```
+
 </TherapistLayout>
 
 <style>
@@ -366,7 +371,7 @@ import TherapistLayout from '@layouts/TherapistLayout.astro';
     }
 </style>
 
-<script>
+<script define:vars={{ API_BASE_URL }}>
     interface Patient {
         id?: number;
         first_name?: string;
@@ -379,10 +384,10 @@ import TherapistLayout from '@layouts/TherapistLayout.astro';
     }
 
     const PATIENTS_URL =
-        "http://localhost:8000/api/v1/accounts/patients/";
+        `${API_BASE_URL}/accounts/patients/`;
 
     const PATIENT_DETAIL_URL = (id: number) =>
-        `http://localhost:8000/api/v1/accounts/therapist/patients/${id}/`;
+        `${API_BASE_URL}/accounts/therapist/patients/${id}/`;
 
     const patientsLoading =
         document.getElementById("patientsLoading") as HTMLDivElement;

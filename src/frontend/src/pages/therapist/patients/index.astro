@@ -1,135 +1,131 @@
 ---
-
 import TherapistLayout from '@layouts/TherapistLayout.astro';
 import { API_BASE_URL } from '../../../config/api';
----------------------------------------------------
+---
 
 <TherapistLayout title="مراجعین">
     <div class="patients-container">
 
-```
-    <!-- Header -->
-    <section class="page-header">
-        <div>
-            <h1>مراجعین</h1>
-            <p>لیست مراجعین شما و اطلاعات آن‌ها</p>
-        </div>
-    </section>
-
-    <!-- Loading -->
-    <div id="patientsLoading" class="state-message">
-        در حال دریافت لیست مراجعین...
-    </div>
-
-    <!-- Error -->
-    <div id="patientsError" class="state-message error-message hidden">
-        دریافت لیست مراجعین انجام نشد.
-    </div>
-
-    <!-- Empty -->
-    <div id="patientsEmpty" class="state-message hidden">
-        در حال حاضر مراجعی برای نمایش وجود ندارد.
-    </div>
-
-    <!-- Patients Table -->
-    <section id="patientsTableWrapper" class="table-wrapper hidden">
-        <table class="patients-table">
-            <thead>
-                <tr>
-                    <th>نام و نام خانوادگی</th>
-                    <th>شماره تماس</th>
-                    <th>ایمیل</th>
-                    <th>عملیات</th>
-                </tr>
-            </thead>
-
-            <tbody id="patientsTableBody"></tbody>
-        </table>
-    </section>
-</div>
-
-<!-- Patient Details Modal -->
-<div id="patientModal" class="modal hidden">
-    <div class="modal-overlay"></div>
-
-    <div class="modal-content">
-        <div class="modal-header">
+        <!-- Header -->
+        <section class="page-header">
             <div>
-                <h2>جزئیات مراجع</h2>
-                <p>اطلاعات ثبت‌شده مراجع</p>
+                <h1>مراجعین</h1>
+                <p>لیست مراجعین شما و اطلاعات آن‌ها</p>
+            </div>
+        </section>
+
+        <!-- Loading -->
+        <div id="patientsLoading" class="state-message">
+            در حال دریافت لیست مراجعین...
+        </div>
+
+        <!-- Error -->
+        <div id="patientsError" class="state-message error-message hidden">
+            دریافت لیست مراجعین انجام نشد.
+        </div>
+
+        <!-- Empty -->
+        <div id="patientsEmpty" class="state-message hidden">
+            در حال حاضر مراجعی برای نمایش وجود ندارد.
+        </div>
+
+        <!-- Patients Table -->
+        <section id="patientsTableWrapper" class="table-wrapper hidden">
+            <table class="patients-table">
+                <thead>
+                    <tr>
+                        <th>نام و نام خانوادگی</th>
+                        <th>شماره تماس</th>
+                        <th>ایمیل</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+
+                <tbody id="patientsTableBody"></tbody>
+            </table>
+        </section>
+    </div>
+
+    <!-- Patient Details Modal -->
+    <div id="patientModal" class="modal hidden">
+        <div class="modal-overlay"></div>
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h2>جزئیات مراجع</h2>
+                    <p>اطلاعات ثبت‌شده مراجع</p>
+                </div>
+
+                <button
+                    type="button"
+                    id="closePatientModal"
+                    class="modal-close"
+                    aria-label="بستن"
+                >
+                    ×
+                </button>
             </div>
 
-            <button
-                type="button"
-                id="closePatientModal"
-                class="modal-close"
-                aria-label="بستن"
+            <!-- Modal Loading -->
+            <div id="patientDetailsLoading" class="modal-state">
+                در حال دریافت اطلاعات مراجع...
+            </div>
+
+            <!-- Modal Error -->
+            <div
+                id="patientDetailsError"
+                class="modal-state error-message hidden"
             >
-                ×
-            </button>
-        </div>
-
-        <!-- Modal Loading -->
-        <div id="patientDetailsLoading" class="modal-state">
-            در حال دریافت اطلاعات مراجع...
-        </div>
-
-        <!-- Modal Error -->
-        <div
-            id="patientDetailsError"
-            class="modal-state error-message hidden"
-        >
-            دریافت اطلاعات مراجع انجام نشد.
-        </div>
-
-        <!-- Modal Details -->
-        <div id="patientDetailsContent" class="patient-details hidden">
-
-            <div class="detail-item">
-                <span class="detail-label">شناسه مراجع</span>
-                <strong id="detailPatientId">-</strong>
+                دریافت اطلاعات مراجع انجام نشد.
             </div>
 
-            <div class="detail-item">
-                <span class="detail-label">نام</span>
-                <strong id="detailFirstName">-</strong>
+            <!-- Modal Details -->
+            <div id="patientDetailsContent" class="patient-details hidden">
+
+                <div class="detail-item">
+                    <span class="detail-label">شناسه مراجع</span>
+                    <strong id="detailPatientId">-</strong>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">نام</span>
+                    <strong id="detailFirstName">-</strong>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">نام خانوادگی</span>
+                    <strong id="detailLastName">-</strong>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">شماره تماس</span>
+                    <strong id="detailPhone">-</strong>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">ایمیل</span>
+                    <strong id="detailEmail">-</strong>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">شناسه کاربر</span>
+                    <strong id="detailUserId">-</strong>
+                </div>
+
             </div>
 
-            <div class="detail-item">
-                <span class="detail-label">نام خانوادگی</span>
-                <strong id="detailLastName">-</strong>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    id="closePatientModalFooter"
+                    class="close-button"
+                >
+                    بستن
+                </button>
             </div>
-
-            <div class="detail-item">
-                <span class="detail-label">شماره تماس</span>
-                <strong id="detailPhone">-</strong>
-            </div>
-
-            <div class="detail-item">
-                <span class="detail-label">ایمیل</span>
-                <strong id="detailEmail">-</strong>
-            </div>
-
-            <div class="detail-item">
-                <span class="detail-label">شناسه کاربر</span>
-                <strong id="detailUserId">-</strong>
-            </div>
-
-        </div>
-
-        <div class="modal-footer">
-            <button
-                type="button"
-                id="closePatientModalFooter"
-                class="close-button"
-            >
-                بستن
-            </button>
         </div>
     </div>
-</div>
-```
-
 </TherapistLayout>
 
 <style>
@@ -445,7 +441,6 @@ import { API_BASE_URL } from '../../../config/api';
     const detailUserId =
         document.getElementById("detailUserId") as HTMLElement;
 
-
     function getPatientName(patient: Patient): string {
         const firstName = patient.first_name?.trim() || "";
         const lastName = patient.last_name?.trim() || "";
@@ -455,13 +450,11 @@ import { API_BASE_URL } from '../../../config/api';
         return fullName || "بدون نام";
     }
 
-
     function showPatientDetailsLoading() {
         patientDetailsLoading.classList.remove("hidden");
         patientDetailsError.classList.add("hidden");
         patientDetailsContent.classList.add("hidden");
     }
-
 
     function showPatientDetailsError() {
         patientDetailsLoading.classList.add("hidden");
@@ -469,25 +462,21 @@ import { API_BASE_URL } from '../../../config/api';
         patientDetailsContent.classList.add("hidden");
     }
 
-
     function showPatientDetailsContent() {
         patientDetailsLoading.classList.add("hidden");
         patientDetailsError.classList.add("hidden");
         patientDetailsContent.classList.remove("hidden");
     }
 
-
     function openPatientModal() {
         patientModal.classList.remove("hidden");
         document.body.style.overflow = "hidden";
     }
 
-
     function closeModal() {
         patientModal.classList.add("hidden");
         document.body.style.overflow = "";
     }
-
 
     function resetPatientDetails() {
         detailPatientId.textContent = "-";
@@ -497,7 +486,6 @@ import { API_BASE_URL } from '../../../config/api';
         detailEmail.textContent = "-";
         detailUserId.textContent = "-";
     }
-
 
     async function loadPatientDetails(patientId: number) {
         openPatientModal();
@@ -554,7 +542,6 @@ import { API_BASE_URL } from '../../../config/api';
         }
     }
 
-
     function renderPatients(patients: Patient[]) {
         patientsTableBody.innerHTML = "";
 
@@ -588,7 +575,6 @@ import { API_BASE_URL } from '../../../config/api';
             patientsTableBody.appendChild(row);
         });
     }
-
 
     async function loadPatients() {
         patientsLoading.classList.remove("hidden");
@@ -638,7 +624,6 @@ import { API_BASE_URL } from '../../../config/api';
         }
     }
 
-
     patientsTableBody.addEventListener(
         "click",
         (event) => {
@@ -664,24 +649,20 @@ import { API_BASE_URL } from '../../../config/api';
         }
     );
 
-
     closePatientModal.addEventListener(
         "click",
         closeModal
     );
-
 
     closePatientModalFooter.addEventListener(
         "click",
         closeModal
     );
 
-
     modalOverlay.addEventListener(
         "click",
         closeModal
     );
-
 
     document.addEventListener(
         "keydown",
@@ -694,7 +675,6 @@ import { API_BASE_URL } from '../../../config/api';
             }
         }
     );
-
 
     document.addEventListener(
         "DOMContentLoaded",

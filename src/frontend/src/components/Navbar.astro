@@ -1,3 +1,6 @@
+---
+import { API_BASE_URL } from "../config/api";
+---
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary" id="navigation">
   <div class="container-fluid" id="navigation-wrapper">
@@ -112,10 +115,10 @@
 
 <script>
   const profileUrl =
-    "http://localhost:8000/api/v1/accounts/patient/profile/";
+    `${API_BASE_URL}/accounts/patient/profile/`;
 
   const logoutUrl =
-    "http://localhost:8000/api/v1/accounts/logout/";
+    `${API_BASE_URL}/accounts/logout/`;
 
   const profileNavItem = document.getElementById("profile-nav-item");
   const loginNavItem = document.getElementById("login-nav-item");

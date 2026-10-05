@@ -1,5 +1,6 @@
 
 ---
+import { API_BASE_URL } from "../../config/api";
 ---
 
 <form id="login-form" class="auth-form">
@@ -54,8 +55,7 @@
     const submitButton =
         document.querySelector<HTMLButtonElement>("#login-submit");
 
-    const API_URL =
-        "http://localhost:8000/api/v1/accounts/login/";
+    const API_URL =`${API_BASE_URL}/accounts/login/`;
 
     form?.addEventListener("submit", async (event) => {
         event.preventDefault();

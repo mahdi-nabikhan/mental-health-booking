@@ -1,5 +1,7 @@
+
 ---
 import TherapistLayout from "../../layouts/TherapistLayout.astro";
+import { API_BASE_URL } from "../../config/api";
 ---
 
 <TherapistLayout title="پروفایل من">
@@ -343,7 +345,7 @@ import TherapistLayout from "../../layouts/TherapistLayout.astro";
     </div>
 </TherapistLayout>
 
-<script>
+<script define:vars={{ API_BASE_URL }}>
     interface TherapistProfile {
         id: number;
         first_name: string;
@@ -487,7 +489,7 @@ import TherapistLayout from "../../layouts/TherapistLayout.astro";
 
         try {
             const response = await fetch(
-                "http://localhost:8000/api/v1/accounts/therapist/profile/",
+                `${API_BASE_URL}/accounts/therapist/profile/`,
                 {
                     method: "GET",
                     credentials: "include",
@@ -738,7 +740,7 @@ import TherapistLayout from "../../layouts/TherapistLayout.astro";
 
         try {
             const response = await fetch(
-                "http://localhost:8000/api/v1/accounts/change-password/",
+                `${API_BASE_URL}/accounts/change-password/`,
                 {
                     method: "PUT",
                     credentials: "include",

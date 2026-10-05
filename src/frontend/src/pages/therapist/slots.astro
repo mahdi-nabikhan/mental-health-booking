@@ -1,51 +1,56 @@
 ---
+
 import TherapistLayout from '@layouts/TherapistLayout.astro';
----
+import { API_BASE_URL } from '../../config/api';
+------------------------------------------------
 
 <TherapistLayout title="تمام اسلات‌ها">
     <div class="slots-container">
 
-        <!-- Header -->
-        <section class="page-header">
-            <div>
-                <h1>تمام اسلات‌ها</h1>
-                <p>مشاهده تمام زمان‌های تعریف‌شده و وضعیت رزرو آن‌ها</p>
-            </div>
-        </section>
-
-        <!-- Loading -->
-        <div id="slotsLoading" class="state-message">
-            در حال دریافت اسلات‌ها...
+```
+    <!-- Header -->
+    <section class="page-header">
+        <div>
+            <h1>تمام اسلات‌ها</h1>
+            <p>مشاهده تمام زمان‌های تعریف‌شده و وضعیت رزرو آن‌ها</p>
         </div>
+    </section>
 
-        <!-- Error -->
-        <div id="slotsError" class="state-message error-message hidden">
-            دریافت اسلات‌ها انجام نشد.
-        </div>
-
-        <!-- Empty -->
-        <div id="slotsEmpty" class="state-message hidden">
-            هنوز هیچ اسلاتی برای شما ثبت نشده است.
-        </div>
-
-        <!-- Table -->
-        <section id="slotsTableWrapper" class="table-wrapper hidden">
-            <table class="slots-table">
-                <thead>
-                    <tr>
-                        <th>تاریخ</th>
-                        <th>زمان</th>
-                        <th>وضعیت</th>
-                        <th>مراجع</th>
-                        <th>علت مراجعه</th>
-                    </tr>
-                </thead>
-
-                <tbody id="slotsTableBody"></tbody>
-            </table>
-        </section>
-
+    <!-- Loading -->
+    <div id="slotsLoading" class="state-message">
+        در حال دریافت اسلات‌ها...
     </div>
+
+    <!-- Error -->
+    <div id="slotsError" class="state-message error-message hidden">
+        دریافت اسلات‌ها انجام نشد.
+    </div>
+
+    <!-- Empty -->
+    <div id="slotsEmpty" class="state-message hidden">
+        هنوز هیچ اسلاتی برای شما ثبت نشده است.
+    </div>
+
+    <!-- Table -->
+    <section id="slotsTableWrapper" class="table-wrapper hidden">
+        <table class="slots-table">
+            <thead>
+                <tr>
+                    <th>تاریخ</th>
+                    <th>زمان</th>
+                    <th>وضعیت</th>
+                    <th>مراجع</th>
+                    <th>علت مراجعه</th>
+                </tr>
+            </thead>
+
+            <tbody id="slotsTableBody"></tbody>
+        </table>
+    </section>
+
+</div>
+```
+
 </TherapistLayout>
 
 <style>
@@ -173,7 +178,7 @@ import TherapistLayout from '@layouts/TherapistLayout.astro';
     }
 </style>
 
-<script>
+<script define:vars={{ API_BASE_URL }}>
     interface Patient {
         id?: number;
         first_name?: string;
@@ -197,7 +202,7 @@ import TherapistLayout from '@layouts/TherapistLayout.astro';
     }
 
     const SLOTS_URL =
-        "http://localhost:8000/api/v1/booking/therapist/appointment-slots/";
+        `${API_BASE_URL}/booking/therapist/appointment-slots/`;
 
     const slotsLoading =
         document.getElementById("slotsLoading") as HTMLDivElement;

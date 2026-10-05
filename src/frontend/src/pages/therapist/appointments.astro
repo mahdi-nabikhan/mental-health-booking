@@ -1,6 +1,7 @@
 
 ---
 import TherapistLayout from "../../layouts/TherapistLayout.astro";
+import { API_BASE_URL } from "../../config/api";
 ---
 
 <TherapistLayout title="نوبت‌ها">
@@ -351,7 +352,6 @@ import TherapistLayout from "../../layouts/TherapistLayout.astro";
     overflow-x: auto;
   }
 
-  /* جدول کاملاً RTL */
   table {
     width: 100%;
     border-collapse: collapse;
@@ -598,7 +598,7 @@ import TherapistLayout from "../../layouts/TherapistLayout.astro";
   }
 </style>
 
-<script>
+<script define:vars={{ API_BASE_URL }}>
   interface Slot {
     id: number;
     time: string;
@@ -630,13 +630,13 @@ import TherapistLayout from "../../layouts/TherapistLayout.astro";
   }
 
   const TODAY_APPOINTMENTS_URL =
-    "http://localhost:8000/api/v1/booking/appointments/today/";
+    `${API_BASE_URL}/booking/appointments/today/`;
 
   const CREATE_SLOT_URL =
-    "http://localhost:8000/api/v1/booking/create/appointment-slots/";
+    `${API_BASE_URL}/booking/create/appointment-slots/`;
 
   const SLOT_URL =
-    "http://localhost:8000/api/v1/booking/appointment-slots/";
+    `${API_BASE_URL}/booking/appointment-slots/`;
 
   const loading = document.getElementById("loading");
   const errorBox = document.getElementById("error");
@@ -740,19 +740,10 @@ import TherapistLayout from "../../layouts/TherapistLayout.astro";
   }
 
   function normalizeDate(date: string): string {
-    /*
-     * input[type=date] همیشه باید مقدار YYYY-MM-DD بدهد.
-     * فقط برای اطمینان، فاصله و / را هم مدیریت می‌کنیم.
-     */
     return date.trim().replace(/\//g, "-");
   }
 
   function normalizeTime(time: string): string {
-    /*
-     * input[type=time] معمولاً HH:MM می‌دهد.
-     * API نمونه Swagger ثانیه هم دارد، پس اگر ثانیه نداشت
-     * آن را به HH:MM:00 تبدیل می‌کنیم.
-     */
     const value = time.trim();
 
     if (value.length === 5) {
@@ -769,9 +760,6 @@ import TherapistLayout from "../../layouts/TherapistLayout.astro";
   }
 
   function formatDate(date: string): string {
-    /*
-     * تاریخ API میلادی است و بدون هیچ تبدیل Jalali نمایش داده می‌شود.
-     */
     if (!date) return "-";
 
     return date;
@@ -999,23 +987,7 @@ import TherapistLayout from "../../layouts/TherapistLayout.astro";
         await response.json();
 
       updateId.value = String(data.id);
-
-      /*
-       * API:
-       * date = 2026-09-19
-       *
-       * input[type=date] دقیقاً همین فرمت را می‌خواهد.
-       * هیچ تبدیل Jalali انجام نمی‌شود.
-       */
       updateDate.value = data.date;
-
-      /*
-       * API ممکن است:
-       * 13:25:00.274000
-       *
-       * باشد، اما input[type=time] با step=1
-       * مقدار HH:MM:SS می‌گیرد.
-       */
       updateTime.value = data.time.substring(0, 8);
 
       openModal(updateModal);

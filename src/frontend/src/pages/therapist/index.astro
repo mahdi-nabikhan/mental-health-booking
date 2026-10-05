@@ -1,5 +1,6 @@
 ---
 import TherapistLayout from '@layouts/TherapistLayout.astro';
+import { API_BASE_URL } from '../../config/api';
 ---
 
 <TherapistLayout title="داشبورد درمانگر">
@@ -488,7 +489,7 @@ import TherapistLayout from '@layouts/TherapistLayout.astro';
 </style>
 
 
-<script>
+<script define:vars={{ API_BASE_URL }}>
 
     interface Patient {
         id?: number;
@@ -709,7 +710,7 @@ import TherapistLayout from '@layouts/TherapistLayout.astro';
         try {
 
             const response = await fetch(
-                "http://localhost:8000/api/v1/booking/appointment-slots/",
+                `${API_BASE_URL}/booking/appointment-slots/`,
                 {
                     method: "GET",
                     credentials: "include",
@@ -909,7 +910,7 @@ import TherapistLayout from '@layouts/TherapistLayout.astro';
         try {
 
             const response = await fetch(
-                "http://localhost:8000/api/v1/booking/appointments/today/",
+                `${API_BASE_URL}/booking/appointments/today/`,
                 {
                     method: "GET",
                     credentials: "include",

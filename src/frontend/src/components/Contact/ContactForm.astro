@@ -1,10 +1,6 @@
-
 ---
-const contactFormIntro: string = "برای دریافت مشاوره رایگان، این فرم را تکمیل و ارسال کنید"
-const actionUrl: string = "https://api.web3forms.com/submit"
-const ACCESS_KEY: string = import.meta.env.WEB3_FORMS_API_KEY
-
-if(!ACCESS_KEY) console.error(`Missing environment variable: ${ACCESS_KEY}`)
+const contactFormIntro: string =
+  "برای دریافت مشاوره رایگان، این فرم را تکمیل و ارسال کنید"
 ---
 
 <section
@@ -21,17 +17,13 @@ if(!ACCESS_KEY) console.error(`Missing environment variable: ${ACCESS_KEY}`)
     {contactFormIntro}
   </h2>
 
-  <form class="row g-3 col-12 col-lg-11" action={actionUrl} method="POST">
-    <input type="hidden" name="access_key" value={ACCESS_KEY}>
-    <input type="hidden" name="redirect" value="/">
-    <input type="hidden" name="subject" value="Contact Email">
-    <input type="hidden" name="from_name" value="Psychotherapist Astro Site">
-
-    <input type="checkbox" name="botcheck" id="" style="display: none;">
-
-    <!---- نام و نام خانوادگی ---->
+  <form class="row g-3 col-12 col-lg-11">
+    <!-- نام و نام خانوادگی -->
     <div class="col-md-6">
-      <label for="inputName" class="form-label">نام و نام خانوادگی</label>
+      <label for="inputName" class="form-label">
+        نام و نام خانوادگی
+      </label>
+
       <input
         type="text"
         name="fullname"
@@ -43,9 +35,12 @@ if(!ACCESS_KEY) console.error(`Missing environment variable: ${ACCESS_KEY}`)
       >
     </div>
 
-    <!---- ایمیل ---->
+    <!-- ایمیل -->
     <div class="col-md-6">
-      <label for="inputEmail4" class="form-label">ایمیل</label>
+      <label for="inputEmail4" class="form-label">
+        ایمیل
+      </label>
+
       <input
         type="email"
         name="email"
@@ -57,9 +52,12 @@ if(!ACCESS_KEY) console.error(`Missing environment variable: ${ACCESS_KEY}`)
       >
     </div>
 
-    <!---- تلفن ---->
+    <!-- تلفن -->
     <div class="col-md-6">
-      <label for="inputPhone" class="form-label">شماره تلفن</label>
+      <label for="inputPhone" class="form-label">
+        شماره تلفن
+      </label>
+
       <input
         type="tel"
         name="phone"
@@ -71,9 +69,12 @@ if(!ACCESS_KEY) console.error(`Missing environment variable: ${ACCESS_KEY}`)
       >
     </div>
 
-    <!---- آدرس ---->
+    <!-- آدرس -->
     <div class="col-md-6">
-      <label for="inputAddress" class="form-label">آدرس</label>
+      <label for="inputAddress" class="form-label">
+        آدرس
+      </label>
+
       <input
         type="text"
         name="address"
@@ -85,9 +86,12 @@ if(!ACCESS_KEY) console.error(`Missing environment variable: ${ACCESS_KEY}`)
       >
     </div>
 
-    <!---- شهر ---->
+    <!-- شهر -->
     <div class="col-md-6">
-      <label for="inputCity" class="form-label">شهر</label>
+      <label for="inputCity" class="form-label">
+        شهر
+      </label>
+
       <input
         type="text"
         name="city"
@@ -99,9 +103,12 @@ if(!ACCESS_KEY) console.error(`Missing environment variable: ${ACCESS_KEY}`)
       >
     </div>
 
-    <!---- تاریخ تولد ---->
+    <!-- تاریخ تولد -->
     <div class="col-md-6">
-      <label for="inputDate" class="form-label">تاریخ تولد</label>
+      <label for="inputDate" class="form-label">
+        تاریخ تولد
+      </label>
+
       <input
         type="date"
         name="birthdate"
@@ -112,7 +119,7 @@ if(!ACCESS_KEY) console.error(`Missing environment variable: ${ACCESS_KEY}`)
       >
     </div>
 
-    <!---- پیام ---->
+    <!-- پیام -->
     <div class="form-floating">
       <textarea
         class="form-control"
@@ -129,8 +136,10 @@ if(!ACCESS_KEY) console.error(`Missing environment variable: ${ACCESS_KEY}`)
       </label>
     </div>
 
-    <!---- دکمه‌ها ---->
-    <div class="col-12 d-flex flex-column flex-sm-row justify-content-center mt-4">
+    <!-- دکمه‌ها -->
+    <div
+      class="col-12 d-flex flex-column flex-sm-row justify-content-center mt-4"
+    >
       <button
         type="submit"
         class="btn btn-success mx-4 mb-3 mb-sm-0 px-5 py-2 rounded-pill"

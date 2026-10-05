@@ -1,5 +1,5 @@
-
 ---
+import { API_BASE_URL } from "../../config/api";
 ---
 
 <form id="register-form" class="auth-form">
@@ -125,9 +125,6 @@
     const registerSubmit =
         document.querySelector<HTMLButtonElement>("#register-submit");
 
-    const API_BASE_URL =
-        "http://localhost:8000/api/v1/accounts";
-
     function showError(message: string) {
         if (!registerError) return;
 
@@ -221,7 +218,7 @@
 
         try {
             const response = await fetch(
-                `${API_BASE_URL}/patient/register/`,
+                `${API_BASE_URL}/accounts/patient/register/`,
                 {
                     method: "POST",
                     headers: {
@@ -272,4 +269,3 @@
         }
     });
 </script>
-

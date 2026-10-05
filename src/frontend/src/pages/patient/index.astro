@@ -1,6 +1,8 @@
+
 ---
 import PatientLayout from "../../layouts/PatientLayout.astro";
 import PatientStatCard from "../../components/Dashboard/PatientStatCard.astro";
+import { API_BASE_URL } from "../../config/api";
 ---
 
 <PatientLayout title="داشبورد بیمار">
@@ -141,7 +143,7 @@ import PatientStatCard from "../../components/Dashboard/PatientStatCard.astro";
     </div>
 </PatientLayout>
 
-<script>
+<script define:vars={{ API_BASE_URL }}>
     interface Appointment {
         id: number;
         therapist_id: number;
@@ -419,7 +421,7 @@ import PatientStatCard from "../../components/Dashboard/PatientStatCard.astro";
 
         try {
             const response = await fetch(
-                "http://localhost:8000/api/v1/booking/patient/appointments/today/",
+                `${API_BASE_URL}/booking/patient/appointments/today/`,
                 {
                     method: "GET",
                     credentials: "include",

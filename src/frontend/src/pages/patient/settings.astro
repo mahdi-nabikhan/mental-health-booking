@@ -1,5 +1,6 @@
 ---
 import PatientLayout from "../../layouts/PatientLayout.astro";
+import { API_BASE_URL } from "../../config/api";
 ---
 
 <PatientLayout title="تنظیمات">
@@ -201,7 +202,7 @@ import PatientLayout from "../../layouts/PatientLayout.astro";
     </div>
 </PatientLayout>
 
-<script>
+<script define:vars={{ API_BASE_URL }}>
     const passwordForm =
         document.querySelector<HTMLFormElement>("#password-form");
 
@@ -257,7 +258,7 @@ import PatientLayout from "../../layouts/PatientLayout.astro";
 
         try {
             const response = await fetch(
-                "http://localhost:8000/api/v1/accounts/change-password/",
+                `${API_BASE_URL}/accounts/change-password/`,
                 {
                     method: "PUT",
                     headers: {

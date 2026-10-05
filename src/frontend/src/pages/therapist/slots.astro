@@ -1,56 +1,52 @@
 ---
-
 import TherapistLayout from '@layouts/TherapistLayout.astro';
 import { API_BASE_URL } from '../../config/api';
-------------------------------------------------
+---
 
 <TherapistLayout title="تمام اسلات‌ها">
     <div class="slots-container">
 
-```
-    <!-- Header -->
-    <section class="page-header">
-        <div>
-            <h1>تمام اسلات‌ها</h1>
-            <p>مشاهده تمام زمان‌های تعریف‌شده و وضعیت رزرو آن‌ها</p>
+        <!-- Header -->
+        <section class="page-header">
+            <div>
+                <h1>تمام اسلات‌ها</h1>
+                <p>مشاهده تمام زمان‌های تعریف‌شده و وضعیت رزرو آن‌ها</p>
+            </div>
+        </section>
+
+        <!-- Loading -->
+        <div id="slotsLoading" class="state-message">
+            در حال دریافت اسلات‌ها...
         </div>
-    </section>
 
-    <!-- Loading -->
-    <div id="slotsLoading" class="state-message">
-        در حال دریافت اسلات‌ها...
+        <!-- Error -->
+        <div id="slotsError" class="state-message error-message hidden">
+            دریافت اسلات‌ها انجام نشد.
+        </div>
+
+        <!-- Empty -->
+        <div id="slotsEmpty" class="state-message hidden">
+            هنوز هیچ اسلاتی برای شما ثبت نشده است.
+        </div>
+
+        <!-- Table -->
+        <section id="slotsTableWrapper" class="table-wrapper hidden">
+            <table class="slots-table">
+                <thead>
+                    <tr>
+                        <th>تاریخ</th>
+                        <th>زمان</th>
+                        <th>وضعیت</th>
+                        <th>مراجع</th>
+                        <th>علت مراجعه</th>
+                    </tr>
+                </thead>
+
+                <tbody id="slotsTableBody"></tbody>
+            </table>
+        </section>
+
     </div>
-
-    <!-- Error -->
-    <div id="slotsError" class="state-message error-message hidden">
-        دریافت اسلات‌ها انجام نشد.
-    </div>
-
-    <!-- Empty -->
-    <div id="slotsEmpty" class="state-message hidden">
-        هنوز هیچ اسلاتی برای شما ثبت نشده است.
-    </div>
-
-    <!-- Table -->
-    <section id="slotsTableWrapper" class="table-wrapper hidden">
-        <table class="slots-table">
-            <thead>
-                <tr>
-                    <th>تاریخ</th>
-                    <th>زمان</th>
-                    <th>وضعیت</th>
-                    <th>مراجع</th>
-                    <th>علت مراجعه</th>
-                </tr>
-            </thead>
-
-            <tbody id="slotsTableBody"></tbody>
-        </table>
-    </section>
-
-</div>
-```
-
 </TherapistLayout>
 
 <style>
@@ -219,7 +215,6 @@ import { API_BASE_URL } from '../../config/api';
     const slotsTableBody =
         document.getElementById("slotsTableBody") as HTMLTableSectionElement;
 
-
     function formatDate(date?: string): string {
         if (!date) {
             return "-";
@@ -228,7 +223,6 @@ import { API_BASE_URL } from '../../config/api';
         return date;
     }
 
-
     function formatTime(time?: string): string {
         if (!time) {
             return "-";
@@ -236,7 +230,6 @@ import { API_BASE_URL } from '../../config/api';
 
         return time.slice(0, 5);
     }
-
 
     function getPatientName(patient?: Patient): string {
         if (!patient) {
@@ -251,7 +244,6 @@ import { API_BASE_URL } from '../../config/api';
 
         return fullName || "-";
     }
-
 
     function getStatusLabel(status?: string): string {
         switch (status) {
@@ -272,7 +264,6 @@ import { API_BASE_URL } from '../../config/api';
         }
     }
 
-
     function getStatusClass(status?: string): string {
         switch (status) {
             case "available":
@@ -291,7 +282,6 @@ import { API_BASE_URL } from '../../config/api';
                 return "";
         }
     }
-
 
     function renderSlots(slots: AppointmentSlot[]) {
         slotsTableBody.innerHTML = "";
@@ -335,7 +325,6 @@ import { API_BASE_URL } from '../../config/api';
             slotsTableBody.appendChild(row);
         });
     }
-
 
     async function loadSlots() {
         slotsLoading.classList.remove("hidden");
@@ -388,7 +377,6 @@ import { API_BASE_URL } from '../../config/api';
             slotsError.classList.remove("hidden");
         }
     }
-
 
     document.addEventListener(
         "DOMContentLoaded",

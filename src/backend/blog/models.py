@@ -15,7 +15,7 @@ class Blog(models.Model):
         
     
     title = models.CharField(max_length=255)
-    description = models.TextField() = models.TextField()
+    description = models.TextField()
     status = models.CharField(max_length=10,choices=Status.choices,default=Status.DRAFT,)
     
     image =  models.ImageField(null=True,blank=True)

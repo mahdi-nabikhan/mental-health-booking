@@ -38,7 +38,7 @@ class BlogUpdatedAPiView(generics.UpdateAPIView,generics.DestroyAPIView):
     permission_classes = [IsAuthenticated]
     
     def get_queryset(self):
-        return models.Blog.objects.filter(owner__user =self.request.user)
+        return models.Blog.objects.all()
     
     
 class BlogUpdatedStatusApiView(generics.UpdateAPIView):

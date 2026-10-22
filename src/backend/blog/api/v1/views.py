@@ -4,9 +4,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from blog import models
 from rest_framework.permissions import IsAuthenticated
-
+from blog import pagination
 
 class BlogListApiView(generics.ListAPIView):
+    pagination_class = pagination.BlogPagination
     serializer_class=BlogSerializer
     
     def get_queryset(self):

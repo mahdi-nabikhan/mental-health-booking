@@ -20,6 +20,11 @@ urlpatterns = [
             include('booking.api.v1.urls'),
         ),
     
+    path(
+        'api/v1/blog/',
+        include('blog.api.v1.urls')
+        ),
+    
 
 
 

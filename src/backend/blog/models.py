@@ -1,37 +1,31 @@
-from rest_framework import serializers
-from blog import models as blog_models
-from accounts import models as account_models
-from accounts.api.v1 import serializers as account_serializers
+from django.db import models
+from accounts.models import Therapist
+# Create your models here.
 
 
-class BlogCreationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = blog_models.Blog
-        fields = '__all__'
-        read_only_fields = ['owner']
-
-    def create(self, validated_data):
-        validated_data['owner'] = account_models.Therapist.objects.get(
-            user=self.context['request'].user
-        )
-        return super().create(validated_data)
 
 
-class BlogSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = blog_models.Blog
-        fields = '__all__'
-        read_only_fields = ['owner']
+class Blog(models.Model):
+    
+    class Status (models.TextChoices):
+        DRAFT = "draft", "پیش‌نویس"
+        PUBLISHED = "published", "منتشر شده"
+        ARCHIVED = "archived", "آرشیو شده"
+        
+        
+    
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    status = models.CharField(max_length=10,choices=Status.choices,default=Status.DRAFT,)
+    
+    image =  models.ImageField(null=True,blank=True)
+    
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    published_at = models.DateTimeField(null=True, blank=True)
 
-    def to_representation(self, instance):
-        res = super().to_representation(instance)
-        res['owner'] = account_serializers.TherapistSerializers(
-            instance.owner
-        ).data
-        return res
-
-
-class BlogStatusUpdateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = blog_models.Blog
-        fields = ['status']
+    owner = models.ForeignKey(Therapist,on_delete=models.CASCADE)
+    
+    
+    

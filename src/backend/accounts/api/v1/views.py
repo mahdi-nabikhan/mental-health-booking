@@ -1,5 +1,6 @@
 from .serializers import *
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.throttling import ScopedRateThrottle
 from accounts.models import *
 from rest_framework.response import Response
 from rest_framework import status
@@ -10,7 +11,8 @@ from rest_framework.views import APIView
 
 class JwtLoginApiView(TokenObtainPairView):
     serializer_class = CustomObtainPairTokenSerializer
-    
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = "login"
     
     
     def post(self, request, *args, **kwargs):
@@ -66,6 +68,8 @@ class TherapistRegisterApiView(GenericAPIView):
             
 class PatientRegisterApiView(GenericAPIView):
     serializer_class = PatientRegisterSerializer
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = "patient_register"
     
     def post(self,request):
         serializer= self.serializer_class(data=request.data,context={'request':request})

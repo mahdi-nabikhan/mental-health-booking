@@ -5,6 +5,7 @@ from .views import (
     BlogCreateApiView,
     BlogUpdatedAPiView,
     BlogUpdatedStatusApiView,
+    BlogDetailApiView
 )
 
 app_name = 'blog'
@@ -22,4 +23,5 @@ urlpatterns = [
         BlogUpdatedStatusApiView.as_view(),
         name='blog-status-update',
     ),
+    path("detail/<int:pk>/", BlogDetailApiView.as_view(), name="blog-detail"),
 ]

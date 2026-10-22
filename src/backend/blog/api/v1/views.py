@@ -14,6 +14,10 @@ class BlogListApiView(generics.ListAPIView):
     
     
     
+class BlogDetailApiView(generics.RetrieveAPIView):
+    serializer_class= BlogSerializer
+    queryset = models.Blog.objects.all()
+    
 class BlogCreateApiView(generics.GenericAPIView):
     serializer_class = BlogCreationSerializer
     permission_classes = [IsAuthenticated]

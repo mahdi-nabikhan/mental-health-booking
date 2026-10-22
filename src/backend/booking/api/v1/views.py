@@ -1,9 +1,14 @@
 from rest_framework import generics,status,response
-from rest_framework import generics
+
 from rest_framework.permissions import IsAuthenticated
+from django.conf import settings
+from django.db import transaction, IntegrityError
+from redis import Redis
+from redis.exceptions import LockError
+from rest_framework import status, response
 from .serializers import AppointmentSlotSerializer
 from django.utils import timezone
-from rest_framework import generics
+
 
 from .serializers import *
 from booking import models
@@ -140,21 +145,64 @@ class AppointmentListApiView(generics.GenericAPIView):
         )
 
     def post(self, request, pk):
-        serializer = self.serializer_class(
-            data=request.data,
-            context={
-                "request": request,
-                "pk": pk,
-            },
+        redis_client = Redis.from_url(
+            settings.REDIS_URL,
+            decode_responses=True,
         )
 
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return response.Response(
-            serializer.data,
-            status=status.HTTP_201_CREATED,
+        lock = redis_client.lock(
+            f"appointment_slot_lock:{pk}",
+            timeout=30,
+            blocking_timeout=5,
         )
+
+        acquired = False
+
+        try:
+            acquired = lock.acquire(blocking=True)
+
+            if not acquired:
+                return response.Response(
+                    {
+                        "message": (
+                            "این نوبت در حال رزرو شدن است. "
+                            "لطفاً دوباره تلاش کنید."
+                        )
+                    },
+                    status=status.HTTP_409_CONFLICT,
+                )
+
+            with transaction.atomic():
+                serializer = self.serializer_class(
+                    data=request.data,
+                    context={
+                        "request": request,
+                        "pk": pk,
+                    },
+                )
+
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
+
+            return response.Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED,
+            )
+
+        except IntegrityError:
+            return response.Response(
+                {"message": "این نوبت قبلاً رزرو شده است."},
+                status=status.HTTP_409_CONFLICT,
+            )
+
+        finally:
+            if acquired:
+                try:
+                    lock.release()
+                except LockError:
+                    pass
+
+            redis_client.close()
         
         
         

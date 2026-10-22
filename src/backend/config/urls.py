@@ -25,6 +25,11 @@ urlpatterns = [
         include('blog.api.v1.urls')
         ),
     
+    path(
+        "api/v1/faq/",
+        include("faq.api.v1.urls")
+        ),
+    
 
 
 

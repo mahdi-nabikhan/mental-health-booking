@@ -28,7 +28,7 @@ services:
 
 
   nginx:
-    image: nginx:alpine
+    image: docker.novin.cloud/library/nginx:alpine
 
     container_name: mental_health_nginx
 
@@ -47,7 +47,7 @@ services:
 
 
   db:
-    image: postgres:17
+    image: docker.novin.cloud/library/postgres:17
 
     container_name: mental_health_db
 
@@ -76,7 +76,7 @@ services:
 
 
   redis:
-    image: redis:7-alpine
+    image: docker.novin.cloud/library/redis:7-alpine
 
     container_name: mental_health_redis
 

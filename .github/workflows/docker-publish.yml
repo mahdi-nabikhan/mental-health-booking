@@ -1,5 +1,5 @@
 
-name: Docker Build
+name: Backend Docker Build
 
 on:
   push:
@@ -29,6 +29,3 @@ jobs:
 
       - name: Build Backend Image
         run: docker build -f Dockerfile.backend -t mental-health-backend:latest .
-
-      - name: Build Frontend Image
-        run: docker build -f Dockerfile.frontend -t mental-health-frontend:latest .

@@ -1,0 +1,27 @@
+
+name: Docker Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate Docker Compose
+        run: docker compose config -q
+
+      - name: Build Backend Image
+        run: docker build -f Dockerfile.backend -t mental-health-backend:latest .
+
+      - name: Build Frontend Image
+        run: docker build -f Dockerfile.frontend -t mental-health-frontend:latest .

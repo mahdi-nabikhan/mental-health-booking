@@ -33,7 +33,7 @@ class JwtLoginApiView(TokenObtainPairView):
                 key='access_token',
                 value=access_token,
                 httponly=True,
-                secure=True,
+                secure=False,
                 samesite='Strict',
                 max_age= 60 * 60)
             
@@ -41,7 +41,7 @@ class JwtLoginApiView(TokenObtainPairView):
                 key='refresh_token',
                 value=refresh_token,
                 httponly=True,
-                secure=True,
+                secure=False,
                 samesite='Strict',
                 max_age= 60 *60*24* 7)
             return response

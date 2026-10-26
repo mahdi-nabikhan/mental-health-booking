@@ -51,7 +51,8 @@ INSTALLED_APPS = [
     'booking',
     'accounts',
     'blog',
-    'faq'
+    'faq',
+    'drf_spectacular_sidecar',
 ]
 
 MIDDLEWARE = [
@@ -178,11 +179,8 @@ SPECTACULAR_SETTINGS = {
     'TITLE': 'Therapist Booking API',
     'DESCRIPTION': 'API for therapist appointment booking platform',
     'VERSION': '1.0.0',
+    'SWAGGER_UI_DIST': 'SIDECAR',
 }
-
-
-
-
 
 # Custom User Model
 AUTH_USER_MODEL = 'accounts.User'

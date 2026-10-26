@@ -9,7 +9,7 @@ WORKDIR /app
 
 COPY src/backend/requirements.txt .
 
-RUN pip install --no-cache-dir --timeout 300 --retries 5 --index-url https://mirror.novin.cloud/artifactory/api/pypi/pypi/simple/ -r requirements.txt
+RUN pip install --no-cache-dir --timeout 300 --retries 5 --index-url https://mirror-pypi.runflare.com/simple/ -r requirements.txt
 
 COPY src/backend/ .
 

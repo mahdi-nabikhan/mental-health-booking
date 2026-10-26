@@ -178,7 +178,7 @@ class JwtRefreshApiView(APIView):
                 key="access_token",
                 value=access_token,
                 httponly=True,
-                secure=True,
+                secure=False,
                 samesite="Strict",
                 max_age=60 * 60,
             )

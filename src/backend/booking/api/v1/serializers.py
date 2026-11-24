@@ -1,53 +1,54 @@
 from rest_framework import serializers
-from accounts import models
+
+from accounts import models as accounts_models
 from accounts.api.v1 import serializers as accounts_serializers
 from booking import models
-
-
 
 
 class AppointmentSlotSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.AppointmentSlot
         fields = "__all__"
-        read_only_fields = ['therapist']
-        
+        read_only_fields = ["therapist"]
+
     def create(self, validated_data):
-        validated_data['therapist'] = models.Therapist.objects.get(user=self.context['request'].user)
+        validated_data["therapist"] = accounts_models.Therapist.objects.get(
+            user=self.context["request"].user
+        )
         return models.AppointmentSlot.objects.create(**validated_data)
-    
-    
+
     def to_representation(self, instance):
-        res= super().to_representation(instance)
-        res['therapist'] = accounts_serializers.TherapistSerializers(instance.therapist).data
-        return res
-        
-        
-        
-        
-        
-class AppointmentSerializer(serializers.ModelSerializer):
-    class Meta :
-        model = models.Appointment
-        fields = "__all__"
-        read_only_fields = ['slot','patient','status']
-    
-    def create(self, validated_data):
-        validated_data['patient'] = models.Patient.objects.get(user=self.context['request'].user)
-        validated_data['slot'] =  models.AppointmentSlot.objects.get(pk=self.context['pk'])
-        return models.Appointment.objects.create(**validated_data)
-    
-    
-    
-    def to_representation(self, instance):
-        res= super().to_representation(instance)
-        res['slot'] = AppointmentSlotSerializer(instance.slot).data
-        res['patient'] = accounts_serializers.PatientSerializers(instance.patient).data
+        res = super().to_representation(instance)
+        res["therapist"] = accounts_serializers.TherapistSerializers(
+            instance.therapist
+        ).data
         return res
 
-    
-    
-    
+
+class AppointmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Appointment
+        fields = "__all__"
+        read_only_fields = ["slot", "patient", "status"]
+
+    def create(self, validated_data):
+        validated_data["patient"] = accounts_models.Patient.objects.get(
+            user=self.context["request"].user
+        )
+        validated_data["slot"] = models.AppointmentSlot.objects.get(
+            pk=self.context["pk"]
+        )
+        return models.Appointment.objects.create(**validated_data)
+
+    def to_representation(self, instance):
+        res = super().to_representation(instance)
+        res["slot"] = AppointmentSlotSerializer(instance.slot).data
+        res["patient"] = accounts_serializers.PatientSerializers(
+            instance.patient
+        ).data
+        return res
+
+
 class TherapistAppointmentSlotSerializer(serializers.ModelSerializer):
     status = serializers.SerializerMethodField()
     appointment = serializers.SerializerMethodField()
@@ -62,17 +63,28 @@ class TherapistAppointmentSlotSerializer(serializers.ModelSerializer):
             "appointment",
         ]
 
+    def _get_active_appointment(self, obj):
+        if hasattr(obj, "active_appointments"):
+            return obj.active_appointments[0] if obj.active_appointments else None
+
+        return (
+            obj.appointments
+            .exclude(status=models.Appointment.Status.CANCELLED)
+            .select_related("patient")
+            .first()
+        )
+
     def get_status(self, obj):
-        if not hasattr(obj, "appointment"):
+        appointment = self._get_active_appointment(obj)
+        if appointment is None:
             return "available"
 
-        return obj.appointment.status
+        return appointment.status
 
     def get_appointment(self, obj):
-        if not hasattr(obj, "appointment"):
+        appointment = self._get_active_appointment(obj)
+        if appointment is None:
             return None
-
-        appointment = obj.appointment
 
         return {
             "id": appointment.id,
@@ -85,17 +97,12 @@ class TherapistAppointmentSlotSerializer(serializers.ModelSerializer):
             "reason": appointment.reason,
             "status": appointment.status,
         }
-        
-        
-        
-        
-
-
-
 
 
 class PatientAppointmentSerializer(serializers.ModelSerializer):
-    therapist_id = serializers.IntegerField(source="slot.therapist.id", read_only=True)
+    therapist_id = serializers.IntegerField(
+        source="slot.therapist.id", read_only=True
+    )
     therapist_name = serializers.CharField(
         source="slot.therapist.user.get_full_name",
         read_only=True,
@@ -115,11 +122,3 @@ class PatientAppointmentSerializer(serializers.ModelSerializer):
             "status",
             "created_at",
         ]
-        
-        
-        
-        
-        
-        
-        
-        

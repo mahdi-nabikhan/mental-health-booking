@@ -1,18 +1,14 @@
-from rest_framework import generics,status,response
-
-from rest_framework.permissions import IsAuthenticated
-from django.conf import settings
-from django.db import transaction, IntegrityError
-from redis import Redis
-from redis.exceptions import LockError
-from rest_framework import status, response
-from .serializers import AppointmentSlotSerializer
+from django.db import IntegrityError, OperationalError, transaction
+from django.db.models import Prefetch
+from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from rest_framework import generics, response, status
+from rest_framework.permissions import IsAuthenticated
 
-
-from .serializers import *
 from booking import models
 from .paginations import *
+from .serializers import *
+
 
 class ListCreateAppointmentSlotApiView(generics.GenericAPIView):
     serializer_class = AppointmentSerializer
@@ -40,7 +36,6 @@ class ListCreateAppointmentSlotApiView(generics.GenericAPIView):
 
     def get(self, request):
         queryset = self.get_queryset()
-
         page = self.paginate_queryset(queryset)
 
         serializer = self.serializer_class(
@@ -52,7 +47,6 @@ class ListCreateAppointmentSlotApiView(generics.GenericAPIView):
         return self.get_paginated_response(serializer.data)
 
 
-        
 class RetriveDeleteUpdateAppointmentSlotApiView(generics.GenericAPIView):
     serializer_class = AppointmentSlotSerializer
 
@@ -122,9 +116,8 @@ class RetriveDeleteUpdateAppointmentSlotApiView(generics.GenericAPIView):
             {"message": "Appointment slot deleted successfully."},
             status=status.HTTP_204_NO_CONTENT,
         )
-        
-        
-        
+
+
 class AppointmentListApiView(generics.GenericAPIView):
     serializer_class = AppointmentSerializer
 
@@ -145,34 +138,21 @@ class AppointmentListApiView(generics.GenericAPIView):
         )
 
     def post(self, request, pk):
-        redis_client = Redis.from_url(
-            settings.REDIS_URL,
-            decode_responses=True,
-        )
-
-        lock = redis_client.lock(
-            f"appointment_slot_lock:{pk}",
-            timeout=30,
-            blocking_timeout=5,
-        )
-
-        acquired = False
-
         try:
-            acquired = lock.acquire(blocking=True)
-
-            if not acquired:
-                return response.Response(
-                    {
-                        "message": (
-                            "این نوبت در حال رزرو شدن است. "
-                            "لطفاً دوباره تلاش کنید."
-                        )
-                    },
-                    status=status.HTTP_409_CONFLICT,
+            with transaction.atomic():
+                slot = get_object_or_404(
+                    models.AppointmentSlot.objects.select_for_update(nowait=True),
+                    pk=pk,
                 )
 
-            with transaction.atomic():
+                if slot.appointments.exclude(
+                    status=models.Appointment.Status.CANCELLED
+                ).exists():
+                    return response.Response(
+                        {"message": "این نوبت قبلاً رزرو شده است."},
+                        status=status.HTTP_409_CONFLICT,
+                    )
+
                 serializer = self.serializer_class(
                     data=request.data,
                     context={
@@ -194,18 +174,18 @@ class AppointmentListApiView(generics.GenericAPIView):
                 {"message": "این نوبت قبلاً رزرو شده است."},
                 status=status.HTTP_409_CONFLICT,
             )
+        except OperationalError:
+            return response.Response(
+                {
+                    "message": (
+                        "این نوبت در حال رزرو شدن است. "
+                        "لطفاً دوباره تلاش کنید."
+                    )
+                },
+                status=status.HTTP_409_CONFLICT,
+            )
 
-        finally:
-            if acquired:
-                try:
-                    lock.release()
-                except LockError:
-                    pass
 
-            redis_client.close()
-        
-        
-        
 class RetrieveUpdateDeleteAppointmentApiView(generics.GenericAPIView):
     serializer_class = AppointmentSerializer
 
@@ -275,9 +255,7 @@ class RetrieveUpdateDeleteAppointmentApiView(generics.GenericAPIView):
             {"message": "Appointment deleted successfully."},
             status=status.HTTP_204_NO_CONTENT,
         )
-    
-            
-            
+
 
 class TodayAppointmentApiView(generics.GenericAPIView):
     pagination_class = StandardPagination
@@ -300,7 +278,10 @@ class TodayAppointmentApiView(generics.GenericAPIView):
                 therapist__user=self.request.user,
             )
             .exclude(
-                appointment__status=models.Appointment.Status.SCHEDULED,
+                appointments__status__in=[
+                    models.Appointment.Status.SCHEDULED,
+                    models.Appointment.Status.COMPLETED,
+                ]
             )
             .order_by(
                 "date",
@@ -316,14 +297,11 @@ class TodayAppointmentApiView(generics.GenericAPIView):
         days = {}
 
         for slot in slots:
-
             if slot.date not in days:
                 days[slot.date] = {
                     "id": slot.date.toordinal(),
                     "date": slot.date,
-                    "day_name": self.WEEKDAYS[
-                        slot.date.weekday()
-                    ],
+                    "day_name": self.WEEKDAYS[slot.date.weekday()],
                     "slots": [],
                 }
 
@@ -336,39 +314,42 @@ class TodayAppointmentApiView(generics.GenericAPIView):
         results = list(days.values())
 
         return self.get_paginated_response(results)
-    
-    
-
 
 
 class CreateAppointmentSlotApiView(generics.CreateAPIView):
     serializer_class = AppointmentSlotSerializer
     permission_classes = [IsAuthenticated]
+
     def get_queryset(self):
-        return models.AppointmentSlot.objects.all()    
-    
+        return models.AppointmentSlot.objects.all()
 
 
 class TherapistAppointmentSlotListView(generics.ListAPIView):
     serializer_class = TherapistAppointmentSlotSerializer
-    
 
     def get_queryset(self):
         therapist = models.Therapist.objects.get(
             user=self.request.user
         )
 
+        active_appointments = (
+            models.Appointment.objects
+            .exclude(status=models.Appointment.Status.CANCELLED)
+            .select_related("patient")
+        )
+
         return (
             models.AppointmentSlot.objects
             .filter(therapist=therapist)
-            .select_related(
-                "appointment",
-                "appointment__patient",
+            .prefetch_related(
+                Prefetch(
+                    "appointments",
+                    queryset=active_appointments,
+                    to_attr="active_appointments",
+                )
             )
             .order_by("date", "time")
         )
-        
-        
 
 
 class AvailableAppointmentSlotListView(generics.ListAPIView):
@@ -378,8 +359,11 @@ class AvailableAppointmentSlotListView(generics.ListAPIView):
     def get_queryset(self):
         return (
             models.AppointmentSlot.objects
-            .filter(
-                appointment__isnull=True,
+            .exclude(
+                appointments__status__in=[
+                    models.Appointment.Status.SCHEDULED,
+                    models.Appointment.Status.COMPLETED,
+                ]
             )
             .select_related(
                 "therapist",
@@ -387,15 +371,6 @@ class AvailableAppointmentSlotListView(generics.ListAPIView):
             )
             .order_by("date", "time")
         )
-        
-        
-        
-        
-        
-        
-        
-        
-    
 
 
 class PatientAppointmentListView(generics.ListAPIView):
@@ -413,19 +388,8 @@ class PatientAppointmentListView(generics.ListAPIView):
             )
             .order_by("slot__date", "slot__time")
         )
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
+
 class PatientTodayAppointmentListView(generics.ListAPIView):
     serializer_class = PatientAppointmentSerializer
     permission_classes = [IsAuthenticated]
